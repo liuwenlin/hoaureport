@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <!--请注意jar包的路径-->
 <!--     <classPathEntry location="C:/dev_env/m2/repository/mysql/mysql-connector-java/5.1.25/mysql-connector-java-5.1.25.jar"/> -->
-    <classPathEntry location="D:/repositoryNew/report_170829/repository/com/oracle/ojdbc14/10.2.0.1.0/ojdbc14-10.2.0.1.0.jar"/>
+    <classPathEntry location="D:/StudyDocuments/Git_Repository/hoau_dev_studio/repository/com/oracle/ojdbc14/10.2.0.1.0/ojdbc14-10.2.0.1.0.jar"/>
    
     
     <context id="sysGenerator" targetRuntime="MyBatis3">
