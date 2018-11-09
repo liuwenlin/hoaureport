@@ -281,6 +281,7 @@ public class VehicleEntity implements Serializable{
     public void setT4(double t4) {
         this.t4 = t4;
     }
+
     public double getLat02() {
         return lat02;
     }
