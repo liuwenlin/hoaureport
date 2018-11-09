@@ -73,19 +73,19 @@ public class VehicleEntity implements Serializable{
 
     // 温度1(℃)
     @SerializedName(value="T1")
-    private int t1;
+    private double t1;
 
     // 温度2(℃)
     @SerializedName(value="T2")
-    private int t2;
+    private double t2;
 
     // 温度3(℃)
     @SerializedName(value="T3")
-    private int t3;
+    private double t3;
 
     // 温度4(℃)
     @SerializedName(value="T4")
-    private int t4;
+    private double t4;
 
     // 根据参数isoffsetlonlat返回的纬度
     @SerializedName(value="Lat02")
@@ -250,32 +250,36 @@ public class VehicleEntity implements Serializable{
         this.roadName = roadName;
     }
 
-    public int getT1() {
+    public double getT1() {
         return t1;
     }
 
-    public void setT1(int t1) {
+    public void setT1(double t1) {
         this.t1 = t1;
     }
 
-    public int getT2() {
+    public double getT2() {
         return t2;
     }
 
-    public void setT2(int t2) {
+    public void setT2(double t2) {
         this.t2 = t2;
     }
 
-    public int getT3() {
+    public double getT3() {
         return t3;
     }
 
-    public void setT3(int t3) {
+    public void setT3(double t3) {
         this.t3 = t3;
     }
 
-    public int getT4() {
+    public double getT4() {
         return t4;
+    }
+
+    public void setT4(double t4) {
+        this.t4 = t4;
     }
 
     public void setT4(int t4) {
