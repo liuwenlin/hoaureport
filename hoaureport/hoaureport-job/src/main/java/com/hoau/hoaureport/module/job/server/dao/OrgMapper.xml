@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.OrgMapper">
+    <resultMap type="com.hoau.hoaureport.module.job.shared.domain.OrgEntity" id="orgResultMap">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="code" property="code" jdbcType="VARCHAR" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+	    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
+	    <result column="nature" property="nature" jdbcType="DECIMAL" />
+	    <result column="logist_code" property="logistCode" jdbcType="VARCHAR" />
+	    <result column="manager_code" property="managerCode" jdbcType="VARCHAR" />
+	    <result column="manager_name" property="managerName" jdbcType="VARCHAR" />
+	    <result column="province" property="province" jdbcType="VARCHAR" />
+	    <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+	    <result column="city" property="city" jdbcType="VARCHAR" />
+	    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+	    <result column="county" property="county" jdbcType="VARCHAR" />
+	    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+	    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+	    <result column="phone" property="phone" jdbcType="VARCHAR" />
+	    <result column="fax" property="fax" jdbcType="VARCHAR" />
+	    <result column="lng" property="lng" jdbcType="DECIMAL" />
+	    <result column="lat" property="lat" jdbcType="DECIMAL" />
+	    <result column="is_division" property="isDivision" jdbcType="CHAR" />
+	    <result column="division_code" property="divisionCode" jdbcType="VARCHAR" />
+	    <result column="is_big_region" property="isBigRegion" jdbcType="CHAR" />
+	    <result column="big_region_code" property="bigRegionCode" jdbcType="VARCHAR" />
+	    <result column="is_transfer_center" property="isTransferCenter" jdbcType="CHAR" />
+	    <result column="is_road_area" property="isRoadArea" jdbcType="CHAR" />
+	    <result column="is_fleet" property="isFleet" jdbcType="CHAR" />
+	    <result column="is_platform" property="isPlatform" jdbcType="CHAR" />
+	    <result column="is_sales_department" property="isSalesDepartment" jdbcType="CHAR" />
+	    <result column="active" property="active" jdbcType="CHAR" />
+	    <result column="version_no" property="versionNo" jdbcType="DECIMAL" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="create_user_code" property="createUserCode" jdbcType="VARCHAR" />
+	    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+	    <result column="modify_user_code" property="modifyUserCode" jdbcType="VARCHAR" />
+	    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+	    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+	    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+	    <result column="simple_pinyin" property="simplePinyin" jdbcType="VARCHAR" />
+	    <result column="is_big_region_finance" property="isBigRegionFinance" jdbcType="CHAR" />
+	    <result column="is_division_finance" property="isDivisionFinance" jdbcType="CHAR" />
+	    <result column="is_finance" property="isFinance" jdbcType="CHAR" />
+	    <result column="is_franchise" property="isFranchise" jdbcType="CHAR" />
+	    <result column="address_detail" property="addressDetail" jdbcType="VARCHAR" />
+	    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    </resultMap>
+	<!-- 插入部门 -->
+	<insert id="addOrg" parameterType="com.hoau.hoaureport.module.job.shared.domain.OrgEntity">
+		insert into t_bse_org (id, code, name, 
+		    parent_code, parent_name, nature, 
+		    logist_code, manager_code, manager_name, 
+		    province, province_code, city, 
+		    city_code, county, county_code, 
+		    area_code, phone, fax, 
+		    lng, lat, is_division, 
+		    division_code, is_big_region, big_region_code, 
+		    is_transfer_center, is_road_area, is_fleet, 
+		    is_platform, is_sales_department, active, 
+		    version_no, create_time, create_user_code, 
+		    modify_time, modify_user_code, begin_time, 
+		    end_time, pinyin, simple_pinyin, 
+		    is_big_region_finance, is_division_finance, is_finance, 
+		    is_franchise, address_detail, notes
+		    )
+		  values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+		    #{parentCode,jdbcType=VARCHAR}, #{parentName,jdbcType=VARCHAR}, #{nature,jdbcType=DECIMAL}, 
+		    #{logistCode,jdbcType=VARCHAR}, #{managerCode,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, 
+		    #{province,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+		    #{cityCode,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, 
+		    #{areaCode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
+		    #{lng,jdbcType=DECIMAL}, #{lat,jdbcType=DECIMAL}, #{isDivision,jdbcType=CHAR}, 
+		    #{divisionCode,jdbcType=VARCHAR}, #{isBigRegion,jdbcType=CHAR}, #{bigRegionCode,jdbcType=VARCHAR}, 
+		    #{isTransferCenter,jdbcType=CHAR}, #{isRoadArea,jdbcType=CHAR}, #{isFleet,jdbcType=CHAR}, 
+		    #{isPlatform,jdbcType=CHAR}, #{isSalesDepartment,jdbcType=CHAR}, #{active,jdbcType=CHAR}, 
+		    #{versionNo,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createUserCode,jdbcType=VARCHAR}, 
+		    #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserCode,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
+		    #{endTime,jdbcType=TIMESTAMP}, #{pinyin,jdbcType=VARCHAR}, #{simplePinyin,jdbcType=VARCHAR}, 
+		    #{isBigRegionFinance,jdbcType=CHAR}, #{isDivisionFinance,jdbcType=CHAR}, #{isFinance,jdbcType=CHAR}, 
+		    #{isFranchise,jdbcType=CHAR}, #{addressDetail,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
+		    )
+	</insert>
+	
+	<sql id="query_org_param">
+		id,   /**ID*/
+		code,   /**组织编码*/
+		name,   /**组织名称*/
+		parent_code,   /**上级组织编码*/
+		parent_name,   /**上级组织名称*/
+		nature,   /**组织性质*/
+		logist_code,   /**物流代码*/
+		manager_code,   /**组织负责人*/
+		manager_name,   /**组织负责人姓名*/
+		province,   /**省份*/
+		province_code,   /**省份编码*/
+		city,   /**城市*/
+		city_code,   /**城市编码*/
+		county,   /**区县*/
+		county_code,   /**区县编码*/
+		area_code,   /**区号*/
+		phone,   /**电话*/
+		fax,   /**传真*/
+		lng,   /**经度*/
+		lat,   /**纬度*/
+		is_division,   /**是否事业部*/
+		division_code,   /**事业部编码*/
+		is_big_region,   /**是否大区*/
+		big_region_code,   /**大区编码*/
+		is_transfer_center,   /**是否场站*/
+		is_road_area,   /**是否路区*/
+		is_fleet,   /**是否车队*/
+		is_platform,   /**是否平台*/
+		is_sales_department,   /**是否门店*/
+		active,   /**是否激活*/
+		version_no,   /**版本号*/
+		create_time,   /**创建时间*/
+		create_user_code,   /**创建人*/
+		modify_time,   /**修改时间*/
+		modify_user_code,   /**修改人*/
+		begin_time,   /**启用日期*/
+		end_time,   /**结束使用日期*/
+		pinyin,   /**组织名称拼音全拼*/
+		simple_pinyin,   /**组织名称拼音首字母*/
+		is_big_region_finance,   /**是否大区财务部*/
+		is_division_finance,   /**是否事业部财务部*/
+		is_finance,   /**是否一级公司财务部*/
+		is_franchise,  /**是否特许经营*/
+		address_detail,   /**详细地址*/
+    	notes  /**备注*/
+	</sql>
+	
+	<select id="getLastVersionNo" resultType="long">
+	    SELECT 
+	    	nvl(max(VERSION_NO),0) as version_no
+	    FROM 
+	    T_BSE_ORG
+	</select>
+	
+	<select id="queryOrgByCode" parameterType="string" resultMap="orgResultMap">
+	    SELECT 
+	    	<include refid="query_org_param"></include>
+	    FROM 
+	    T_BSE_ORG 
+	    WHERE 
+	    CODE = #{orgCode,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateOrg" parameterType="com.hoau.hoaureport.module.job.shared.domain.OrgEntity">  
+        update t_bse_org
+	    <set >
+	      <if test="code != null" >
+	        code = #{code,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parentCode != null" >
+	        parent_code = #{parentCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parentName != null" >
+	        parent_name = #{parentName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="nature != null" >
+	        nature = #{nature,jdbcType=DECIMAL},
+	      </if>
+	      <if test="logistCode != null" >
+	        logist_code = #{logistCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerCode != null" >
+	        manager_code = #{managerCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerName != null" >
+	        manager_name = #{managerName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="province != null" >
+	        province = #{province,jdbcType=VARCHAR},
+	      </if>
+	      <if test="provinceCode != null" >
+	        province_code = #{provinceCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="city != null" >
+	        city = #{city,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cityCode != null" >
+	        city_code = #{cityCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="county != null" >
+	        county = #{county,jdbcType=VARCHAR},
+	      </if>
+	      <if test="countyCode != null" >
+	        county_code = #{countyCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="areaCode != null" >
+	        area_code = #{areaCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="phone != null" >
+	        phone = #{phone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fax != null" >
+	        fax = #{fax,jdbcType=VARCHAR},
+	      </if>
+	      <if test="lng != null" >
+	        lng = #{lng,jdbcType=DECIMAL},
+	      </if>
+	      <if test="lat != null" >
+	        lat = #{lat,jdbcType=DECIMAL},
+	      </if>
+	      <if test="isDivision != null" >
+	        is_division = #{isDivision,jdbcType=CHAR},
+	      </if>
+	      <if test="divisionCode != null" >
+	        division_code = #{divisionCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isBigRegion != null" >
+	        is_big_region = #{isBigRegion,jdbcType=CHAR},
+	      </if>
+	      <if test="bigRegionCode != null" >
+	        big_region_code = #{bigRegionCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isTransferCenter != null" >
+	        is_transfer_center = #{isTransferCenter,jdbcType=CHAR},
+	      </if>
+	      <if test="isRoadArea != null" >
+	        is_road_area = #{isRoadArea,jdbcType=CHAR},
+	      </if>
+	      <if test="isFleet != null" >
+	        is_fleet = #{isFleet,jdbcType=CHAR},
+	      </if>
+	      <if test="isPlatform != null" >
+	        is_platform = #{isPlatform,jdbcType=CHAR},
+	      </if>
+	      <if test="isSalesDepartment != null" >
+	        is_sales_department = #{isSalesDepartment,jdbcType=CHAR},
+	      </if>
+	      <if test="active != null" >
+	        active = #{active,jdbcType=CHAR},
+	      </if>
+	      <if test="versionNo != null" >
+	        version_no = #{versionNo,jdbcType=DECIMAL},
+	      </if>
+	      <if test="createTime != null" >
+	        create_time = #{createTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="createUserCode != null" >
+	        create_user_code = #{createUserCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifyTime != null" >
+	        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifyUserCode != null" >
+	        modify_user_code = #{modifyUserCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="beginTime != null" >
+	        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="endTime != null" >
+	        end_time = #{endTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="pinyin != null" >
+	        pinyin = #{pinyin,jdbcType=VARCHAR},
+	      </if>
+	      <if test="simplePinyin != null" >
+	        simple_pinyin = #{simplePinyin,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isBigRegionFinance != null" >
+	        is_big_region_finance = #{isBigRegionFinance,jdbcType=CHAR},
+	      </if>
+	      <if test="isDivisionFinance != null" >
+	        is_division_finance = #{isDivisionFinance,jdbcType=CHAR},
+	      </if>
+	      <if test="isFinance != null" >
+	        is_finance = #{isFinance,jdbcType=CHAR},
+	      </if>
+	      <if test="isFranchise != null" >
+	        is_franchise = #{isFranchise,jdbcType=CHAR},
+	      </if>
+	      <if test="addressDetail != null" >
+	        address_detail = #{addressDetail,jdbcType=VARCHAR},
+	      </if>
+	      <if test="notes != null" >
+	        notes = #{notes,jdbcType=VARCHAR},
+	      </if>
+	    </set>
+	    where code = #{code,jdbcType=VARCHAR}
+    </update>  
+</mapper>

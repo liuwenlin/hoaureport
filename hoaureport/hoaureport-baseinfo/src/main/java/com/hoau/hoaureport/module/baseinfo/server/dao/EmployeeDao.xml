@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.EmployeeDao">
+    <!-- 员工表返回的结果集，多表联查，连接部门表 -->
+	<resultMap id="employeeAssociationResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.EmployeeEntity">
+		<id property="id" column="EMPLOYEE_ID" />
+		<result property="empCode" column="EMPLOYEE_EMP_CODE" jdbcType="VARCHAR" />
+		<result property="empName" column="EMPLOYEE_EMP_NAME" jdbcType="VARCHAR" />
+		<result property="gender" column="EMPLOYEE_GENDER" jdbcType="CHAR" />
+		<result property="pinyin" column="EMPLOYEE_PINYIN" jdbcType="VARCHAR" />
+		<result property="pinyinShort" column="EMPLOYEE_PINYIN_SHORT" jdbcType="VARCHAR" />
+		<result property="account" column="EMPLOYEE_ACCOUNT"  jdbcType="VARCHAR" />
+		<result property="password" column="EMPLOYEE_PASSWORD"  jdbcType="VARCHAR" />
+		<result property="deptName" column="DEPT_NAME" jdbcType="VARCHAR"/>
+		<result property="jobName" column="EMPLOYEE_JOB_NAME" jdbcType="VARCHAR"/>
+		<result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+		<result property="jobCode" column="EMPLOYEE_JOB_CODE" jdbcType="VARCHAR"/>
+		<result property="managerCode" column="EMPLOYEE_MANAGER_CODE" jdbcType="VARCHAR"/>
+	    <result property="mobilePhone" column="EMPLOYEE_MOBILE_PHONE" jdbcType="VARCHAR"/>
+		<result property="email" column="EMPLOYEE_EMAIL" jdbcType="VARCHAR"/>
+		<result property="phone" column="EMPLOYEE_PHONE" jdbcType="VARCHAR"/>		
+		<result property="status" column="EMPLOYEE_STATUS" jdbcType="CHAR"/>		
+		<result property="active" column="EMPLOYEE_ACTIVE" jdbcType="CHAR"/>
+		<result property="versionNo" column="EMPLOYEE_VERSION_NO"  jdbcType="NUMERIC" />
+		<result property="createUser" column="EMPLOYEE_CREATE_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="EMPLOYEE_CREATE_TIME"	javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="EMPLOYEE_MODIFY_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="EMPLOYEE_MODIFY_TIME"	javaType="Date" jdbcType="TIMESTAMP" />
+		<association property="department" resultMap="orgAssociationResultMap" />
+	</resultMap>
+	 <resultMap id="orgAssociationResultMap"
+   			type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.OrgAdministrativeInfoEntity">
+		<result property="id" column="ORG_ID"  jdbcType="VARCHAR" />
+		<result property="code" column="ORG_CODE"  jdbcType="VARCHAR" />
+		<result property="name" column="ORG_NAME"  jdbcType="VARCHAR" />
+		<result property="parentCode" column="ORG_PARENT_CODE"  jdbcType="VARCHAR" />
+		<result property="parentName" column="ORG_PARENT_NAME"  jdbcType="VARCHAR" />
+		<result property="nature" column="ORG_NATURE"  jdbcType="NUMERIC" />
+		<result property="logistCode" column="ORG_LOGIST_CODE"  jdbcType="VARCHAR" />
+		<result property="beginTime" column="ORG_BEGIN_TIME"  jdbcType="TIMESTAMP" />
+		<result property="endTime" column="ORG_END_TIME"  jdbcType="TIMESTAMP" />
+		<result property="managerCode" column="ORG_MANAGER_CODE"  jdbcType="VARCHAR" />
+		<result property="managerName" column="ORG_MANAGER_NAME"  jdbcType="VARCHAR" />
+		<result property="provinceCode" column="ORG_PROVINCE_CODE"  jdbcType="VARCHAR" />
+		<result property="cityCode" column="ORG_CITY_CODE"  jdbcType="VARCHAR" />
+		<result property="countyCode" column="ORG_COUNTY_CODE"  jdbcType="VARCHAR" />
+		<result property="areaCode" column="ORG_AREA_CODE"  jdbcType="VARCHAR" />
+		<result property="phone" column="ORG_PHONE"  jdbcType="VARCHAR" />
+		<result property="fax" column="ORG_FAX"  jdbcType="VARCHAR" />
+		<result property="addressDetail" column="ORG_ADDRESS_DETAIL"  jdbcType="VARCHAR" />
+		<result property="lat" column="ORG_LAT"  jdbcType="NUMERIC" />
+		<result property="lng" column="ORG_LNG"  jdbcType="NUMERIC" />
+		<result property="isDivision" column="ORG_IS_DIVISION"  jdbcType="VARCHAR" />
+		<result property="divisionCode" column="ORG_DIVISION_CODE"  jdbcType="VARCHAR" />
+		<result property="isBigRegion" column="ORG_IS_BIG_REGION"  jdbcType="VARCHAR" />
+		<result property="bigRegionCode" column="ORG_BIG_REGION_CODE"  jdbcType="VARCHAR" />
+		<result property="isRoadArea" column="ORG_IS_ROAD_AREA"  jdbcType="VARCHAR" />
+		<result property="isTransferCenter" column="ORG_IS_TRANSFER_CENTER"  jdbcType="CHAR" />
+		<result property="isFleet" column="ORG_IS_FLEET"  jdbcType="CHAR" />
+		<result property="isPlatform" column="ORG_IS_PLATFORM"  jdbcType="CHAR"/>
+		<result property="isSalesDepartment" column="ORG_IS_SALES_DEPARTMENT" jdbcType="CHAR"/>
+		<result property="versionNo" column="ORG_VERSION_NO"  jdbcType="NUMERIC" />
+		<result property="createDate" column="ORG_CREATE_TIME"  jdbcType="TIMESTAMP" />
+		<result property="modifyDate" column="ORG_MODIFY_TIME"  jdbcType="TIMESTAMP" />
+		<result property="active" column="ORG_ACTIVE"  jdbcType="CHAR" />
+		<result property="createUser" column="ORG_CREATE_USER_CODE"  jdbcType="VARCHAR" />
+		<result property="modifyUser" column="ORG_MODIFY_USER_CODE"  jdbcType="VARCHAR" />
+	</resultMap>
+    <!-- 多表联查，操作的字段 -->
+	<sql id="employee_association_param">
+		EMPLOYEE.ID AS EMPLOYEE_ID,/** ID **/
+		EMPLOYEE.EMPLOYEE_CODE AS EMPLOYEE_EMP_CODE,/** 员工编号 **/
+		EMPLOYEE.EMPLOYEE_NAME AS EMPLOYEE_EMP_NAME, /** 员工姓名 **/
+		EMPLOYEE.GENDER AS EMPLOYEE_GENDER,/** 性别 **/
+		EMPLOYEE.PINYIN_NAME AS EMPLOYEE_PINYIN,/** 员工拼音 **/
+		EMPLOYEE.PINYIN_SHORT_NAME AS EMPLOYEE_PINYIN_SHORT,/** 员工拼音简称 **/		
+		EMPLOYEE.ACCOUNT AS EMPLOYEE_ACCOUNT,/** 账户 **/
+		EMPLOYEE.PASSWORD AS EMPLOYEE_PASSWORD,/** 密码**/
+		EMPLOYEE.JOB_CODE AS EMPLOYEE_JOB_CODE,/** 岗位编码 **/
+		EMPLOYEE.JOB_NAME AS EMPLOYEE_JOB_NAME,/** 岗位名称 **/
+		EMPLOYEE.DEPT_CODE AS EMPLOYEE_ORG_CODE,/** 部门编码 **/
+		EMPLOYEE.DEPT_NAME AS DEPT_NAME,/** 部门编码 **/
+		
+		EMPLOYEE.MANAGER_CODE AS EMPLOYEE_MANAGER_CODE,/** 直接上级 **/
+		EMPLOYEE.STATUS AS EMPLOYEE_STATUS,/** 状态**/
+		EMPLOYEE.TELE_PHONE AS EMPLOYEE_PHONE,/** 座机**/
+		EMPLOYEE.MOBILE AS EMPLOYEE_MOBILE_PHONE,/** 手机**/
+		EMPLOYEE.EMAIL AS EMPLOYEE_EMAIL,/** 邮箱**/
+		EMPLOYEE.ACTIVE AS EMPLOYEE_ACTIVE,/** 是否可用**/
+		EMPLOYEE.VERSION_NO AS EMPLOYEE_VERSION_NO,/** 版本号**/
+		EMPLOYEE.CREATE_USER_CODE AS EMPLOYEE_CREATE_USER_CODE,
+		EMPLOYEE.CREATE_TIME AS EMPLOYEE_CREATE_TIME,
+		EMPLOYEE.MODIFY_USER_CODE AS EMPLOYEE_MODIFY_USER_CODE,
+		EMPLOYEE.MODIFY_TIME AS EMPLOYEE_MODIFY_TIME,
+		<include refid="org_association_param" />
+	</sql>
+	<sql id="org_association_param">
+		ORG.ID AS ORG_ID,		/** ID     **/ 
+		ORG.CODE AS ORG_CODE,		/** 组织编码     **/ 
+		ORG.NAME AS ORG_NAME,		/** 组织名称     **/ 
+		ORG.PARENT_CODE AS ORG_PARENT_CODE, /** 上级组织编码     **/ 
+		ORG.PARENT_NAME AS ORG_PARENT_NAME, /** 上级组织名称     **/ 
+		ORG.NATURE AS ORG_NATURE,/** 部门性质     **/ 
+		ORG.LOGIST_CODE AS ORG_LOGIST_CODE,/** 物流代码     **/ 
+		ORG.BEGIN_TIME AS ORG_BEGIN_TIME,/** 启用时间     **/ 
+		ORG.END_TIME AS ORG_END_TIME,/** 作废时间     **/ 
+		ORG.MANAGER_CODE  AS ORG_MANAGER_CODE,/** 负责人编码     **/ 
+		ORG.MANAGER_NAME AS ORG_MANAGER_NAME,/** 负责人姓名     **/ 
+		ORG.PROVINCE_CODE AS PROVINCE_CODE,/** 省份编码     **/ 
+		ORG.CITY_CODE AS ORG_CITY_CODE,/** 城市编码     **/ 
+		ORG.COUNTY_CODE AS ORG_COUNTY_CODE,/** 区县编码     **/ 
+		ORG.AREA_CODE AS ORG_AREA_CODE,/** 区号     **/ 
+		ORG.PHONE AS ORG_PHONE,/** 电话     **/ 
+		ORG.FAX AS ORG_FAX,/** 传真     **/ 
+		ORG.ADDRESS_DETAIL AS ORG_ADDRESS_DETAIL,/** 详细地址     **/ 
+		ORG.LAT AS ORG_LAT,/** 纬度    **/ 
+		ORG.LNG AS ORG_LNG,/** 经度     **/ 
+		ORG.IS_DIVISION AS ORG_IS_DIVISION,/** 是否事业部     **/ 
+		ORG.DIVISION_CODE AS ORG_DIVISION_CODE,/**   事业部地址   **/ 
+		ORG.IS_BIG_REGION AS ORG_IS_BIG_REGION,/** 是否大区     **/ 
+		ORG.BIG_REGION_CODE AS ORG_BIG_REGION_CODE,/** 大区编码     **/ 
+		ORG.IS_ROAD_AREA AS ORG_IS_ROAD_AREA,/** 是否路区     **/ 
+		ORG.IS_TRANSFER_CENTER AS ORG_IS_TRANSFER_CENTER,/** 是否场站     **/ 
+		ORG.IS_FLEET AS ORG_IS_FLEET,/** 是否车队     **/ 
+		ORG.IS_PLATFORM AS ORG_IS_PLATFORM,/** 是否平台     **/ 
+		ORG.IS_SALES_DEPARTMENT AS ORG_IS_SALES_DEPARTMENT,/** 是否门店     **/ 
+		ORG.VERSION_NO AS ORG_VERSION_NO,/** 数据版本号     **/ 
+		ORG.CREATE_TIME AS ORG_CREATE_TIME,		/** 创建时间     **/ 
+		ORG.MODIFY_TIME AS ORG_MODIFY_TIME,		/** 更新时间     **/ 
+		ORG.ACTIVE AS ORG_ACTIVE,		/** 是否启用     **/ 
+		ORG.CREATE_USER_CODE AS ORG_CREATE_USER_CODE,		/** 创建人     **/ 
+		ORG.MODIFY_USER_CODE AS ORG_MODIFY_USER_CODE		/** 更新人     **/ 
+	</sql>
+
+	
+	
+	
+	
+	
+    <select id="queryEmployeeInfoByCode" parameterType="map"
+		resultMap="employeeAssociationResultMap">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="employee_association_param" />
+		<![CDATA[
+		  	FROM T_BSE_EMPLOYEE EMPLOYEE,
+		  		T_BSE_ORG ORG
+		    WHERE EMPLOYEE.ACTIVE=#{empActive,jdbcType=VARCHAR}
+		    	AND ORG.CODE = EMPLOYEE.DEPT_CODE
+		    	AND ORG.ACTIVE=#{orgActive,jdbcType=VARCHAR}
+		    	AND EMPLOYEE.EMPLOYEE_CODE=#{empCode,jdbcType=VARCHAR}
+	    ]]>
+	</select>
+	
+    <select id="queryEmployeeInfoByAccount" resultMap="employeeAssociationResultMap" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.EmployeeEntity">
+       <![CDATA[
+        SELECT
+        ]]>
+        <include refid="employee_association_param" />
+        <![CDATA[
+         FROM T_BSE_EMPLOYEE EMPLOYEE,
+		  		T_BSE_ORG ORG
+        WHERE ORG.CODE = EMPLOYEE.DEPT_CODE 
+        AND EMPLOYEE.ACCOUNT LIKE CONCAT(CONCAT('%', #{account,jdbcType=VARCHAR}),'%')
+       ]]>
+    </select>
+	<select id="queryEmployeeByEntity" resultType="Long" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.EmployeeEntity">
+        SELECT 
+        COUNT(*)
+        FROM T_BSE_EMPLOYEE 
+        WHERE ACCOUNT=#{account,jdbcType=VARCHAR}
+    </select>
+    
+	
+	
+	
+	
+	<resultMap id="employeeResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.EmployeeEntity">
+		<id property="id" column="EMPLOYEE_ID" />
+		<result property="empCode" column="EMPLOYEE_CODE" jdbcType="VARCHAR" />
+		<result property="empName" column="EMPLOYEE_NAME" jdbcType="VARCHAR" />
+		<result property="gender" column="GENDER" jdbcType="CHAR" />
+		<result property="pinyin" column="PINYIN_NAME" jdbcType="VARCHAR" />
+		<result property="pinyinShort" column="PINYIN_SHORT_NAME" jdbcType="VARCHAR" />
+		<result property="account" column="ACCOUNT"  jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD"  jdbcType="VARCHAR" />
+		<result property="deptName" column="DEPT_NAME" jdbcType="VARCHAR"/>
+		<result property="jobName" column="JOB_NAME" jdbcType="VARCHAR"/>
+		<result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+		<result property="jobCode" column="JOB_CODE" jdbcType="VARCHAR"/>
+		<result property="managerCode" column="MANAGER_CODE" jdbcType="VARCHAR"/>
+	    <result property="mobilePhone" column="MOBILE" jdbcType="VARCHAR"/>
+		<result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+		<result property="phone" column="TELE_PHONE" jdbcType="VARCHAR"/>		
+		<result property="status" column="STATUS" jdbcType="CHAR"/>		
+		<result property="active" column="ACTIVE" jdbcType="CHAR"/>
+		<result property="versionNo" column="VERSION_NO"  jdbcType="NUMERIC" />
+		<result property="createUser" column="CREATE_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATE_TIME"	javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="MODIFY_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="MODIFY_TIME"	javaType="Date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+		<sql id="employee_ResultMap_param">
+		EMPLOYEE.ID AS EMPLOYEE_ID,/** ID **/
+		EMPLOYEE.EMPLOYEE_CODE AS EMPLOYEE_CODE,/** 员工编号 **/
+		EMPLOYEE.EMPLOYEE_NAME AS EMPLOYEE_NAME, /** 员工姓名 **/
+		EMPLOYEE.GENDER AS GENDER,/** 性别 **/
+		EMPLOYEE.PINYIN_NAME AS PINYIN_NAME,/** 员工拼音 **/
+		EMPLOYEE.PINYIN_SHORT_NAME AS PINYIN_SHORT_NAME,/** 员工拼音简称 **/		
+		EMPLOYEE.ACCOUNT AS ACCOUNT,/** 账户 **/
+		EMPLOYEE.PASSWORD AS PASSWORD,/** 密码**/
+		EMPLOYEE.JOB_CODE AS JOB_CODE,/** 岗位编码 **/
+		EMPLOYEE.JOB_NAME AS JOB_NAME,/** 岗位名称 **/
+		EMPLOYEE.DEPT_CODE AS DEPT_CODE,/** 部门编码 **/
+		EMPLOYEE.DEPT_NAME AS DEPT_NAME,/** 部门编码 **/
+		
+		EMPLOYEE.MANAGER_CODE AS MANAGER_CODE,/** 直接上级 **/
+		EMPLOYEE.STATUS AS STATUS,/** 状态**/
+		EMPLOYEE.TELE_PHONE AS TELE_PHONE,/** 座机**/
+		EMPLOYEE.MOBILE AS MOBILE,/** 手机**/
+		EMPLOYEE.EMAIL AS EMAIL,/** 邮箱**/
+		EMPLOYEE.ACTIVE AS ACTIVE,/** 是否可用**/
+		EMPLOYEE.VERSION_NO AS VERSION_NO,/** 版本号**/
+		EMPLOYEE.CREATE_USER_CODE AS CREATE_USER_CODE,
+		EMPLOYEE.CREATE_TIME AS CREATE_TIME,
+		EMPLOYEE.MODIFY_USER_CODE AS MODIFY_USER_CODE,
+		EMPLOYEE.MODIFY_TIME AS MODIFY_TIME
+		
+	</sql>
+    	
+<sql id="employee_where_base_param">
+		
+		<if test="empCode != null and empCode != ''">
+			AND EMPLOYEE.EMPLOYEE_CODE LIKE CONCAT(CONCAT('%', #{empCode,jdbcType=VARCHAR}),'%')
+		
+		</if>
+		<if test="empName != null and empName != ''">
+			AND EMPLOYEE.EMPLOYEE_NAME LIKE CONCAT(CONCAT('%',#{empName,jdbcType=VARCHAR}),'%')
+			
+		</if>
+		<if test="deptName != null and deptName != ''">
+			AND EMPLOYEE.DEPT_NAME = #{deptName,jdbcType=VARCHAR}
+		</if>
+		<if test="active != null and active != ''">
+			AND EMPLOYEE.ACTIVE = #{active,jdbcType=VARCHAR}
+		</if>
+		
+	</sql>
+	
+	 <select id="queryEmployeeList" parameterType="map"
+		resultMap="employeeResultMap">
+			SELECT
+		<include refid="employee_ResultMap_param" />
+		  	FROM T_BSE_EMPLOYEE EMPLOYEE		  	
+		    <where>
+            <include refid="employee_where_base_param"></include>
+        </where>
+	 </select>
+	 
+	  <select id="queryEmployeeCount" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.EmployeeEntity"
+		resultType="Long">
+			SELECT
+		     COUNT(1)
+		  	FROM T_BSE_EMPLOYEE EMPLOYEE
+		   <where>
+            <include refid="employee_where_base_param"></include>
+        </where> 
+	 </select>
+	
+</mapper>

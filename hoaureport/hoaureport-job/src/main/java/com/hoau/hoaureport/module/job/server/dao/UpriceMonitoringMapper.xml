@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.UpriceMonitoringMapper">
+    <resultMap type="com.hoau.hoaureport.module.job.shared.domain.EczzsjEntity" id="ythmdResultMap">    
+	    <result column="szygs1" property="szygs1" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<!-- 生成运单基础数据 存储过程 -->
+	<select id="priceBasicProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_BASIC_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 常规业务单价监控 存储过程 -->
+	<select id="priceCommonBizProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_COMMON_BIZ_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 存储过程 -->
+	<select id="priceCommonProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_COMMON_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 常规产品单价监控 存储过程 -->
+	<select id="priceCommonProductProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_COMMON_PRODUCT_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 客户类型单价监控 存储过程 -->
+	<select id="priceCustomerTypeProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_CUSTOMER_TYPE_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 直营非整车单价监控 存储过程 -->
+	<select id="priceDirectlyNoncarloadProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_DIRECTLY_NONCARLOAD_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 非整车业务单价监控 存储过程 -->
+	<select id="priceNonCarloadProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_NON_CARLOAD_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 特许单价监控 存储过程 -->
+	<select id="priceSpecialPermissionProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_SPECIAL_PERMISSION_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 战略客户单价监控 存储过程 -->
+	<select id="priceStrategicCustomerProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_STRATEGIC_CUSTOMER_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+
+	<!-- 单价监控汇总 存储过程 -->
+	<select id="priceSummaryProc" statementType="CALLABLE">
+		<![CDATA[
+    		call PRICE_SUMMARY_PROC (#{inDate,mode=IN,jdbcType=DATE})
+		]]>
+	</select>
+</mapper>

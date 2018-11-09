@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Parameter name="staticServerAddress" value="http://10.39.251.210:8088/static" override="false"></Parameter>
+	<Resource name="jdbc/hards" auth="Container" type="javax.sql.DataSource"
+		username="har" password="har" driverClassName="oracle.jdbc.driver.OracleDriver"
+		url="jdbc:oracle:thin:@10.39.251.9:1521:hydatafb"
+		maxActive="8" maxIdle="4" />
+</Context>

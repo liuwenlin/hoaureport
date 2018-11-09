@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.TxYmYckMapper">
+	<resultMap type="com.hoau.hoaureport.module.job.shared.domain.TxYmYckEntity" id="txYmYckResultMap">
+		<result column="ssy" property="ssy" jdbcType="VARCHAR" />
+		<result column="ssgsjc" property="ssgsjc" jdbcType="VARCHAR" />
+		<result column="ssgsbh" property="ssgsbh" jdbcType="VARCHAR" />
+		<result column="czsj" property="czsj" jdbcType="VARCHAR" />
+		<result column="yckye" property="yckye" jdbcType="DECIMAL" />
+		<result column="yckqcje" property="yckqcje" jdbcType="DECIMAL" />
+		<result column="yckqmje" property="yckqmje" jdbcType="DECIMAL" />
+		<result column="djje" property="djje" jdbcType="DECIMAL" />
+		<result column="ksyye" property="ksyye" jdbcType="DECIMAL" />
+		<result column="czje" property="czje" jdbcType="DECIMAL" />
+		<result column="czyf" property="czyf" jdbcType="VARCHAR" />
+		<result column="mxzt" property="mxzt" jdbcType="VARCHAR" />
+		<result column="shsj" property="shsj" jdbcType="VARCHAR" />
+		<result column="czlx" property="czlx" jdbcType="VARCHAR" />
+		<result column="dzgs" property="dzgs" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="YckGsCollected" parameterType="com.hoau.hoaureport.module.job.shared.domain.TxYmYckEntity" resultMap="txYmYckResultMap">
+	  select 
+      gs.gsjc as ssgsjc,DECODE(T.DZGS,NULL,gs.gsjc,T.DZGS) AS DZGS,
+      gs.gsbh as ssgsbh
+      from  hydata.ld_gs gs LEFT JOIN (SELECT O1.LOGIST_CODE AS GSBH,
+		 CASE WHEN O2.LOGIST_CODE LIKE '%J%' THEN O2.LOGIST_CODE ELSE O1.LOGIST_CODE END AS DZGS
+		 FROM t_bse_org O1 JOIN  t_bse_org O2 ON O1.PARENT_CODE=O2.CODE
+		WHERE O1.ACTIVE='Y' AND O2.ACTIVE='Y' AND O1.LOGIST_CODE LIKE '%J%') T ON T.GSBH=GS.GSJC
+      where nvl(gs.sfyx,0)=1 and nvl(gs.sftxmd,0)=1 
+	</select>
+	
+	<sql id="select_ymyck_param">
+		nvl(yck_qcje,0) as yckqcje,
+		to_char(czsj,'YYYY/MM/DD hh24:mi:ss') AS czsj,
+		to_char(mx.shsj,'YYYY-MM') AS shsj,
+		nvl(yck_qmje,0) as yckqmje,
+		mx.je as czje,
+		mx.zt as mxzt,
+		mx.czlx as czlx
+	</sql>
+	
+	<sql id="select_ymyck_param1">
+		ssy,ssgsjc,yckye,yckqcje,yckqmje,djje,ksyye,czsj,dzgs
+	</sql>
+	
+	<select id="GetBeforeYckQmje" parameterType="string" resultMap="txYmYckResultMap">		 
+		select 
+		<include refid="select_ymyck_param"></include> 
+		from  hydata.ld_txmd_yck yck 
+		join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh 
+		where yck.gsbh = #{0} and to_char(mx.record_date,'YYYY-MM') = #{1}  and mx.zt not in (1,3,5)
+		order by mx.record_date desc,czbh desc
+	</select>
+
+	<select id="GetPastYck" parameterType="string" resultMap="txYmYckResultMap">		 
+		select 
+		<include refid="select_ymyck_param"></include> 
+		from  hydata.ld_txmd_yck yck 
+		join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh 
+		where yck.gsbh = #{0} and to_char(mx.record_date,'YYYY-MM') <![CDATA[<=]]> #{1}  and mx.zt not in (1,3,5)
+		order by mx.record_date desc,czbh desc
+	</select>
+
+	<select id="GetBeforeDjje" parameterType="string" resultMap="txYmYckResultMap">
+		 SELECT sum(case when mx.czlx=12 then -abs(mx.je) else mx.je end) as djje
+		 FROM HYDATA.ld_txmd_yck yck
+	     left join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh  
+	     left join hydata.ld_gs gs on gs.gsbh=yck.gsbh 
+		 where nvl(gs.sfyx,0)=1 and nvl(gs.sftxmd,0)=1 
+		 and gs.gsbh=#{0} and czlx in (11,12)  and mx.zt not in (1,3,5)
+		 and to_char(mx.record_date,'YYYY-MM') <![CDATA[<= ]]> #{1} 		
+	</select>
+
+	<select id="GetBeforeQcDjje" parameterType="string" resultMap="txYmYckResultMap">
+		 SELECT sum(case when mx.czlx=12 then -abs(mx.je) else mx.je end) as djje
+		 FROM HYDATA.ld_txmd_yck yck
+	     left join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh  
+	     left join hydata.ld_gs gs on gs.gsbh=yck.gsbh 
+		 where nvl(gs.sfyx,0)=1 and nvl(gs.sftxmd,0)=1 
+		 and gs.gsbh=#{0} and czlx in (11,12)  and mx.zt not in (1,3,5)
+		 and to_char(mx.record_date,'YYYY-MM') <![CDATA[<= ]]> to_char(add_months(sysdate,-2),'yyyy-mm') 		
+	</select>
+	
+	<select id="GetBeforeYckQcje" parameterType="string" resultMap="txYmYckResultMap">
+		select 
+		<include refid="select_ymyck_param"></include> 
+		from  hydata.ld_txmd_yck yck 
+		join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh 
+		where yck.gsbh = #{0} and to_char(mx.record_date,'YYYY-MM') = #{1}  and mx.zt not in (1,3,5)
+		order by mx.record_date ,czbh 
+	</select>
+	
+	<select id="GetYckQmje" parameterType="string" resultMap="txYmYckResultMap">		 
+		select 
+		nvl(yck_qcje,0) as yckqcje,
+		to_char(czsj,'YYYY/MM/DD hh24:mi:ss') AS czsj,
+		nvl(yck_qmje,0) as yckqmje,
+		mx.je as czje,
+		to_char(czsj,'YYYY-MM') AS czyf,
+		mx.zt as mxzt,
+		to_char(mx.shsj,'YYYY-MM') AS shsj	 
+		from  hydata.ld_txmd_yck yck 
+		join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh 
+		where yck.gsbh = #{0} and mx.zt not in (1,3,5) 
+		and to_char(mx.record_date,'YYYY-MM') <![CDATA[<= ]]> #{1}  
+		order by mx.record_date desc,czbh desc
+	</select>	
+	
+	<select id="GetMaxShsj" parameterType="string" resultMap="txYmYckResultMap">
+		select 
+		nvl(yck_qmje,0) as yckqmje,
+		to_char(mx.shsj,'YYYY/MM/DD hh24:mi:ss') AS shsj
+		from  hydata.ld_txmd_yck yck 
+		join hydata.ld_txmd_yck_czmx mx on yck.bh=mx.bh 
+		where yck.gsbh = #{0} and to_char(shsj,'YYYY-MM') = #{1}  and mx.zt not in (1,3,5)
+		order by shsj desc,czbh desc	
+	</select>
+	
+	<insert id="InsertYmYck" parameterType="com.hoau.hoaureport.module.job.shared.domain.TxYmYckEntity">
+		insert into HYREPORT_TXMD_YMYCK (
+			<include refid="select_ymyck_param1"></include>
+			)
+		values (
+		  #{ssy,jdbcType=VARCHAR}, #{ssgsjc,jdbcType=VARCHAR},
+		  #{yckye,jdbcType=DECIMAL},#{yckqcje,jdbcType=DECIMAL},
+		  #{yckqmje,jdbcType=DECIMAL},#{djje,jdbcType=DECIMAL},
+		  #{ksyye,jdbcType=DECIMAL},#{czsj,jdbcType=VARCHAR},#{dzgs,jdbcType=VARCHAR}
+		    )
+	</insert>	
+</mapper>

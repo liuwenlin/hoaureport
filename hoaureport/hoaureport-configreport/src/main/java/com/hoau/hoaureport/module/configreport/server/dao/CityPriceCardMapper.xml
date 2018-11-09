@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.CityPriceCardMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    <id column="CITY_PRICE_CARD_ID" jdbcType="DECIMAL" property="cityPriceCardId" />
+    <result column="LINE_NAME" jdbcType="VARCHAR" property="lineName" />
+    <result column="LOADING_PORT" jdbcType="VARCHAR" property="loadingPort" />
+    <result column="TERMINI" jdbcType="VARCHAR" property="termini" />
+    <result column="CITY_LINE" jdbcType="VARCHAR" property="cityLine" />
+    <result column="DISPATCH_CITY" jdbcType="VARCHAR" property="dispatchCity" />
+    <result column="DISPATCH_CITY_ID" jdbcType="VARCHAR" property="dispatchCityId" />
+    <result column="ARRIVAL_CITY" jdbcType="VARCHAR" property="arrivalCity" />
+    <result column="ARRIVAL_CITY_ID" jdbcType="VARCHAR" property="arrivalCityId" />
+    <result column="SERVE_LOAD_INTIME" jdbcType="CHAR" property="serveLoadIntime" />
+    <result column="FROM_REMOTE_BRANCH" jdbcType="CHAR" property="fromRemoteBranch" />
+    <result column="SERVE_REACH_INTIME" jdbcType="CHAR" property="serveReachIntime" />
+    <result column="TO_REMOTE_BRANCH" jdbcType="CHAR" property="toRemoteBranch" />
+    <result column="PROMISE_NOTE_TIME" jdbcType="DECIMAL" property="promiseNoteTime" />
+    <result column="PROMISE_DELIVER_TIME" jdbcType="DECIMAL" property="promiseDeliverTime" />
+    <result column="OPEN_MONTH" jdbcType="VARCHAR" property="openMonth" />
+    <result column="MONDAY" jdbcType="CHAR" property="monday" />
+    <result column="TUESDAY" jdbcType="CHAR" property="tuesday" />
+    <result column="WEDNESDAY" jdbcType="CHAR" property="wednesday" />
+    <result column="THURSDAY" jdbcType="CHAR" property="thursday" />
+    <result column="FRIDAY" jdbcType="CHAR" property="friday" />
+    <result column="SATURDAY" jdbcType="CHAR" property="saturday" />
+    <result column="SUNDAY" jdbcType="CHAR" property="sunday" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="EFFECTED_TIME" jdbcType="TIMESTAMP" property="effectedTime" />
+    <result column="INVALID_TIME" jdbcType="TIMESTAMP" property="invalidTime" />
+    <result column="ACTIVE" jdbcType="CHAR" property="active" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_CODE" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="MODIFY_USER_CODE" jdbcType="VARCHAR" property="modifyUserCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CITY_PRICE_CARD_ID, LINE_NAME, LOADING_PORT, TERMINI, CITY_LINE, DISPATCH_CITY, DISPATCH_CITY_ID, 
+    ARRIVAL_CITY, ARRIVAL_CITY_ID, SERVE_LOAD_INTIME, FROM_REMOTE_BRANCH, SERVE_REACH_INTIME, 
+    TO_REMOTE_BRANCH, PROMISE_NOTE_TIME, PROMISE_DELIVER_TIME, OPEN_MONTH, MONDAY, TUESDAY, 
+    WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, NOTE, EFFECTED_TIME, INVALID_TIME, ACTIVE, CREATE_TIME, CREATE_USER_CODE, 
+    MODIFY_TIME, MODIFY_USER_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_CITY_PRICE_CARD
+    where CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPORT_CITY_PRICE_CARD
+    where CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    insert into REPORT_CITY_PRICE_CARD (CITY_PRICE_CARD_ID, LINE_NAME, LOADING_PORT, 
+      TERMINI, CITY_LINE, DISPATCH_CITY, 
+      DISPATCH_CITY_ID, ARRIVAL_CITY, ARRIVAL_CITY_ID, 
+      SERVE_LOAD_INTIME, FROM_REMOTE_BRANCH, SERVE_REACH_INTIME, 
+      TO_REMOTE_BRANCH, PROMISE_NOTE_TIME, PROMISE_DELIVER_TIME, 
+      OPEN_MONTH, MONDAY, TUESDAY, 
+      WEDNESDAY, THURSDAY, FRIDAY, 
+      SATURDAY, SUNDAY, NOTE, EFFECTED_TIME, INVALID_TIME, ACTIVE, 
+      CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, 
+      MODIFY_USER_CODE)
+    values (SEQ_CITY_PRICE_CARD_ID.Nextval, #{lineName,jdbcType=VARCHAR}, #{loadingPort,jdbcType=VARCHAR}, 
+      #{termini,jdbcType=VARCHAR}, #{cityLine,jdbcType=VARCHAR}, #{dispatchCity,jdbcType=VARCHAR}, 
+      #{dispatchCityId,jdbcType=VARCHAR}, #{arrivalCity,jdbcType=VARCHAR}, #{arrivalCityId,jdbcType=VARCHAR}, 
+      #{serveLoadIntime,jdbcType=CHAR}, #{fromRemoteBranch,jdbcType=CHAR}, #{serveReachIntime,jdbcType=CHAR}, 
+      #{toRemoteBranch,jdbcType=CHAR}, #{promiseNoteTime,jdbcType=DECIMAL}, #{promiseDeliverTime,jdbcType=DECIMAL}, 
+      #{openMonth,jdbcType=VARCHAR}, #{monday,jdbcType=CHAR}, #{tuesday,jdbcType=CHAR}, 
+      #{wednesday,jdbcType=CHAR}, #{thursday,jdbcType=CHAR}, #{friday,jdbcType=CHAR}, 
+      #{saturday,jdbcType=CHAR}, #{sunday,jdbcType=CHAR}, #{note,jdbcType=VARCHAR},  #{effectedTime,jdbcType=TIMESTAMP},
+      #{invalidTime,jdbcType=TIMESTAMP}, #{active,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserCode,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUserCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    insert into REPORT_CITY_PRICE_CARD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        CITY_PRICE_CARD_ID,
+      <if test="lineName != null">
+        LINE_NAME,
+      </if>
+      <if test="loadingPort != null">
+        LOADING_PORT,
+      </if>
+      <if test="termini != null">
+        TERMINI,
+      </if>
+      <if test="cityLine != null">
+        CITY_LINE,
+      </if>
+      <if test="dispatchCity != null">
+        DISPATCH_CITY,
+      </if>
+      <if test="dispatchCityId != null">
+        DISPATCH_CITY_ID,
+      </if>
+      <if test="arrivalCity != null">
+        ARRIVAL_CITY,
+      </if>
+      <if test="arrivalCityId != null">
+        ARRIVAL_CITY_ID,
+      </if>
+      <if test="serveLoadIntime != null">
+        SERVE_LOAD_INTIME,
+      </if>
+      <if test="fromRemoteBranch != null">
+        FROM_REMOTE_BRANCH,
+      </if>
+      <if test="serveReachIntime != null">
+        SERVE_REACH_INTIME,
+      </if>
+      <if test="toRemoteBranch != null">
+        TO_REMOTE_BRANCH,
+      </if>
+      <if test="promiseNoteTime != null">
+        PROMISE_NOTE_TIME,
+      </if>
+      <if test="promiseDeliverTime != null">
+        PROMISE_DELIVER_TIME,
+      </if>
+      <if test="openMonth != null">
+        OPEN_MONTH,
+      </if>
+      <if test="monday != null">
+        MONDAY,
+      </if>
+      <if test="tuesday != null">
+        TUESDAY,
+      </if>
+      <if test="wednesday != null">
+        WEDNESDAY,
+      </if>
+      <if test="thursday != null">
+        THURSDAY,
+      </if>
+      <if test="friday != null">
+        FRIDAY,
+      </if>
+      <if test="saturday != null">
+        SATURDAY,
+      </if>
+      <if test="sunday != null">
+        SUNDAY,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+       <if test="effectedTime != null">
+        EFFECTED_TIME,
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        SEQ_CITY_PRICE_CARD_ID.Nextval,
+      <if test="lineName != null">
+        #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingPort != null">
+        #{loadingPort,jdbcType=VARCHAR},
+      </if>
+      <if test="termini != null">
+        #{termini,jdbcType=VARCHAR},
+      </if>
+      <if test="cityLine != null">
+        #{cityLine,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchCity != null">
+        #{dispatchCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchCityId != null">
+        #{dispatchCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCity != null">
+        #{arrivalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCityId != null">
+        #{arrivalCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="serveLoadIntime != null">
+        #{serveLoadIntime,jdbcType=CHAR},
+      </if>
+      <if test="fromRemoteBranch != null">
+        #{fromRemoteBranch,jdbcType=CHAR},
+      </if>
+      <if test="serveReachIntime != null">
+        #{serveReachIntime,jdbcType=CHAR},
+      </if>
+      <if test="toRemoteBranch != null">
+        #{toRemoteBranch,jdbcType=CHAR},
+      </if>
+      <if test="promiseNoteTime != null">
+        #{promiseNoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="promiseDeliverTime != null">
+        #{promiseDeliverTime,jdbcType=DECIMAL},
+      </if>
+      <if test="openMonth != null">
+        #{openMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="monday != null">
+        #{monday,jdbcType=CHAR},
+      </if>
+      <if test="tuesday != null">
+        #{tuesday,jdbcType=CHAR},
+      </if>
+      <if test="wednesday != null">
+        #{wednesday,jdbcType=CHAR},
+      </if>
+      <if test="thursday != null">
+        #{thursday,jdbcType=CHAR},
+      </if>
+      <if test="friday != null">
+        #{friday,jdbcType=CHAR},
+      </if>
+      <if test="saturday != null">
+        #{saturday,jdbcType=CHAR},
+      </if>
+      <if test="sunday != null">
+        #{sunday,jdbcType=CHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+       <if test="effectedTime != null">
+        #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    update REPORT_CITY_PRICE_CARD
+    <set>
+      <if test="lineName != null">
+        LINE_NAME = #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingPort != null">
+        LOADING_PORT = #{loadingPort,jdbcType=VARCHAR},
+      </if>
+      <if test="termini != null">
+        TERMINI = #{termini,jdbcType=VARCHAR},
+      </if>
+      <if test="cityLine != null">
+        CITY_LINE = #{cityLine,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchCity != null">
+        DISPATCH_CITY = #{dispatchCity,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchCityId != null">
+        DISPATCH_CITY_ID = #{dispatchCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCity != null">
+        ARRIVAL_CITY = #{arrivalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCityId != null">
+        ARRIVAL_CITY_ID = #{arrivalCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="serveLoadIntime != null">
+        SERVE_LOAD_INTIME = #{serveLoadIntime,jdbcType=CHAR},
+      </if>
+      <if test="fromRemoteBranch != null">
+        FROM_REMOTE_BRANCH = #{fromRemoteBranch,jdbcType=CHAR},
+      </if>
+      <if test="serveReachIntime != null">
+        SERVE_REACH_INTIME = #{serveReachIntime,jdbcType=CHAR},
+      </if>
+      <if test="toRemoteBranch != null">
+        TO_REMOTE_BRANCH = #{toRemoteBranch,jdbcType=CHAR},
+      </if>
+      <if test="promiseNoteTime != null">
+        PROMISE_NOTE_TIME = #{promiseNoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="promiseDeliverTime != null">
+        PROMISE_DELIVER_TIME = #{promiseDeliverTime,jdbcType=DECIMAL},
+      </if>
+      <if test="openMonth != null">
+        OPEN_MONTH = #{openMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="monday != null">
+        MONDAY = #{monday,jdbcType=CHAR},
+      </if>
+      <if test="tuesday != null">
+        TUESDAY = #{tuesday,jdbcType=CHAR},
+      </if>
+      <if test="wednesday != null">
+        WEDNESDAY = #{wednesday,jdbcType=CHAR},
+      </if>
+      <if test="thursday != null">
+        THURSDAY = #{thursday,jdbcType=CHAR},
+      </if>
+      <if test="friday != null">
+        FRIDAY = #{friday,jdbcType=CHAR},
+      </if>
+      <if test="saturday != null">
+        SATURDAY = #{saturday,jdbcType=CHAR},
+      </if>
+      <if test="sunday != null">
+        SUNDAY = #{sunday,jdbcType=CHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    update REPORT_CITY_PRICE_CARD
+    set LINE_NAME = #{lineName,jdbcType=VARCHAR},
+      LOADING_PORT = #{loadingPort,jdbcType=VARCHAR},
+      TERMINI = #{termini,jdbcType=VARCHAR},
+      CITY_LINE = #{cityLine,jdbcType=VARCHAR},
+      DISPATCH_CITY = #{dispatchCity,jdbcType=VARCHAR},
+      DISPATCH_CITY_ID = #{dispatchCityId,jdbcType=VARCHAR},
+      ARRIVAL_CITY = #{arrivalCity,jdbcType=VARCHAR},
+      ARRIVAL_CITY_ID = #{arrivalCityId,jdbcType=VARCHAR},
+      SERVE_LOAD_INTIME = #{serveLoadIntime,jdbcType=CHAR},
+      FROM_REMOTE_BRANCH = #{fromRemoteBranch,jdbcType=CHAR},
+      SERVE_REACH_INTIME = #{serveReachIntime,jdbcType=CHAR},
+      TO_REMOTE_BRANCH = #{toRemoteBranch,jdbcType=CHAR},
+      PROMISE_NOTE_TIME = #{promiseNoteTime,jdbcType=DECIMAL},
+      PROMISE_DELIVER_TIME = #{promiseDeliverTime,jdbcType=DECIMAL},
+      OPEN_MONTH = #{openMonth,jdbcType=VARCHAR},
+      MONDAY = #{monday,jdbcType=CHAR},
+      TUESDAY = #{tuesday,jdbcType=CHAR},
+      WEDNESDAY = #{wednesday,jdbcType=CHAR},
+      THURSDAY = #{thursday,jdbcType=CHAR},
+      FRIDAY = #{friday,jdbcType=CHAR},
+      SATURDAY = #{saturday,jdbcType=CHAR},
+      SUNDAY = #{sunday,jdbcType=CHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      ACTIVE = #{active,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR}
+    where CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="queryCityPriceCardByCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_CITY_PRICE_CARD
+      <where>
+    	<if test="cityPriceCardId != null and cityPriceCardId != ''">
+    	and CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="lineName != null and lineName != ''">
+    	and STORE_CODE = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="loadingPort != null and loadingPort != ''">
+    	and LOADING_PORT = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="termini != null and termini != ''">
+    	and TERMINI = #{termini,jdbcType=VARCHAR}
+    	</if>
+    	<if test="cityLine != null and cityLine != ''">
+    	and CITY_LINE = #{cityLine,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchCity != null and dispatchCity  != ''">
+    	and DISPATCH_CITY like CONCAT(CONCAT('%',#{dispatchCity,jdbcType=VARCHAR}),'%')
+    	</if>
+    	<if test="dispatchCityId != null and dispatchCityId  != ''">
+    	and DISPATCH_CITY_ID = #{dispatchCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalCity != null and arrivalCity  != ''">
+    	and ARRIVAL_CITY like CONCAT(CONCAT('%',#{arrivalCity,jdbcType=VARCHAR}),'%')
+    	</if>
+    	<if test="arrivalCityId != null and arrivalCityId  != ''">
+    	and ARRIVAL_CITY_ID = #{arrivalCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveLoadIntime != null and serveLoadIntime  != ''">
+    	and SERVE_LOAD_INTIME = #{serveLoadIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="fromRemoteBranch != null and fromRemoteBranch  != ''">
+    	and FROM_REMOTE_BRANCH = #{fromRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveReachIntime != null and serveReachIntime  != ''">
+    	and SERVE_REACH_INTIME = #{serveReachIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="toRemoteBranch != null and toRemoteBranch  != ''">
+    	and TO_REMOTE_BRANCH = #{toRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="promiseNoteTime != null and promiseNoteTime  != ''">
+    	and PROMISE_NOTE_TIME = #{promiseNoteTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="promiseDeliverTime != null and promiseDeliverTime  != ''">
+    	and PROMISE_DELIVER_TIME = #{promiseDeliverTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="openMonth != null and openMonth  != ''">
+    	and OPEN_MONTH = #{openMonth,jdbcType=VARCHAR}
+    	</if>
+    	<if test="monday != null and monday  != ''">
+    	and MONDAY = #{monday,jdbcType=CHAR}
+    	</if>
+    	<if test="tuesday != null and tuesday  != ''">
+    	and TUESDAY = #{tuesday,jdbcType=CHAR}
+    	</if>
+    	<if test="wednesday != null and wednesday  != ''">
+    	and WEDNESDAY = #{wednesday,jdbcType=CHAR}
+    	</if>
+    	<if test="thursday != null and thursday  != ''">
+    	and THURSDAY = #{thursday,jdbcType=CHAR}
+    	</if>
+    	<if test="friday != null and friday  != ''">
+    	and FRIDAY = #{friday,jdbcType=CHAR}
+    	</if>
+    	<if test="saturday != null and saturday  != ''">
+    	and SATURDAY = #{saturday,jdbcType=CHAR}
+    	</if>
+    	<if test="sunday != null and sunday  != ''">
+    	and SUNDAY = #{sunday,jdbcType=CHAR}
+    	</if>
+    	<if test="note != null and note  != ''">
+    	and NOTE = #{note,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=CHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+  
+  <select id="queryCityPriceCardCountByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    select count(*)
+    from REPORT_CITY_PRICE_CARD
+     <where>
+    	<if test="cityPriceCardId != null and cityPriceCardId != ''">
+    	and CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="lineName != null and lineName != ''">
+    	and STORE_CODE = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="loadingPort != null and loadingPort != ''">
+    	and LOADING_PORT = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="termini != null and termini != ''">
+    	and TERMINI = #{termini,jdbcType=VARCHAR}
+    	</if>
+    	<if test="cityLine != null and cityLine != ''">
+    	and CITY_LINE = #{cityLine,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchCity != null and dispatchCity  != ''">
+    	and DISPATCH_CITY like CONCAT(CONCAT('%',#{dispatchCity,jdbcType=VARCHAR}),'%')
+    	</if>
+    	<if test="dispatchCityId != null and dispatchCityId  != ''">
+    	and DISPATCH_CITY_ID = #{dispatchCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalCity != null and arrivalCity  != ''">
+    	and ARRIVAL_CITY like CONCAT(CONCAT('%',#{arrivalCity,jdbcType=VARCHAR}),'%')
+    	</if>
+    	<if test="arrivalCityId != null and arrivalCityId  != ''">
+    	and ARRIVAL_CITY_ID = #{arrivalCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveLoadIntime != null and serveLoadIntime  != ''">
+    	and SERVE_LOAD_INTIME = #{serveLoadIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="fromRemoteBranch != null and fromRemoteBranch  != ''">
+    	and FROM_REMOTE_BRANCH = #{fromRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveReachIntime != null and serveReachIntime  != ''">
+    	and SERVE_REACH_INTIME = #{serveReachIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="toRemoteBranch != null and toRemoteBranch  != ''">
+    	and TO_REMOTE_BRANCH = #{toRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="promiseNoteTime != null and promiseNoteTime  != ''">
+    	and PROMISE_NOTE_TIME = #{promiseNoteTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="promiseDeliverTime != null and promiseDeliverTime  != ''">
+    	and PROMISE_DELIVER_TIME = #{promiseDeliverTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="openMonth != null and openMonth  != ''">
+    	and OPEN_MONTH = #{openMonth,jdbcType=VARCHAR}
+    	</if>
+    	<if test="monday != null and monday  != ''">
+    	and MONDAY = #{monday,jdbcType=CHAR}
+    	</if>
+    	<if test="tuesday != null and tuesday  != ''">
+    	and TUESDAY = #{tuesday,jdbcType=CHAR}
+    	</if>
+    	<if test="wednesday != null and wednesday  != ''">
+    	and WEDNESDAY = #{wednesday,jdbcType=CHAR}
+    	</if>
+    	<if test="thursday != null and thursday  != ''">
+    	and THURSDAY = #{thursday,jdbcType=CHAR}
+    	</if>
+    	<if test="friday != null and friday  != ''">
+    	and FRIDAY = #{friday,jdbcType=CHAR}
+    	</if>
+    	<if test="saturday != null and saturday  != ''">
+    	and SATURDAY = #{saturday,jdbcType=CHAR}
+    	</if>
+    	<if test="sunday != null and sunday  != ''">
+    	and SUNDAY = #{sunday,jdbcType=CHAR}
+    	</if>
+    	<if test="note != null and note  != ''">
+    	and NOTE = #{note,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=CHAR}
+    	</if>
+    </where>
+  </select>
+  
+   <select id="queryCityPriceCardByExplicitCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.CityPriceCard">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_CITY_PRICE_CARD
+     <where>
+    	<if test="cityPriceCardId != null and cityPriceCardId != ''">
+    	and CITY_PRICE_CARD_ID = #{cityPriceCardId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="lineName != null and lineName != ''">
+    	and STORE_CODE = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="loadingPort != null and loadingPort != ''">
+    	and LOADING_PORT = #{loadingPort,jdbcType=VARCHAR}
+    	</if>
+    	<if test="termini != null and termini != ''">
+    	and TERMINI = #{termini,jdbcType=VARCHAR}
+    	</if>
+    	<if test="cityLine != null and cityLine != ''">
+    	and CITY_LINE = #{cityLine,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchCity != null and dispatchCity  != ''">
+    	and DISPATCH_CITY = #{dispatchCity,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchCityId != null and dispatchCityId  != ''">
+    	and DISPATCH_CITY_ID = #{dispatchCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalCity != null and arrivalCity  != ''">
+    	and ARRIVAL_CITY = #{arrivalCity,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalCityId != null and arrivalCityId  != ''">
+    	and ARRIVAL_CITY_ID = #{arrivalCityId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveLoadIntime != null and serveLoadIntime  != ''">
+    	and SERVE_LOAD_INTIME = #{serveLoadIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="fromRemoteBranch != null and fromRemoteBranch  != ''">
+    	and FROM_REMOTE_BRANCH = #{fromRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="serveReachIntime != null and serveReachIntime  != ''">
+    	and SERVE_REACH_INTIME = #{serveReachIntime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="toRemoteBranch != null and toRemoteBranch  != ''">
+    	and TO_REMOTE_BRANCH = #{toRemoteBranch,jdbcType=VARCHAR}
+    	</if>
+    	<if test="promiseNoteTime != null and promiseNoteTime  != ''">
+    	and PROMISE_NOTE_TIME = #{promiseNoteTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="promiseDeliverTime != null and promiseDeliverTime  != ''">
+    	and PROMISE_DELIVER_TIME = #{promiseDeliverTime,jdbcType=DECIMAL}
+    	</if>
+    	<if test="openMonth != null and openMonth  != ''">
+    	and OPEN_MONTH = #{openMonth,jdbcType=VARCHAR}
+    	</if>
+    	<if test="monday != null and monday  != ''">
+    	and MONDAY = #{monday,jdbcType=CHAR}
+    	</if>
+    	<if test="tuesday != null and tuesday  != ''">
+    	and TUESDAY = #{tuesday,jdbcType=CHAR}
+    	</if>
+    	<if test="wednesday != null and wednesday  != ''">
+    	and WEDNESDAY = #{wednesday,jdbcType=CHAR}
+    	</if>
+    	<if test="thursday != null and thursday  != ''">
+    	and THURSDAY = #{thursday,jdbcType=CHAR}
+    	</if>
+    	<if test="friday != null and friday  != ''">
+    	and FRIDAY = #{friday,jdbcType=CHAR}
+    	</if>
+    	<if test="saturday != null and saturday  != ''">
+    	and SATURDAY = #{saturday,jdbcType=CHAR}
+    	</if>
+    	<if test="sunday != null and sunday  != ''">
+    	and SUNDAY = #{sunday,jdbcType=CHAR}
+    	</if>
+    	<if test="note != null and note  != ''">
+    	and NOTE = #{note,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=CHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+   <update id="repealAllCityPriceCard">
+	   	update REPORT_CITY_PRICE_CARD
+	   	<set>
+	   	ACTIVE = 'N'
+	   	</set>
+	   	<where>
+	   	ACTIVE = 'Y'
+	   	</where>
+   </update>
+</mapper>

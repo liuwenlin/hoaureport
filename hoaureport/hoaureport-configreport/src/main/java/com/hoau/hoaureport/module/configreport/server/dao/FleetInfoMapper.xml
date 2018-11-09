@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.FleetInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo">
+    <id column="FLEET_ID" jdbcType="DECIMAL" property="fleetId" />
+    <result column="FLEET_SHORTNAME" jdbcType="VARCHAR" property="fleetShortName" />
+    <result column="FLEET_NAME" jdbcType="VARCHAR" property="fleetName" />
+    <result column="THE_AREA" jdbcType="VARCHAR" property="theArea" />
+    <result column="THE_BUSINESS_DEPARTMENT" jdbcType="VARCHAR" property="theBusinessDepartment" />
+    <result column="ACTIVE" jdbcType="CHAR" property="active" />
+    <result column="EFFECTED_TIME" jdbcType="TIMESTAMP" property="effectedTime" />
+    <result column="INVALID_TIME" jdbcType="TIMESTAMP" property="invalidTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_CODE" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="MODIFY_USER_CODE" jdbcType="VARCHAR" property="modifyUserCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FLEET_ID, FLEET_SHORTNAME, FLEET_NAME, THE_AREA, THE_BUSINESS_DEPARTMENT, ACTIVE, 
+    EFFECTED_TIME, INVALID_TIME, CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, MODIFY_USER_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_FLEET
+    where FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPORT_FLEET
+    where FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo">
+    insert into REPORT_FLEET (FLEET_ID, FLEET_SHORTNAME, FLEET_NAME, 
+      THE_AREA, THE_BUSINESS_DEPARTMENT, ACTIVE, 
+      EFFECTED_TIME, INVALID_TIME, CREATE_TIME, 
+      CREATE_USER_CODE, MODIFY_TIME, MODIFY_USER_CODE
+      )
+    values SEQ_FLEET_ID.Nextval, #{fleetShortname,jdbcType=VARCHAR}, #{fleetName,jdbcType=VARCHAR}, 
+      #{theArea,jdbcType=VARCHAR}, #{theBusinessDepartment,jdbcType=VARCHAR}, #{active,jdbcType=CHAR}, 
+      #{effectedTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserCode,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo">
+    insert into REPORT_FLEET
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        FLEET_ID,
+      <if test="fleetShortName != null">
+        FLEET_SHORTNAME,
+      </if>
+      <if test="fleetName != null">
+        FLEET_NAME,
+      </if>
+      <if test="theArea != null">
+        THE_AREA,
+      </if>
+      <if test="theBusinessDepartment != null">
+        THE_BUSINESS_DEPARTMENT,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME,
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      SEQ_FLEET_ID.Nextval,
+      <if test="fleetShortName != null">
+        #{fleetShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="fleetName != null">
+        #{fleetName,jdbcType=VARCHAR},
+      </if>
+      <if test="theArea != null">
+        #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theBusinessDepartment != null">
+        #{theBusinessDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo">
+    update REPORT_FLEET
+    <set>
+      <if test="fleetShortName != null">
+        FLEET_SHORTNAME = #{fleetShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="fleetName != null">
+        FLEET_NAME = #{fleetName,jdbcType=VARCHAR},
+      </if>
+      <if test="theArea != null">
+        THE_AREA = #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theBusinessDepartment != null">
+        THE_BUSINESS_DEPARTMENT = #{theBusinessDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo">
+    update REPORT_FLEET
+    set FLEET_SHORTNAME = #{fleetShortName,jdbcType=VARCHAR},
+      FLEET_NAME = #{fleetName,jdbcType=VARCHAR},
+      THE_AREA = #{theArea,jdbcType=VARCHAR},
+      THE_BUSINESS_DEPARTMENT = #{theBusinessDepartment,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=CHAR},
+      EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR}
+    where FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+  </update>
+   <select id="queryFleetInfoByCondition" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_FLEET
+    <where>
+   		<if test="fleetId != null and fleetId != ''">
+    	and FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="fleetShortName != null and fleetShortName != ''">
+    	and FLEET_SHORTNAME = #{fleetShortName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="fleetName != null and fleetName != ''">
+    	and FLEET_NAME = #{fleetName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theBusinessDepartment != null and theBusinessDepartment != ''">
+    	and THE_BUSINESS_DEPARTMENT = #{theBusinessDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+  <select id="queryFleetCountByCondition" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.FleetInfo" resultType="long">
+    select count(*)
+    from REPORT_FLEET
+    <where>
+    	<if test="fleetId != null and fleetId != ''">
+    	and FLEET_ID = #{fleetId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="fleetShortName != null and fleetShortName != ''">
+    	and FLEET_SHORTNAME = #{fleetShortName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="fleetName != null and fleetName != ''">
+    	and FLEET_NAME = #{fleetName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theBusinessDepartment != null and theBusinessDepartment != ''">
+    	and THE_BUSINESS_DEPARTMENT = #{theBusinessDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </select>
+</mapper>

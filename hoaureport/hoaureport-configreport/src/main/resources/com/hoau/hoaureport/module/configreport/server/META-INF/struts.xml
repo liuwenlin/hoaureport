@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- 最大上传文件大小设置为50M -->
+    <constant name="struts.multipart.maxSize" value="52428800" />
+	<package name="configreport" namespace="/configreport" extends="hoaureport-default">
+	<!-- 签约客户-->
+    <action name="signedClientAction" class="signedClientAction">
+			<result name="index">signedClient.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result> 
+	</action>
+	<!-- 工作日-->
+    <action name="franchiseNonCarloadTvAction" class="franchiseNonCarloadTvAction">
+			<result name="index">franchiseNonCarloadTv.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+	<!-- 工作日-->
+    <action name="mainTacticNonCarloadTvAction" class="mainTacticNonCarloadTvAction">
+			<result name="index">mainTacticNonCarloadTv.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+	<!-- 工作日-->
+    <action name="nonCarloadTargetValueAction" class="nonCarloadTargetValueAction">
+			<result name="index">nonCarloadTargetValue.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+	<!-- 工作日-->
+    <action name="tacticNonCarloadTvAction" class="tacticNonCarloadTvAction">
+			<result name="index">tacticNonCarloadTv.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+     <!-- 工作日-->
+    <action name="weekDayAction" class="weekDayAction">
+			<result name="index">weekDayManagerManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+    <!-- 部门管理人-->
+    <action name="departmentManagerAction" class="departmentManagerAction">
+			<result name="index">departmentManagerManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+    <!-- 场站记工-出勤 -->
+    <action name="attendanceManageAction" class="attendanceManageAction">
+			<result name="index">attendanceManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+
+    <!-- 场站（时效） -->
+    <action name="stationTimeManageAction" class="stationTimeManageAction">
+			<result name="index">stationTimeManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+	<!-- 场站辖区(实现) -->
+	<action name="stationAgingManageAction" class="stationAgingManageAction">
+
+			<result name="index">stationAgingInfoManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+	</action>
+	<!-- DD未兑现目标值 -->
+		<action name="unfulfilledTargetManageAction" class="unfulfilledTargetManageAction">
+			<result name="index">unfulfilledTargetManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	  <!-- DD未兑现-城市价卡管理 -->
+		<action name="cityPriceCardManageAction" class="cityPriceCardManageAction">
+			<result name="index">cityPriceCardManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 线路规划停发时间 -->
+		<action name="linePlanSuspendedAction" class="linePlanSuspendedAction">
+			<result name="index">linePlanSuspended.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 <!-- 平台次日送到率管理 -->
+		<action name="transGoodsManageAction" class="transGoodsManageAction">
+			<result name="index">transGoodsIntimerate.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 <!-- 场站管理 -->
+		<action name="specialStationManageAction" class="specialStationManageAction">
+			<result name="index">specialStationManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 <!-- 下转准点率目标值 -->
+		<action name="downTransferOnTimeRateManageAction" class="downTransferOnTimeRateManageAction">
+			<result name="index">downTransferOnTimeRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 <!-- 发货准点率目标值 -->
+		<action name="dispatchOnTimeRateManageAction" class="dispatchOnTimeRateManageAction">
+			<result name="index">dispatchOnTimeRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 <!-- 大客户管理 -->
+		<action name="customerInfoManageAction" class="customerInfoManageAction">
+			<result name="index">customerInfoManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	  <!-- 销售线路节点 -->
+		<action name="salesLineAction" class="salesLineAction">
+			<result name="index">salesLineManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	  <!-- 下转移时间节点管理 -->
+		<action name="downTransferTimeNodeManageAction" class="downTransferTimeNodeManageAction">
+			<result name="index">downTransferTimeNodeManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	  
+	  <!-- 上转移时间节点管理 -->
+		<action name="upTransferTimeNodeManageAction" class="upTransferTimeNodeManageAction">
+			<result name="index">upTransferTimeNodeManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		
+	  <!-- 平台送货及时率管理 -->
+		<action name="platDeliverIntimeRateManageAction" class="platDeliverIntimeRateManageAction">
+			<result name="index">platDeliverIntimeRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	   <!-- 平台次日送到率管理 -->
+		<action name="platNextdayReachRateManageAction" class="platNextdayReachRateManageAction">
+			<result name="index">platNextdayReachRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 长途满载率目标值管理 -->
+		<action name="platFullRateManageAction" class="platFullRateManageAction">
+			<result name="index">platFullRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	 
+	  <!-- 门店信息管理 -->
+		<action name="storeTheInfoManageAction" class="storeTheInfoManageAction">
+			<result name="index">storeTheInfoManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	   <!-- 送货及时率管理 -->
+		<action name="deliverIntimeRateManageAction" class="deliverIntimeRateManageAction">
+			<result name="index">deliverIntimeRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	   <!-- 次日送达率管理 -->
+		<action name="nextdayReachRateManageAction" class="nextdayReachRateManageAction">
+			<result name="index">nextdayReachRateManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	    <!-- 文件导入 -->
+		 <action name="fileUpLoadAction" class="fileUpLoadAction">  
+           <result type="stream">
+           	   <param name="contentType">${mimeType}</param>
+               <param name="inputName">inStream</param>
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+           </result>
+           <result name="success" type="json"></result>
+		   <result name="error" type="json"></result>	
+       </action>
+	    <!-- 吨成本管理 -->
+		<action name="tonCostManageAction" class="tonCostManageAction">
+			<result name="index">tonCostManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+	    <!-- 车队辖区管理 -->
+		<action name="fleetAreaManageAction" class="fleetAreaManageAction">
+			<result name="index">fleetAreaManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 平台辖区管理 -->
+		<action name="platformAreaManageAction" class="platformAreaManageAction">
+			<result name="index">platformAreaManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 平台管理 -->
+		<action name="platformManageAction" class="platformManageAction">
+			<result name="index">platformManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 场站辖区管理 -->
+		<action name="stationAreaManageAction" class="stationAreaManageAction">
+			<result name="index">stationAreaManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 车队管理 -->
+		<action name="fleetManageAction" class="fleetManageAction">
+			<result name="index">fleetManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 场站管理 -->
+		<action name="stationManageAction" class="stationManageAction">
+			<result name="index">stationManage.jsp</result>
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 自定义查询SQL -->
+		<action name="showQuerySqlIndex" class="querySqlAction" method="showQueryPage">
+			<result name="success">querySqlIndex.jsp</result>
+		</action>
+		<!-- 分页查询自定义查询SQL -->
+		<action name="showPageQuerySql" class="querySqlAction" method="showPageQuerySql">
+			<result name="success" type="json"></result>
+		</action>
+		<!-- 保存或修改自定义查询SQL -->
+		<action name="saveorModifyQuerySql" class="querySqlAction"
+			method="saveorModifyQuerySql">
+			<result name="success" type="json"></result>
+		</action>
+		<!-- 批量删除自定义查询SQL -->
+		<action name="toVoidQuerySql" class="querySqlAction" method="toVoidQuerySql">
+			<result name="success" type="json"></result>
+		</action>
+		<!-- 加载SQL绑定的角色 -->
+		<action name="querySqlRoleList" class="querySqlAction" method="querySqlRoleList">
+			<result name="success" type="json"></result>
+		</action>
+
+		<!--查询sql -->
+		<action name="ShowQueryAssembleIndex" class="queryAssembleAction"
+			method="showQueryPage">
+			<result name="success">queryAssembleIndex.jsp</result>
+		</action>
+		
+		
+		<action name="showQuerySql" class="queryAssembleAction" method="showQuerySql">
+			<result name="success" type="json"></result>
+		</action>
+
+		<action name="execSqlAll" class="queryAssembleAction" method="execSqlAll">
+			<result name="success" type="json"></result>
+		</action>
+
+		<action name="checkNumber" class="queryAssembleAction" method="checkQueryNumber">
+			<result name="success" type="json"></result>
+		</action>
+
+		<!--加载下啦框store -->
+		<action name="queryCombo" class="queryAssembleAction" method="queryCombo">
+			<result name="success" type="json"></result>
+		</action>
+
+		<!-- 导出Excel -->
+		<action name="querySqlExcelPort" class="queryAssembleAction"
+			method="exportExcel">
+
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel;charset=UTF-8</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<!-- 导出CSV -->
+		<action name="querySqlcsvPort" class="queryAssembleAction"
+			method="exportCSV">
+			<result name="success"/>
+			
+		</action>
+		
+		<!-- 生成CSV -->
+		<action name="querytocsv" class="queryAssembleAction"
+			method="queryToZip">
+			<result name="success" type="json"></result>
+			 <result name="error" type="json"></result>
+			
+		</action>
+		
+		<!-- 导出验证 -->
+		<action name="verificationquery" class="queryAssembleAction"
+			method="verificationExport">
+			<result name="success" type="json"></result>
+			 <result name="error" type="json"></result>
+			
+		</action>
+		<action name="verificationcsv" class="queryAssembleAction"
+			method="csvExist">
+			<result name="success" type="json"></result>
+			 <result name="error" type="json"></result>
+			
+		</action>
+		<action name="showburquery" class="queryAssembleAction" method="showburqueryMethod">
+			<result name="success" type="json"></result>
+			 <result name="error" type="json"></result>		
+		</action>
+		
+		<!-- 运单物流时间报表导出管理界面 -->
+		<action name="showwaybilltime" class="wayBillZipAction" >
+			<result name="success">waybilltime.jsp</result>
+		</action>
+		
+		<action name="waybilltimequery" class="wayBillZipAction"
+			method="wayBillZipQuery">
+			<result name="success" type="json"></result>
+			 <result name="error" type="json"></result>
+			
+		</action>
+		
+		<!-- 运单物流时间报表导出CSV -->
+		<action name="waybillzipdownload" class="wayBillZipAction"
+			method="downLoad">
+			<result name="success"/>
+			
+		</action>
+		
+		
+		<!--报表查询 Tab页面 -->
+		<action name="showreportpage" class="queryAssembleAction">
+			<result name="success">queryAssembleTab.jsp</result>
+		</action>
+		
+		
+		<action name="querysqlbytabid" class="queryAssembleAction" method="querySqlInfo">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!--整月报表生成SQL管理页面 -->
+		<action name="showmonthreport" class="monthReportSqlAction">
+			<result name="success">queryMonthSql.jsp</result>
+		</action>
+		<action name="querymonthsql" class="monthReportSqlAction" method="queryMonthSql">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<action name="addmonthsql" class="monthReportSqlAction" method="addMonthSql">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<action name="updatemonthsql" class="monthReportSqlAction" method="updateMonthSql">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<action name="removemonthsql" class="monthReportSqlAction" method="removeMonthSql">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		
+		<!--图形化视图界面 -->
+		<!--吨成本-->
+		<action name="costpage" class="graphAction">
+			<result name="success">cost.jsp</result>
+		</action>
+
+		<action name="costdata" class="graphAction" method="queryCost">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!--时效-->
+		<action name="timelinesspage" class="graphAction">
+			<result name="success">timeliness.jsp</result>
+		</action>
+		<action name="nowdaydata" class="graphAction" method="queryNowDay">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>	
+		<action name="nextdaydata" class="graphAction" method="queryNextDay">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>		
+		
+		<!--早报-->
+		<action name="mappage" class="graphAction" method ="loginMapPage">
+			<result name="success">map.jsp</result>
+		</action>	
+		<action name="getsmsdata" class="graphAction" method="querySmsData">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>	
+	</package>
+</struts>

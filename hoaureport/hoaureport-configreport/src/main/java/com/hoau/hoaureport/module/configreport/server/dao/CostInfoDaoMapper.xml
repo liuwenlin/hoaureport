@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 吨成本实体的MyBatis映射文件 -->
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.CostInfoDaoMapper"><!-- 最好是实体的地址 -->
+	<!-- 定义实体与数据库的映射结果集 -->
+	
+	<select id="queryCostList" resultType="com.hoau.hoaureport.module.configreport.shared.domain.GraphBaseInfo" parameterType="string">
+		<![CDATA[
+			select sssyb as deptName,
+			DECODE(DYZZZL,0,0, ROUND((DYCTCB / (DYZZZL / 1000)))) AS outputValue,
+			nvl(TARGET_VALUE,0) as target   
+			from REPORT_DCB_COUNT 
+			where to_char(ssr,'yyyy-mm-dd') = #{ssr,jdbcType=VARCHAR}
+			and ascpx in('1','2')
+			order by ascpx asc,sssyb asc	
+		
+		]]>	
+ 
+	</select>
+	
+	<select id="queryCostMaxValue" resultType="com.hoau.hoaureport.module.configreport.shared.domain.GraphBaseInfo" parameterType="string">
+		<![CDATA[
+			select 
+				case when max(outputValue)- max(target)>0 then
+				  max(outputValue) 
+				else 
+				  max(target)
+				end   as cmax,
+				case when min(outputValue)- min(target)<0 then
+				  min(outputValue)
+				else 
+				  min(target)
+				end   as cmin
+			from (
+				  select 
+				  sssyb as deptName,
+				  DECODE(DYZZZL,0,0, ROUND((DYCTCB / (DYZZZL / 1000)))) AS outputValue,
+				  to_number(nvl(TARGET_VALUE,0)) as target
+				  from REPORT_DCB_COUNT 
+				  where to_char(ssr,'yyyy-mm-dd') = #{ssr,jdbcType=VARCHAR}
+				  and ascpx in('1','2')
+			)	
+		
+		]]>	
+ 
+	</select>
+	
+	
+</mapper>
