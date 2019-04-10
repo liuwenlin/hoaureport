@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.DataDictionaryValueDao">
+	<resultMap id="dadicvalenResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity"
+		>
+		<result column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="TERMS_CODE" property="termsCode" jdbcType="VARCHAR" />
+		<result column="TERMS_NAME" property="termsName" jdbcType="VARCHAR" />
+		<result column="VALUE_CODE" property="valueCode" jdbcType="VARCHAR" />
+		<result column="VALUE_NAME" property="valueName" jdbcType="VARCHAR" />
+		<result column="VALUE_SEQ" property="valueSeq" jdbcType="VARCHAR" />
+		<result column="LANGUAGE" property="language" jdbcType="VARCHAR" />
+		<result column="NOTES" property="notes" jdbcType="VARCHAR" />
+		<result column="ACTIVE" property="active" jdbcType="VARCHAR" />
+		<result column="VERSION_NO" property="versionNo" jdbcType="NUMERIC" />
+		<result column="CREATE_USER_CODE" property="createUser"
+			jdbcType="VARCHAR" />
+		<result column="MODIFY_TIME" property="modifyDate" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_USER_CODE" property="modifyUser"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="IS_APP_USE" property="isAppUse" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<sql id="select_before_param">
+		TDV.ID AS ID,
+		TDV.TERMS_CODE AS TERMS_CODE,
+		TD.TERMS_NAME AS TERMS_NAME,
+		TDV.VALUE_CODE AS VALUE_CODE,
+		TDV.VALUE_NAME AS VALUE_NAME,
+		TDV.VALUE_SEQ AS VALUE_SEQ,
+		TDV.LANGUAGE AS LANGUAGE,
+		TDV.NOTES AS NOTES,
+		TDV.ACTIVE AS ACTIVE,
+		TDV.VERSION_NO AS VERSION_NO,
+		TDV.CREATE_USER_CODE AS CREATE_USER_CODE,
+		TDV.MODIFY_TIME AS MODIFY_TIME ,
+		TDV.MODIFY_USER_CODE AS MODIFY_USER_CODE,
+		TDV.CREATE_TIME AS CREATE_TIME,
+		TDV.IS_APP_USE AS IS_APP_USE
+	</sql>
+
+	<sql id="select_after_where">
+		<if test="id != null and id != ''">
+			AND TDV.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="termsCode != null and termsCode != ''">
+			AND TDV.TERMS_CODE = #{termsCode,jdbcType=VARCHAR}
+		</if>
+		<if test="valueCode != null and valueCode != ''">
+			AND TDV.VALUE_CODE  LIKE CONCAT(CONCAT('%', #{valueCode,jdbcType=VARCHAR}), '%') 
+			
+		</if>
+		<if test="valueName != null and valueName != ''">
+			AND TDV.VALUE_NAME  LIKE CONCAT(CONCAT('%', #{valueName,jdbcType=VARCHAR}), '%') 
+			
+		</if>
+		<if test="valueSeq != null and valueSeq != ''">
+			AND TDV.VALUE_SEQ = #{valueSeq,jdbcType=NUMERIC}
+		</if>
+		<if test="language != null and language != ''">
+			AND TDV.LANGUAGE = #{language,jdbcType=VARCHAR}
+		</if>
+		<if test="notes != null and notes != ''">
+			AND TDV.NOTES = #{notes,jdbcType=VARCHAR}
+		</if>
+		<if test="active != null and active != ''">
+			AND TDV.ACTIVE= #{active,jdbcType=CHAR}
+		</if>
+		<if test="versionNo != null and versionNo != ''">
+			AND TDV.VERSION_NO = #{versionNo,jdbcType=NUMERIC}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			AND TDV.CREATE_USER_CODE = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="modifyDate != null and modifyDate != ''">
+			AND TDV.MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifyUser != null and modifyUser != ''">
+			AND TDV.MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+		</if>
+		<if test="createDate != null and createDate != ''">
+			AND TDV.CREATE_TIME = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isAppUse != null and isAppUse != ''">
+			AND TDV.IS_APP_USE = #{isAppUse,jdbcType=TIMESTAMP}
+		</if>
+	</sql>
+
+	<insert id="saveDictionaryValueEntity"
+		parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity">
+		INSERT INTO T_BSE_DATA_DICTIONARY_VALUE
+		(
+		ID,
+		TERMS_CODE,
+		VALUE_CODE,
+		VALUE_NAME,
+		VALUE_SEQ,
+		LANGUAGE,
+		NOTES,
+		ACTIVE,
+		VERSION_NO,
+		CREATE_USER_CODE,
+		MODIFY_TIME,
+		MODIFY_USER_CODE,
+		CREATE_TIME,
+		IS_APP_USE
+		)
+		VALUES(
+		#{id,jdbcType=VARCHAR},
+		#{termsCode,jdbcType=VARCHAR},
+		#{valueCode,jdbcType=VARCHAR},
+		#{valueName,jdbcType=VARCHAR},
+		#{valueSeq,jdbcType=NUMERIC},
+		#{language,jdbcType=VARCHAR},
+		#{notes,jdbcType=VARCHAR},
+		#{active,jdbcType=CHAR},
+		#{versionNo,jdbcType=NUMERIC},
+		#{createUser,jdbcType=VARCHAR},
+		#{modifyDate,jdbcType=TIMESTAMP},
+		#{modifyUser,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{isAppUse,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="queryDictionaryValueEntityByExample"
+		parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity"
+		resultMap="dadicvalenResultMap">
+		SELECT 
+		<include refid="select_before_param"></include>
+		FROM T_BSE_DATA_DICTIONARY_VALUE TDV
+  			LEFT JOIN T_BSE_DATA_DICTIONARY TD
+   			 ON TDV.TERMS_CODE = TD.TERMS_CODE
+		<where>
+			<include refid="select_after_where"></include>
+		</where>
+	</select>
+	<update id="deleteDictionaryValueEntity"
+		parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity">
+		UPDATE T_BSE_DATA_DICTIONARY_VALUE TDV SET 
+		
+		TDV.ACTIVE = #{active,jdbcType=VARCHAR},
+		TDV.MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP},
+		TDV.MODIFY_USER_CODE=#{modifyUser,jdbcType=VARCHAR},
+		TDV.VERSION_NO = #{versionNo,jdbcType=NUMERIC}
+		WHERE
+		TDV.VALUE_CODE = #{valueCode,jdbcType=VARCHAR}
+		AND TDV.TERMS_CODE = #{termsCode,jdbcType=VARCHAR}
+		AND TDV.ACTIVE = 'Y'
+	</update>
+
+		<select id="queryTotalbyExample" 
+	    parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity"
+	   	resultType="Long"	    >
+	    SELECT 
+	    COUNT(ID) FROM T_BSE_DATA_DICTIONARY_VALUE TDV
+	    <where>
+			<include refid="select_after_where"></include>
+		</where>
+	</select>
+
+	<select id="queryLastVersionNo" resultType="long">
+	    SELECT MAX(VERSION_NO) FROM T_BSE_DATA_DICTIONARY_VALUE
+	</select>
+	<select id="queryAppLastVersionNo" resultType="long">
+	    SELECT MAX(VERSION_NO) FROM T_BSE_DATA_DICTIONARY_VALUE TB
+	    WHERE TB.IS_APP_USE='Y'
+	</select>
+	<!-- 用于数据字典缓存的加载 -->
+	<resultMap id="dataDictionaryAndValueResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryEntity">
+		<result property="termsCode" column="DIC_TERMS_CODE" jdbcType="VARCHAR" />
+		<collection property="dataDictionaryValueEntityList"
+			column="DIC_TERMS_CODE"
+			ofType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.DataDictionaryValueEntity">
+			<result property="id" column="DIC_ID" jdbcType="VARCHAR" />
+			<result property="termsCode" column="DIC_TERMS_CODE" jdbcType="VARCHAR" />
+			<result property="valueSeq" column="DIC_VALUE_SEQ" jdbcType="VARCHAR" />
+			<result property="valueName" column="DIC_VALUE_NAME" jdbcType="VARCHAR" />
+			<result property="valueCode" column="DIC_VALUE_CODE" jdbcType="VARCHAR" />
+			<result property="language" column="DIC_LANGUAGE" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="query_dataDictionaryAndValue_param">
+		DIC.ID AS DIC_ID,
+		DIC.TERMS_CODE AS DIC_TERMS_CODE,
+		DIC.VALUE_SEQ AS DIC_VALUE_SEQ,
+		DIC.VALUE_NAME AS DIC_VALUE_NAME,
+		DIC.VALUE_CODE AS DIC_VALUE_CODE,
+		DIC.LANGUAGE AS DIC_LANGUAGE,
+		DIC.NOTES AS DIC_NOTES,
+		DIC.ACTIVE AS DIC_ACTIVE,
+		DIC.VERSION_NO AS DIC_VERSION_NO
+	</sql>
+	
+	<!-- 查询所有 数据字典键-值信息 -->
+	<select id="queryDataForCache"
+		parameterType="string"
+		resultMap="dataDictionaryAndValueResultMap">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="query_dataDictionaryAndValue_param" />
+		<![CDATA[
+			FROM T_BSE_DATA_DICTIONARY_VALUE DIC
+		]]>
+		<where>
+			DIC.ACTIVE = 'Y'
+		</where>
+			ORDER BY DIC.VALUE_SEQ
+	</select>
+	<select id="queryAppDataForCache"
+		parameterType="string"
+		resultMap="dadicvalenResultMap">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="select_before_param" />
+		<![CDATA[
+			FROM T_BSE_DATA_DICTIONARY_VALUE TDV
+  			LEFT JOIN T_BSE_DATA_DICTIONARY TD
+   			 ON TDV.TERMS_CODE = TD.TERMS_CODE
+		]]>
+		<where>
+			TDV.ACTIVE = 'Y'
+			AND TDV.IS_APP_USE = 'Y'
+		</where>
+			ORDER BY TDV.VALUE_SEQ
+	</select>
+	
+	<select id="queryDataDictionaryValue" resultType="String">
+	    SELECT V.VALUE_NAME FROM T_BSE_DATA_DICTIONARY_VALUE V WHERE V.ACTIVE = 'Y' 
+	    AND  V.TERMS_CODE = #{termsCode,jdbcType=VARCHAR} AND VALUE_CODE = #{valueCode,jdbcType=VARCHAR}
+	</select>
+</mapper>

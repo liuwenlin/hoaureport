@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.StationAgingInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    <id column="STATION_AGING_ID" jdbcType="DECIMAL" property="stationAgingId" />
+    <result column="OPERATING_UNIT_CODE" jdbcType="VARCHAR" property="operatingUnitCode" />
+    <result column="THE_STATION_SHORTNAME" jdbcType="VARCHAR" property="shortName" />
+    <result column="THE_AREA" jdbcType="VARCHAR" property="theArea" />
+    <result column="THE_BUSINESS_DEPARTMENT" jdbcType="VARCHAR" property="theBusinessDepartmemt" />
+    <result column="ACTIVE" jdbcType="CHAR" property="active" />
+    <result column="EFFECTED_TIME" jdbcType="DATE" property="effectedTime" />
+    <result column="INVALID_TIME" jdbcType="DATE" property="invalidTime" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="CREATE_USER_CODE" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="MODIFY_TIME" jdbcType="DATE" property="modifyTime" />
+    <result column="MODIFY_USER_CODE" jdbcType="VARCHAR" property="modifyUserCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    STATION_AGING_ID, OPERATING_UNIT_CODE, THE_STATION_SHORTNAME, THE_AREA, THE_BUSINESS_DEPARTMENT, 
+    ACTIVE, EFFECTED_TIME, INVALID_TIME, CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, 
+    MODIFY_USER_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_STATIONS_AGING
+    where STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPORT_STATIONS_AGING
+    where STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    insert into REPORT_STATIONS_AGING (STATION_AGING_ID, OPERATING_UNIT_CODE, 
+      THE_STATION_SHORTNAME, THE_AREA, THE_BUSINESS_DEPARTMENT, 
+      ACTIVE, EFFECTED_TIME, INVALID_TIME, 
+      CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, 
+      MODIFY_USER_CODE)
+    values (SEQ_STATION_AGING_ID.Nextval, #{operatingUnitCode,jdbcType=VARCHAR}, 
+      #{shortName,jdbcType=VARCHAR}, #{theArea,jdbcType=VARCHAR}, #{theBusinessDepartmemt,jdbcType=VARCHAR}, 
+      #{active,jdbcType=CHAR}, #{effectedTime,jdbcType=DATE}, #{invalidTime,jdbcType=DATE}, 
+      #{createTime,jdbcType=DATE}, #{createUserCode,jdbcType=VARCHAR}, #{modifyTime,jdbcType=DATE}, 
+      #{modifyUserCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    insert into REPORT_STATIONS_AGING
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        STATION_AGING_ID,
+      <if test="operatingUnitCode != null">
+        OPERATING_UNIT_CODE,
+      </if>
+      <if test="shortName != null">
+        THE_STATION_SHORTNAME,
+      </if>
+      <if test="theArea != null">
+        THE_AREA,
+      </if>
+      <if test="theBusinessDepartmemt != null">
+        THE_BUSINESS_DEPARTMENT,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME,
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        SEQ_STATION_AGING_ID.Nextval,
+      <if test="operatingUnitCode != null">
+        #{operatingUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="theArea != null">
+        #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theBusinessDepartmemt != null">
+        #{theBusinessDepartmemt,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        #{effectedTime,jdbcType=DATE},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=DATE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=DATE},
+      </if>
+      <if test="modifyUserCode != null">
+        #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    update REPORT_STATIONS_AGING
+    <set>
+      <if test="operatingUnitCode != null">
+        OPERATING_UNIT_CODE = #{operatingUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        THE_STATION_SHORTNAME = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="theArea != null">
+        THE_AREA = #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theBusinessDepartmemt != null">
+        THE_BUSINESS_DEPARTMENT = #{theBusinessDepartmemt,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME = #{effectedTime,jdbcType=DATE},
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME = #{invalidTime,jdbcType=DATE},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=DATE},
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    update REPORT_STATIONS_AGING
+    set OPERATING_UNIT_CODE = #{operatingUnitCode,jdbcType=VARCHAR},
+      THE_STATION_SHORTNAME = #{shortName,jdbcType=VARCHAR},
+      THE_AREA = #{theArea,jdbcType=VARCHAR},
+      THE_BUSINESS_DEPARTMENT = #{theBusinessDepartmemt,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=CHAR},
+      EFFECTED_TIME = #{effectedTime,jdbcType=DATE},
+      INVALID_TIME = #{invalidTime,jdbcType=DATE},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=DATE},
+      MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR}
+    where STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+  </update>
+  <!-- 根据查询条件查询场站(时效)信息 -->
+  <select id="queryStationAgingInfoByCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_STATIONS_AGING
+    <where>
+    	<if test="stationAgingId != null and stationAgingId != ''">
+    	and STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="operatingUnitCode != null and operatingUnitCode != ''">
+    	and OPERATING_UNIT_CODE = #{operatingUnitCode,jdbcType=VARCHAR}
+    	</if>
+    	<if test="shortName != null and shortName != ''">
+    	and THE_STATION_SHORTNAME = #{shortName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theBusinessDepartmemt != null and theBusinessDepartmemt != ''">
+    	and THE_BUSINESS_DEPARTMENT = #{theBusinessDepartmemt,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+<!-- 查询场站(时效)总的记录条数 -->  
+  <select id="queryStationAgingCountByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.StationAgingInfo">
+    select count(*)
+    from REPORT_STATIONS_AGING
+    <where>
+    <if test="stationAgingId != null and stationAgingId != ''">
+    	and STATION_AGING_ID = #{stationAgingId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="operatingUnitCode != null and operatingUnitCode != ''">
+    	and OPERATING_UNIT_CODE = #{operatingUnitCode,jdbcType=VARCHAR}
+    	</if>
+    	<if test="shortName != null and shortName != ''">
+    	and THE_STATION_SHORTNAME = #{shortName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theBusinessDepartmemt != null and theBusinessDepartmemt != ''">
+    	and THE_BUSINESS_DEPARTMENT = #{theBusinessDepartmemt,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </select>
+</mapper>

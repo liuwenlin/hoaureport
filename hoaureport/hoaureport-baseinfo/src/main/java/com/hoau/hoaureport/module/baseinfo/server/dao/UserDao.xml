@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.UserDao">
+    <resultMap id="userResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="EMP_CODE" property="empCode" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
+		<result column="LAST_LOGIN" property="lastLogin" javaType="Date" jdbcType="TIMESTAMP" />
+		<result column="ACTIVE" property="active" jdbcType="CHAR" />
+		<result column="IS_EMP" property="isEmp" jdbcType="CHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="BEGIN_TIME" property="beginDate" jdbcType="DATE" />
+		<result column="END_TIME" property="endDate" jdbcType="DATE" />
+		<result column="CREATE_TIME" property="createDate" jdbcType="DATE" />
+		<result column="MODIFY_TIME" property="modifyDate" jdbcType="DATE" />
+		<result column="CREATE_USER_CODE" property="createUser" jdbcType="VARCHAR" />
+		<result column="MODIFY_USER_CODE" property="modifyUser" jdbcType="VARCHAR" />
+		<result column="VERSION_NO" property="versionNo" jdbcType="NUMERIC" />
+	</resultMap>
+	<sql id="user_ResultMap_Param">
+		U.ID, 
+		U.EMP_CODE, 
+		U.USER_NAME, 
+		U.PASSWORD, 
+		U.ORG_CODE,
+		U.EMP_NAME, 
+		U.LAST_LOGIN,
+		U.ACTIVE, 
+		U.IS_EMP,
+		U.TITLE,
+		U.BEGIN_TIME,
+		U.END_TIME, 
+		U.CREATE_TIME, 
+		U.MODIFY_TIME,
+		U.CREATE_USER_CODE, 
+		U.MODIFY_USER_CODE,
+		U.VERSION_NO
+	</sql>
+	<select id="queryUserByLoginName" parameterType="map" resultMap="userResultMap">
+	    SELECT 
+	    <include refid="user_ResultMap_Param"></include>
+	    FROM T_BSE_USER U
+	    WHERE USER_NAME = #{userName,jdbcType=VARCHAR} AND ACTIVE=#{active,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryUserNameByUserName" parameterType="String" resultType="int">
+	    SELECT COUNT(1)
+	    FROM T_BSE_USER 
+	    WHERE USER_NAME = #{userName,jdbcType=VARCHAR}
+	</select>
+	<select id="queryEmployeeInfoById" parameterType="String" resultMap="userResultMap">
+	    SELECT 
+	    U.ID, 
+		U.EMP_CODE, 
+		U.USER_NAME, 
+		U.PASSWORD, 
+		U.ORG_CODE,
+		F.NAME AS ORG_NAME,
+		U.EMP_NAME, 
+		U.LAST_LOGIN,
+		U.ACTIVE, 
+		U.IS_EMP,
+		U.TITLE,
+		U.BEGIN_TIME,
+		U.END_TIME, 
+		U.CREATE_TIME, 
+		U.MODIFY_TIME,
+		U.CREATE_USER_CODE, 
+		U.MODIFY_USER_CODE,
+		U.VERSION_NO
+	    FROM T_BSE_USER U
+	    LEFT JOIN T_BSE_FRANCHISE F ON U.ORG_CODE = F.CODE AND F.ACTIVE = 'Y'
+	    WHERE U.ID=#{id,jdbcType=VARCHAR} AND U.IS_EMP='N' AND U.ACTIVE='Y'
+	</select>
+	<update id="updateEmployeeById" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity">
+	    UPDATE  T_BSE_USER    
+	    SET 
+	    EMP_NAME=#{empName,jdbcType=VARCHAR},
+	    TITLE=#{title,jdbcType=VARCHAR},
+	    PASSWORD=#{password,jdbcType=VARCHAR},
+	    VERSION_NO=#{versionNo,jdbcType=NUMERIC},
+	    MODIFY_TIME=#{modifyDate,jdbcType=TIMESTAMP},
+	    MODIFY_USER_CODE=#{modifyUser,jdbcType=VARCHAR}
+	   WHERE ID=#{id,jdbcType=VARCHAR}
+	</update>
+	
+    <!-- 缓存加载用户信息方法 -->
+	<!-- ############################################################################################### -->
+	<resultMap id="userAssociationRoleidsOrgidsResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity">
+		<id property="id" column="USER_ENTITY_ID" />
+		<result property="userName" column="USER_ENTITY_USER_NAME" />
+		<result property="password" column="USER_ENTITY_PASSWORD" />
+		<result property="empCode" column="USER_ENTITY_EMP_CODE" />
+		<result property="empName" column="USER_ENTITY_EMP_NAME" />
+		<result property="lastLogin" column="USER_ENTITY_LAST_LOGIN" javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="title" column="USER_ENTITY_TITLE" />
+		<result property="isEmp" column="USER_ENTITY_IS_EMP" />
+		<result property="orgCode" column="USER_ENTITY_ORG_CODE" />
+		<result property="active" column="USER_ENTITY_ACTIVE" />
+		<result property="beginDate" column="USER_ENTITY_BEGIN_TIME" />
+		<result property="endDate" column="USER_ENTITY_END_TIME" />
+		<result property="createUser" column="USER_ENTITY_CREATE_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="createDate" column="USER_ENTITY_CREATE_TIME" javaType="Date" jdbcType="TIMESTAMP" />
+		<result property="modifyUser" column="USER_ENTITY_MODIFY_USER_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="modifyDate" column="USER_ENTITY_MODIFY_TIME" javaType="Date" jdbcType="TIMESTAMP" />
+		<collection property="roleids" column="USERROLEORG_ROLE_CODE" ofType="String">
+			<result column="USERROLEORG_ROLE_CODE" />
+		</collection>
+		<collection property="orgids" column="USERROLEORG_ORG_CODE" ofType="String">
+			<result column="USERROLEORG_ORG_CODE" />
+		</collection>
+	</resultMap>
+	<sql id="user_association_param">
+		USER_ENTITY.ID AS USER_ENTITY_ID,
+		USER_ENTITY.USER_NAME AS USER_ENTITY_USER_NAME,
+		USER_ENTITY.EMP_NAME AS USER_ENTITY_EMP_NAME,
+		USER_ENTITY.EMP_CODE AS USER_ENTITY_EMP_CODE,
+		USER_ENTITY.PASSWORD AS USER_ENTITY_PASSWORD,
+		USER_ENTITY.LAST_LOGIN AS USER_ENTITY_LAST_LOGIN,
+		USER_ENTITY.TITLE AS USER_ENTITY_TITLE,
+		USER_ENTITY.IS_EMP AS USER_ENTITY_IS_EMP,
+		USER_ENTITY.ORG_CODE AS USER_ENTITY_ORG_CODE,
+		USER_ENTITY.ACTIVE AS USER_ENTITY_ACTIVE,
+		USER_ENTITY.BEGIN_TIME AS USER_ENTITY_BEGIN_TIME,
+		USER_ENTITY.END_TIME AS USER_ENTITY_END_TIME,
+		USER_ENTITY.CREATE_USER_CODE AS USER_ENTITY_CREATE_USER_CODE,
+		USER_ENTITY.CREATE_TIME AS USER_ENTITY_CREATE_TIME,
+		USER_ENTITY.MODIFY_USER_CODE AS USER_ENTITY_MODIFY_USER_CODE,
+		USER_ENTITY.MODIFY_TIME AS USER_ENTITY_MODIFY_TIME
+	</sql>
+	<sql id="user_roleId_orgId_sql">
+		<![CDATA[
+			SELECT
+				USERROLEORG.ROLE_CODE	AS USERROLEORG_ROLE_CODE,
+				USERROLEORG.ORG_CODE	AS USERROLEORG_ORG_CODE,
+		]]>
+		<include refid="user_association_param" />
+		<![CDATA[
+		  	FROM T_BSE_USER USER_ENTITY,
+		  		T_BSE_USER_ORG_ROLE USERROLEORG
+		    WHERE USER_ENTITY.ACTIVE=#{userActive,jdbcType=CHAR}
+		    	AND USER_ENTITY.USER_NAME = USERROLEORG.USER_NAME
+		    	AND USERROLEORG.ACTIVE=#{userRoleOrgActive,jdbcType=CHAR}
+	    ]]>
+	</sql>
+	<select id="queryUserWithRoleIdAndOrgIdByUserName" parameterType="map"
+		resultMap="userAssociationRoleidsOrgidsResultMap">
+		<include refid="user_roleId_orgId_sql" />
+		<![CDATA[
+		    AND USER_ENTITY.USER_NAME=#{userName,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+	
+	<resultMap id="userOrgResCodeUrisResultMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgResCodeUrisEntity">
+		<result property="resCode" column="RESOURCE_CODE" javaType="String" jdbcType="VARCHAR"/>
+		<result property="resUri" column="RESOURCE_URI" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="queryOrgResCodeUrisByCode" parameterType="map"
+		resultMap="userOrgResCodeUrisResultMap">
+		<![CDATA[
+			SELECT 	RR.RESOURCES_CODE AS RESOURCE_CODE,
+					R.ENTRY_URI AS RESOURCE_URI
+		    FROM T_BSE_USER_ORG_ROLE UOR, T_BSE_ROLE_RESOURCES RR, T_BSE_RESOURCES R
+		    WHERE UOR.ROLE_CODE=RR.ROLE_CODE
+		    	AND RR.RESOURCES_CODE=R.CODE
+		        AND UOR.USER_NAME=#{userCode,jdbcType=VARCHAR}
+		        AND UOR.ORG_CODE=#{deptCode,jdbcType=VARCHAR}
+		        AND UOR.ACTIVE=#{orgRoleActive,jdbcType=VARCHAR}
+		        AND RR.ACTIVE=#{roleResActive,jdbcType=VARCHAR}
+		        AND R.ACTIVE=#{resActive,jdbcType=CHAR}
+		]]>
+	</select>
+	
+	<select id="queryUserNameByRoleCode" parameterType="map" resultType="string">
+ 			SELECT USER_ENTITY.USER_NAME AS USER_NAME
+		  	FROM T_BSE_USER USER_ENTITY,
+		  		T_BSE_USER_ORG_ROLE USERROLEORG
+		    	WHERE
+		    	USER_ENTITY.USER_NAME = USERROLEORG.USER_NAME 
+		    	AND USER_ENTITY.ACTIVE=#{userActive,jdbcType=CHAR}
+		    	AND USERROLEORG.ACTIVE=#{userRoleOrgActive,jdbcType=CHAR}
+		    	AND USERROLEORG.ROLE_CODE=#{roleCode,jdbcType=CHAR}
+	</select>
+	
+	<select id="queryUserAndOrgCodesByRoleCodeForCache" resultType="string" parameterType="map">
+	    SELECT USERROLEORG.USER_NAME||'#'||USERROLEORG.ORG_CODE AS ID
+		  	FROM T_BSE_USER_ORG_ROLE USERROLEORG
+		    WHERE
+		    	USERROLEORG.ACTIVE=#{userRoleOrgActive,jdbcType=CHAR}
+		    	AND USERROLEORG.ROLE_CODE=#{roleCode,jdbcType=CHAR}
+	</select>
+	
+	<!-- 以下为web界面使用sql -->
+	<!-- 模糊查询参数 -->
+	<sql id="query_condition_param">
+	    <if test="userName != null and userName != ''">
+	        	AND U.USER_NAME like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%') 
+	    </if>
+	    <if test="empName != null and empName != ''">
+	        	AND U.EMP_NAME like CONCAT(CONCAT('%', #{empName,jdbcType=VARCHAR}), '%') 
+	    </if>
+	    <if test="empCode != null and empCode != ''">
+	        	AND U.EMP_CODE like CONCAT(CONCAT('%', #{empCode,jdbcType=VARCHAR}), '%') 
+	    </if>
+	     <if test="active != null and active != ''">
+	        	AND U.ACTIVE =  #{active,jdbcType=VARCHAR}
+	    </if>
+	    <if test="isEmp != null and isEmp != ''">
+	        	AND U.IS_EMP =  #{isEmp,jdbcType=VARCHAR}
+	    </if>
+	    <if test="orgCode != null and orgCode != ''">
+	        	AND U.ORG_CODE =  #{orgCode,jdbcType=VARCHAR}
+	    </if>
+	</sql>
+	<select id="queryUserByEntity" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity" resultMap="userResultMap">
+	    SELECT /**bse 根据条件模糊匹配查询用户信息 **/
+	    E.DEPT_NAME,
+	    <include refid="user_ResultMap_Param"></include>
+	    FROM T_BSE_USER U 
+	    LEFT JOIN T_BSE_EMPLOYEE E ON U.USER_NAME = E.ACCOUNT AND E.ACTIVE = 'Y'
+	    <where>
+	        <include refid="query_condition_param"></include>
+	    </where>
+	    ORDER BY U.CREATE_TIME DESC
+	</select>
+	<select id="countUserByEntity" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity" resultType="long">
+	    SELECT /**bse 根据条件模糊匹配统计用户信息 **/
+	    COUNT(1) 
+	    FROM T_BSE_USER U 
+	    LEFT JOIN T_BSE_EMPLOYEE E ON U.USER_NAME = E.ACCOUNT AND E.ACTIVE = 'Y'
+	    <where>
+	        <include refid="query_condition_param"></include>
+	    </where>
+	    ORDER BY U.CREATE_TIME DESC
+	</select>
+	<insert id="addUser" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity">
+	    INSERT INTO T_BSE_USER(/**bse 新增用户信息**/
+	    ID,
+	    ORG_CODE,
+	    USER_NAME,
+	    PASSWORD,
+	    EMP_CODE,
+	    EMP_NAME,	    
+	    IS_EMP,
+	    TITLE,
+	    LAST_LOGIN,
+	    BEGIN_TIME,
+	    END_TIME,
+	    ACTIVE,
+	    VERSION_NO,
+	    CREATE_TIME,
+	    CREATE_USER_CODE,
+	    MODIFY_TIME,
+	    MODIFY_USER_CODE
+	    )VALUES(
+	    #{id,jdbcType=VARCHAR},
+	    #{orgCode,jdbcType=VARCHAR},
+	    #{userName,jdbcType=VARCHAR},
+	    #{password,jdbcType=VARCHAR},
+	    #{empCode,jdbcType=VARCHAR},
+	    #{empName,jdbcType=VARCHAR},	    
+	    #{isEmp,jdbcType=VARCHAR},
+	    #{title,jdbcType=VARCHAR},
+	    #{lastLogin,jdbcType=TIMESTAMP},
+	    #{beginDate,jdbcType=TIMESTAMP},
+	    #{endDate,jdbcType=TIMESTAMP},
+	    #{active,jdbcType=CHAR},
+	    #{versionNo,jdbcType=NUMERIC},
+	    #{createDate,jdbcType=TIMESTAMP},
+	    #{createUser,jdbcType=VARCHAR},
+	    #{modifyDate,jdbcType=TIMESTAMP},
+	    #{modifyUser,jdbcType=VARCHAR}
+	    )
+	</insert>
+	<update id="deleteUserByUserName" parameterType="map">
+	    UPDATE /**bse 根据用户名删除用户信息**/ T_BSE_USER
+	    SET ACTIVE = #{active,jdbcType=CHAR},
+	    	VERSION_NO = #{versionNo,jdbcType=NUMERIC},
+	    	MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP},
+	    	MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+	    WHERE USER_NAME = #{userName,jdbcType=VARCHAR}
+	    AND ACTIVE = #{conditionAction,jdbcType=CHAR}
+	</update>
+	
+	<select id="queryFanchiseUserByEntity" resultMap="userResultMap" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity">
+	    SELECT /**bse 根据条件模糊匹配查询用户信息 **/
+	    O.NAME AS ORG_NAME,
+	    <include refid="user_ResultMap_Param"></include>
+	    FROM T_BSE_USER U
+	    INNER JOIN (
+	    	SELECT 
+		    CODE,NAME
+		    FROM T_BSE_ORG F 
+		           START WITH F.CODE = #{orgName,jdbcType=VARCHAR}
+				CONNECT BY PRIOR F.CODE = F.PARENT_CODE
+	    ) O ON U.ORG_CODE = O.CODE
+	    <where>
+	        <include refid="query_condition_param"></include>
+	    </where>
+	    ORDER BY U.CREATE_TIME DESC
+	</select>
+	
+	<select id="countFanchiseUserByEntity" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserEntity" resultType="long">
+	    SELECT /**bse 根据条件模糊匹配统计用户信息 **/
+	    COUNT(1) 
+	    FROM T_BSE_USER U
+	    INNER JOIN (
+	    	SELECT 
+		    CODE,NAME
+		    FROM T_BSE_ORG F 
+		           START WITH F.CODE = #{orgName,jdbcType=VARCHAR}
+				CONNECT BY PRIOR F.CODE = F.PARENT_CODE
+	    ) O ON U.ORG_CODE = O.CODE
+	    <where>
+	        <include refid="query_condition_param"></include>
+	    </where>
+	    ORDER BY U.CREATE_TIME DESC
+	</select>
+</mapper>

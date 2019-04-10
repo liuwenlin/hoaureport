@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.TacticNonCarloadTvMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    <result column="BUSINESS_UNIT" jdbcType="VARCHAR" property="businessUnit" />
+    <result column="REGION" jdbcType="VARCHAR" property="region" />
+    <result column="TIMES" jdbcType="VARCHAR" property="times" />
+    <result column="TARGET_VALUE" jdbcType="DECIMAL" property="targetValue" />
+    <result column="MODIFY_TIME" jdbcType="VARCHAR" property="modifyTime" />
+    <result column="MODIFY_USER" jdbcType="VARCHAR" property="modifyUser" />
+  </resultMap>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    insert into TACTIC_NON_CARLOAD_TV (BUSINESS_UNIT, REGION, TIMES, 
+      TARGET_VALUE, MODIFY_TIME, MODIFY_USER
+      )
+    values (#{businessUnit,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{times,jdbcType=VARCHAR}, 
+      #{targetValue,jdbcType=DECIMAL}, #{modifyTime,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    insert into TACTIC_NON_CARLOAD_TV
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="businessUnit != null">
+        BUSINESS_UNIT,
+      </if>
+      <if test="region != null">
+        REGION,
+      </if>
+      <if test="times != null and times != '' ">
+        TIMES,
+      </if>
+      <if test="targetValue != null">
+        TARGET_VALUE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUser != null">
+        MODIFY_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="businessUnit != null">
+        #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null and times != '' ">
+        #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="targetValue != null">
+        #{targetValue,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+   <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    update TACTIC_NON_CARLOAD_TV
+    <set>
+      <if test="businessUnit != null">
+        BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        REGION = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null and times != '' ">
+        TIMES = #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="targetValue != null">
+        TARGET_VALUE = #{targetValue,jdbcType=VARCHAR},
+      </if>
+       <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="modifyUser != null">
+        MODIFY_USER = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR} AND REGION = #{region,jdbcType=VARCHAR} AND TIMES = #{times,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    select BUSINESS_UNIT,REGION,TIMES,TARGET_VALUE,MODIFY_TIME,MODIFY_USER
+    from TACTIC_NON_CARLOAD_TV
+    <where>
+    <if test="businessUnit != null">
+        BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR}
+      </if> 
+      <if test="region != null">
+       and REGION = #{region,jdbcType=VARCHAR}
+      </if>
+      <if test="times != null and times != '' ">
+       and TIMES  LIKE CONCAT(CONCAT('%', #{times,jdbcType=VARCHAR} ), '%')   
+      </if>
+      <if test="targetValue != null">
+       and TARGET_VALUE = #{targetValue,jdbcType=VARCHAR}
+      </if>
+       <if test="modifyTime != null">
+       and MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+      </if>
+       <if test="modifyUser != null">
+       and MODIFY_USER = #{modifyUser,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by MODIFY_TIME desc
+  </select>
+  <select id="queryCountByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.TacticNonCarloadTv">
+    select count(*)
+    from TACTIC_NON_CARLOAD_TV
+    <where>
+      <if test="businessUnit != null">
+        BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="region != null">
+       and REGION = #{region,jdbcType=VARCHAR}
+      </if>
+      <if test="times != null and times != '' ">
+       and TIMES = #{times,jdbcType=VARCHAR}
+      </if>
+      <if test="targetValue != null">
+       and TARGET_VALUE = #{targetValue,jdbcType=VARCHAR}
+      </if>
+       <if test="modifyTime != null">
+       and MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+      </if>
+       <if test="modifyUser != null">
+       and MODIFY_USER = #{modifyUser,jdbcType=VARCHAR}
+      </if>
+    </where>
+   </select>
+</mapper>

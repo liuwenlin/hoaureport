@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.isdc.ro/wro wro.xsd">
+  	<group name="dataDictionary">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/dataDictionary.js</js>
+  	</group>
+  	<group name="role">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/role.js</js>
+  	</group>
+  	<group name="user">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	</group>
+  	<group name="commonSelector">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js> 
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/print.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/datetime/DateTimePicker.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/datetime/DateTime.js</js>
+  	</group>
+
+  	<group name="resource">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/resource.js</js>
+  	</group>
+
+   <group name="orgAdministrative">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/orgAdministrative.js</js>
+  	</group>  
+
+ 	<group name="userOrgDataAut">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+   	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/userOrgDataAut.js</js> 
+ </group>
+ <group name="employee">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/baseinfo/server/META-INF/scripts/employee.js</js>
+ </group>
+  <group name="processRegistra">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+ </group>
+   <group name="abnormalProject">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/commonSelector.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+ </group>
+</groups>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 操作日志实体的MyBatis映射文件 -->
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.QuerySqlDaoMapper"><!-- 最好是实体的地址 -->
+	<!-- 定义实体与数据库的映射结果集 -->
+	<resultMap type="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql"
+		id="querySqlResultMap">
+		<id property="id" column="ID" />
+		<result property="number" column="NUM" />
+		<result column="SQL1" property="sqlBlob" jdbcType="BLOB" />
+		<result property="tableHead" column="TABLEHEAD" />
+		<result property="param" column="PARAM" />
+		<result property="remark" column="REMARK" />
+		<result property="createUser" column="CREATOR" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="modifyUser" column="MODIFIER" />
+		<result property="modifyDate" column="MODIFY_DATE" />
+		<result property="queryRule" column="QUERY_RULE" />
+		
+		<result property="exitType" column="EXIT_TYPE" />
+		<result property="originalHead" column="ORIGINAL_HEAD" />
+		<result column="ORIGINAL_SQL" property="originalSqlBlob" jdbcType="BLOB" />
+	
+		
+	</resultMap>
+	<!-- 查询所有的自定义查询SQL -->
+	<select id="selectPageQuerySql" resultMap="querySqlResultMap"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+		<![CDATA[
+			SELECT T.ID,
+			T.NUM,
+			
+			T.SQL1 as SQL1,
+			T.TABLEHEAD,
+			T.PARAM,
+			T.REMARK,
+			T.CREATOR,
+			T.CREATE_DATE,
+			T.MODIFIER,
+			T.MODIFY_DATE,
+			T.QUERY_RULE,
+			
+			T.EXIT_TYPE,
+			T.ORIGINAL_HEAD,
+			
+			T.ORIGINAL_SQL as ORIGINAL_SQL
+			
+			FROM t_report_querysql T
+		]]>
+		<where>
+			T.ACTIVE = 'Y'
+			<if test="remark!=null and remark!=''">
+				AND instr(T.REMARK ,#{remark,jdbcType=VARCHAR})>0
+			</if>
+		</where>
+	</select>
+	<!-- 分页查询所有自定义查询SQL总数 -->
+	<select id="totalQuerySqlCount" resultType="long"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+		<![CDATA[
+			SELECT 
+			count(T.ID)
+			FROM t_report_querysql T
+		]]>
+		<where>
+			T.ACTIVE = 'Y'
+			<if test="remark!=null and remark!=''">
+				AND instr(T.REMARK ,#{remark,jdbcType=VARCHAR})>0
+			</if>
+		</where>
+	</select>
+	<!-- 修改自定义查询SQL -->
+	<update id="updateQuerySql" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+		UPDATE t_report_querysql
+		<set>
+			
+			SQL1 = #{sqlBlob,jdbcType=BLOB},
+			TABLEHEAD = #{tableHead},
+			PARAM = #{param},
+			REMARK = #{remark},
+			QUERY_RULE = #{queryRule},
+			MODIFIER = #{modifyUser},
+			MODIFY_DATE = sysdate,
+			
+			EXIT_TYPE = #{exitType},
+			ORIGINAL_HEAD = #{originalHead},
+			
+			ORIGINAL_SQL = #{originalSqlBlob,jdbcType=BLOB}
+		</set>
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量删除自定义查询SQL -->
+	<delete id="deleteQuerySql" parameterType="java.util.List">
+		update t_report_querysql set active = 'N'
+		WHERE ID IN
+		<foreach collection="list" open="(" close=")" item="item"
+			separator="," index="index">
+			#{item}
+		</foreach>
+	</delete>
+	<!-- 新增自定义查询SQL -->
+	<insert id="insertQuerySql" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+		<![CDATA[
+			insert into t_report_querysql(
+				ID,
+				NUM,
+				SQL1,
+				TABLEHEAD,
+				PARAM,
+				REMARK,
+				ACTIVE,
+				CREATOR,
+				CREATE_DATE,
+				MODIFIER,				     	
+		   		MODIFY_DATE,
+		   		QUERY_RULE,
+		   		
+		   		EXIT_TYPE, 
+				ORIGINAL_HEAD, 
+				ORIGINAL_SQL 
+				
+			) values (
+		]]>
+		#{id},
+		#{number},
+		<choose>
+			<when test="sqlBlob != null">
+				
+				#{sqlBlob,jdbcType=BLOB},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="tableHead != null">
+				#{tableHead,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+
+		<choose>
+			<when test="param != null">
+				#{param,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				0,
+			</otherwise>
+		</choose>
+		'Y',
+		<choose>
+			<when test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		sysdate,
+		<choose>
+			<when test="modifyUser != null">
+				#{modifyUser,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		sysdate,
+		<choose>
+			<when test="queryRule != null">
+				#{queryRule,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test="exitType != null">
+				#{exitType,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				0,
+			</otherwise>
+		</choose>	
+		<choose>
+			<when test="originalHead != null">
+				#{originalHead,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>	
+		<choose>
+			<when test="originalSqlBlob != null">
+			    #{originalSqlBlob,jdbcType=BLOB}
+				
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
+					
+		<![CDATA[
+			)
+		]]>
+	</insert>
+
+	<!-- SQL角色信息查询 -->
+	<select id="querySqlRoleList" parameterType="java.lang.String"
+		resultType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity">
+		select r.roleid as code
+		from T_REPORT_SQLROLE r
+		where r.active = 'Y' and r.sqlid = #{sqlCode}
+	</select>
+
+	<!-- 添加Sql所属角色信息 -->
+	<insert id="addSqlRoles" parameterType="java.util.List">
+		INSERT INTO T_REPORT_SQLROLE(ID,SQLID,ROLEID,ACTIVE,CREATE_TIME,CREATE_USER_CODE) values
+		(#{id,jdbcType=VARCHAR},#{sqlId,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR},'Y',sysdate,#{createUser,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 删除SQL所属的BAM角色信息 -->
+	<delete id="deleteSqlRoles" parameterType="map">
+		update T_REPORT_SQLROLE set active = 'N', MODIFY_TIME = sysdate, MODIFY_USER_CODE = #{createUser} WHERE active = 'Y' and sqlid IN
+		( select tq.id from
+		t_report_querysql tq where tq.id in
+		<foreach collection="sqlNos" open="(" close=")" item="item"
+			separator="," index="index">
+			#{item}
+		</foreach>
+		)
+	</delete>
+
+	<!-- 删除SQL所属的BAM角色信息 -->
+	<delete id="deleteSqlRoleById" parameterType="map">
+		update T_REPORT_SQLROLE set active = 'N', MODIFY_TIME = sysdate, MODIFY_USER_CODE = #{createUser} WHERE active = 'Y' and sqlid = #{sqlId}
+	</delete>
+
+
+
+	<!-- 根据ID查询自定义查询SQL -->
+	<select id="querySqlInfo" resultMap="querySqlResultMap"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+		<![CDATA[
+			SELECT T.ID,
+			T.NUM,
+			
+			T.SQL1 as SQL1,
+			T.TABLEHEAD,
+			T.PARAM,
+			T.REMARK,
+			T.CREATOR,
+			T.CREATE_DATE,
+			T.MODIFIER,
+			T.MODIFY_DATE,
+			T.QUERY_RULE,
+			T.EXIT_TYPE,
+			T.ORIGINAL_HEAD,
+			
+			T.ORIGINAL_SQL as ORIGINAL_SQL
+			
+			FROM t_report_querysql T
+		]]>
+		where
+			T.ACTIVE = 'Y'
+		and T.ID =#{id,jdbcType=VARCHAR}
+		
+	</select>
+
+</mapper>

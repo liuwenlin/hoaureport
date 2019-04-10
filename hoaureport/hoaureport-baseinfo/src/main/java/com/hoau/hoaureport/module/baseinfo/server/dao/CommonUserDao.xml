@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.CommonUserDao">
+    	<resultMap
+			type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.CommonUserEntity"
+			id="commonUserResultMap">
+			<id column="ID" property="id" jdbcType="VARCHAR" />
+			<id column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+			<id column="EMP_CODE" property="empCode" jdbcType="VARCHAR" />
+			<id column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
+			<id column="TITLE" property="title" jdbcType="VARCHAR" />
+			<id column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+			<id column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+        	<id column="ACTIVE" property="active" jdbcType="CHAR" />
+        	<id column="IS_EMP" property="isEmp" jdbcType="CHAR" />
+        </resultMap>
+        
+    <sql id="query_simple_param">
+		U.ID AS ID,
+		U.USER_NAME AS USER_NAME,
+		U.EMP_CODE AS EMP_CODE,
+		U.EMP_NAME AS EMP_NAME,
+		U.TITLE AS TITLE,
+		U.BEGIN_TIME AS BEGIN_TIME,
+		U.END_TIME AS END_TIME,
+		U.ACTIVE AS ACTIVE,
+		U.IS_EMP AS IS_EMP
+		
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="queryCondition">
+		<where>
+			<if test="queryParam != null and queryParam != ''">
+				AND
+				(
+				U.USER_NAME like CONCAT(CONCAT('%',
+				#{queryParam,jdbcType=VARCHAR}),'%')
+				OR
+				U.EMP_NAME like
+				CONCAT(CONCAT('%', #{queryParam,jdbcType=VARCHAR}),'%')
+				)
+			</if>
+			<if test="userName != null and userName != ''">
+				AND U.USER_NAME like CONCAT(CONCAT('%',
+				#{userName,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="empCode != null and empCode != ''">
+				AND U.EMP_CODE like CONCAT(CONCAT('%',
+				#{empCode,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="empName != null and empName != ''">
+				AND U.EMP_NAME like CONCAT(CONCAT('%',
+				#{empName,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="title != null and title != ''">
+				AND U.TITLE like CONCAT(CONCAT('%',
+				#{title,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="isEmp != null and isEmp != ''">
+				AND U.IS_EMP = #{isEmp,jdbcType=CHAR}
+			</if>
+			<if test="active != null and active != ''">
+				AND U.ACTIVE = #{active,jdbcType=CHAR}
+			</if>
+			<choose>
+				<when test="isEnable == 'Y'.toString() ">
+					<![CDATA[	AND  sysdate > BEGIN_TIME
+					AND  sysdate < END_TIME ]]>
+				<!--  	AND  sysdate < to_date(END_TIME,'yyyy-mm-dd hh24:mi:ss') -->
+				</when>
+			</choose>
+			
+		</where>
+
+	</sql>
+	
+		<!-- 根据参数查询用户信息 -->
+	<select id="queryUserByParam" resultMap="commonUserResultMap"
+		parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserSearchConditionEntity">
+		SELECT
+		<include refid="query_simple_param"></include>
+		FROM T_BSE_USER U
+		<include refid="queryCondition"></include>
+		ORDER BY U.EMP_NAME
+	</select>
+	<!-- 根据参数统计用户信息 -->
+	<select id="countUserByParam" resultType="Long" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserSearchConditionEntity">
+	    SELECT
+		COUNT(1)
+		FROM T_BSE_USER U
+		<include refid="queryCondition"></include>
+		ORDER BY U.EMP_NAME
+	</select>
+</mapper>

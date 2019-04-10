@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>hoaureport</artifactId>
+		<groupId>com.hoau.hoaureport</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>hoaureport-web-login</artifactId>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<moduleContext>login</moduleContext>
+		<casclient.version>3.4.1</casclient.version>
+	</properties>
+	<dependencies>
+	
+
+        <dependency>
+              <groupId>org.jasig.cas.client</groupId>
+              <artifactId>cas-client-core</artifactId>
+              <version>${casclient.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>javax.servlet</groupId>
+                  <artifactId>servlet-api</artifactId>
+                </exclusion>
+              </exclusions>
+        </dependency>
+
+        <dependency>
+              <groupId>org.jasig.cas.client</groupId>
+              <artifactId>cas-client-integration-tomcat-common</artifactId>
+              <version>${casclient.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>com.hoau.hoaureport</groupId>
+			<artifactId>hoaureport-baseinfo-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hoau.hoaureport</groupId>
+			<artifactId>hoaureport-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+		<dependency>
+		    <groupId>commons-net</groupId>
+		    <artifactId>commons-net</artifactId>
+		    <version>3.5</version>
+		</dependency>
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

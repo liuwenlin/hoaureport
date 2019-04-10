@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.YiliuApiMapper">
+	
+	<insert id="batchInsertVehicleInfo" parameterType="java.util.List">
+		INSERT INTO YILIU_VEHICLES_INFO
+		SELECT SEQ_YILIU_VEHICLEINFO_ID.NEXTVAL ID, A.*, TRUNC(SYSDATE,'MI') RECORD_DATE
+		FROM(
+		<foreach collection="list" item="item" index="index" separator="UNION ALL">
+			(SELECT
+				#{item.vehicle,jdbcType=VARCHAR} VEHICLE,
+				#{item.vehicleID,jdbcType=VARCHAR} VEHICLEID,
+				#{item.gpsTime,jdbcType=DATE} GPSTIME,
+				#{item.speed,jdbcType=DOUBLE} SPEED,
+				#{item.odometer,jdbcType=DOUBLE} ODOMETER,
+				#{item.lat,jdbcType=DOUBLE} LAT,
+				#{item.lon,jdbcType=DOUBLE} LON,
+				#{item.direction,jdbcType=INTEGER} DIRECTION,
+				#{item.status,jdbcType=VARCHAR} STATUS,
+				#{item.placeName,jdbcType=VARCHAR} PLACENAME,
+				#{item.province,jdbcType=VARCHAR} PROVICE,
+				#{item.city,jdbcType=VARCHAR} CITY,
+				#{item.district,jdbcType=VARCHAR} DISTRICT,
+				#{item.roadName,jdbcType=VARCHAR} ROADNAME,
+				#{item.t1,jdbcType=DOUBLE} T1,
+				#{item.t2,jdbcType=DOUBLE} T2,
+				#{item.t3,jdbcType=DOUBLE} T3,
+				#{item.t4,jdbcType=DOUBLE} T4,
+				#{item.ht1,jdbcType=INTEGER} HT1,
+				#{item.ht2,jdbcType=INTEGER} HT2,
+				#{item.ht3,jdbcType=INTEGER} HT3,
+				#{item.ht4,jdbcType=INTEGER} HT4,
+				#{item.lat02,jdbcType=DOUBLE} LAT02,
+				#{item.lon02,jdbcType=DOUBLE} LON02,
+				#{item.lat,jdbcType=VARCHAR} AREANAME,
+				#{item.lat,jdbcType=VARCHAR} TIME1,
+				#{item.lat,jdbcType=VARCHAR} TIME2,
+				#{item.lat,jdbcType=VARCHAR} TIME3,
+				#{item.lat,jdbcType=VARCHAR} TIME4
+			FROM dual)
+
+		</foreach>
+		) A
+	</insert>
+
+	<select id="findAllVehicles" resultType="com.hoau.hoaureport.module.job.shared.domain.VehicleEntity">
+		SELECT V.VEHICLE AS vehicle FROM YILIU_VEHICLES_INFO V
+	</select>
+
+	<select id="findParamsByApiName" parameterType="java.lang.String" resultType="com.hoau.hoaureport.module.job.shared.domain.YiliuApiEntity">
+		SELECT A.PARAMS_NAME AS params_name, A.PARAMS_VALUE AS params_value
+		FROM API_PARAMS A
+		WHERE A.API_NAME = #{apiName}
+	</select>
+
+	<!--<resultMap id="paramsMap" type="java.util.HashMap">-->
+		<!--<result property="params_name" column="params_name" jdbcType="VARCHAR"/>-->
+		<!--<result property="params_value" column="params_value" jdbcType="VARCHAR"/>-->
+	<!--</resultMap>-->
+
+	<select id="findSignParamsByApiName" parameterType="java.lang.String" resultType="com.hoau.hoaureport.module.job.shared.domain.YiliuApiEntity">
+		SELECT A.PARAMS_NAME params_name
+		FROM API_PARAMS A
+		WHERE A.API_NAME = #{apiName} AND A.IS_SIGN_PARAMS = 1
+	</select>
+
+</mapper>

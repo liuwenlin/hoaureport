@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+/*     width: 600px; */
+/*     height: 257px; */
+    width:50%;
+    height:280px;
+    /*    background-color: aqua;*/
+}

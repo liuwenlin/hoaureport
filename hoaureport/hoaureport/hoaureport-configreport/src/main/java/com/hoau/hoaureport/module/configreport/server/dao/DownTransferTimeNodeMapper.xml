@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.DownTransferTimeNodeMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    <id column="DOWN_TRANSFER_TIME_NODE_ID" jdbcType="DECIMAL" property="uId" />
+    <result column="THE_AREA" jdbcType="VARCHAR" property="theArea" />
+    <result column="THE_ROAD_AREA" jdbcType="VARCHAR" property="theRoadArea" />
+    <result column="UP_OR_DOWN_TRANSFER" jdbcType="CHAR" property="upOrDownTransfer" />
+    <result column="IS_LINE_CROSSED" jdbcType="CHAR" property="isLineCrossed" />
+    <result column="DEPARTURE_DEPARTMENT" jdbcType="VARCHAR" property="departureDepartment" />
+    <result column="ARRIVAL_DEPARTMENT" jdbcType="VARCHAR" property="arrivalDepartment" />
+    <result column="TODAY_OR_NEXT_DAY" jdbcType="CHAR" property="todayOrNextDay" />
+    <result column="DISPATCH_TIME" jdbcType="TIMESTAMP" property="dispatchTime" />
+    <result column="INTRANSIT_MINUTES" jdbcType="VARCHAR" property="intransitMinutes" />
+    <result column="ARRIVAL_TIME" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="CROSSED_LINE" jdbcType="VARCHAR" property="crossedLine" />
+    <result column="KILOMETERS" jdbcType="DECIMAL" property="kilometers" />
+    <result column="CLASS_NUM" jdbcType="VARCHAR" property="classNum" />
+    <result column="ACTIVE" jdbcType="CHAR" property="active" />
+    <result column="EFFECTED_TIME" jdbcType="TIMESTAMP" property="effectedTime" />
+    <result column="INVALID_TIME" jdbcType="TIMESTAMP" property="invalidTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_CODE" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="MODIFY_USER_CODE" jdbcType="VARCHAR" property="modifyUserCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DOWN_TRANSFER_TIME_NODE_ID, THE_AREA, THE_ROAD_AREA, UP_OR_DOWN_TRANSFER, IS_LINE_CROSSED, 
+    DEPARTURE_DEPARTMENT, ARRIVAL_DEPARTMENT, TODAY_OR_NEXT_DAY, DISPATCH_TIME, INTRANSIT_MINUTES, 
+    ARRIVAL_TIME, CROSSED_LINE, KILOMETERS, CLASS_NUM, ACTIVE, EFFECTED_TIME, INVALID_TIME, 
+    CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, MODIFY_USER_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_DOWN_TRANSFER_TIME_NODE
+    where DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPORT_DOWN_TRANSFER_TIME_NODE
+    where DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    insert into REPORT_DOWN_TRANSFER_TIME_NODE (DOWN_TRANSFER_TIME_NODE_ID, THE_AREA, THE_ROAD_AREA, 
+      UP_OR_DOWN_TRANSFER, IS_LINE_CROSSED, DEPARTURE_DEPARTMENT, 
+      ARRIVAL_DEPARTMENT, TODAY_OR_NEXT_DAY, DISPATCH_TIME, 
+      INTRANSIT_MINUTES, ARRIVAL_TIME, CROSSED_LINE, 
+      KILOMETERS, CLASS_NUM, ACTIVE, 
+      EFFECTED_TIME, INVALID_TIME, CREATE_TIME, 
+      CREATE_USER_CODE, MODIFY_TIME, MODIFY_USER_CODE
+      )
+    values (SEQ_DOWN_TRANSFER_TIME_NODE_ID.Nextval, #{theArea,jdbcType=VARCHAR}, #{theRoadArea,jdbcType=VARCHAR}, 
+      #{upOrDownTransfer,jdbcType=CHAR}, #{isLineCrossed,jdbcType=CHAR}, #{departureDepartment,jdbcType=VARCHAR}, 
+      #{arrivalDepartment,jdbcType=VARCHAR}, #{todayOrNextDay,jdbcType=CHAR}, #{dispatchTime,jdbcType=TIMESTAMP}, 
+      #{intransitMinutes,jdbcType=VARCHAR}, #{arrivalTime,jdbcType=TIMESTAMP}, #{crossedLine,jdbcType=VARCHAR}, 
+      #{kilometers,jdbcType=DECIMAL}, #{classNum,jdbcType=VARCHAR}, #{active,jdbcType=CHAR}, 
+      #{effectedTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserCode,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    insert into REPORT_DOWN_TRANSFER_TIME_NODE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        DOWN_TRANSFER_TIME_NODE_ID,
+      <if test="theArea != null">
+        THE_AREA,
+      </if>
+      <if test="theRoadArea != null">
+        THE_ROAD_AREA,
+      </if>
+      <if test="upOrDownTransfer != null">
+        UP_OR_DOWN_TRANSFER,
+      </if>
+      <if test="isLineCrossed != null">
+        IS_LINE_CROSSED,
+      </if>
+      <if test="departureDepartment != null">
+        DEPARTURE_DEPARTMENT,
+      </if>
+      <if test="arrivalDepartment != null">
+        ARRIVAL_DEPARTMENT,
+      </if>
+      <if test="todayOrNextDay != null">
+        TODAY_OR_NEXT_DAY,
+      </if>
+      <if test="dispatchTime != null">
+        DISPATCH_TIME,
+      </if>
+      <if test="intransitMinutes != null">
+        INTRANSIT_MINUTES,
+      </if>
+      <if test="arrivalTime != null">
+        ARRIVAL_TIME,
+      </if>
+      <if test="crossedLine != null">
+        CROSSED_LINE,
+      </if>
+      <if test="kilometers != null">
+        KILOMETERS,
+      </if>
+      <if test="classNum != null">
+        CLASS_NUM,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME,
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+       SEQ_DOWN_TRANSFER_TIME_NODE_ID.Nextval,
+      <if test="theArea != null">
+        #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theRoadArea != null">
+        #{theRoadArea,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrDownTransfer != null">
+        #{upOrDownTransfer,jdbcType=CHAR},
+      </if>
+      <if test="isLineCrossed != null">
+        #{isLineCrossed,jdbcType=CHAR},
+      </if>
+      <if test="departureDepartment != null">
+        #{departureDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalDepartment != null">
+        #{arrivalDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="todayOrNextDay != null">
+        #{todayOrNextDay,jdbcType=CHAR},
+      </if>
+      <if test="dispatchTime != null">
+        #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intransitMinutes != null">
+        #{intransitMinutes,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossedLine != null">
+        #{crossedLine,jdbcType=VARCHAR},
+      </if>
+      <if test="kilometers != null">
+        #{kilometers,jdbcType=DECIMAL},
+      </if>
+      <if test="classNum != null">
+        #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    update REPORT_DOWN_TRANSFER_TIME_NODE
+    <set>
+      <if test="theArea != null">
+        THE_AREA = #{theArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theRoadArea != null">
+        THE_ROAD_AREA = #{theRoadArea,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrDownTransfer != null">
+        UP_OR_DOWN_TRANSFER = #{upOrDownTransfer,jdbcType=CHAR},
+      </if>
+      <if test="isLineCrossed != null">
+        IS_LINE_CROSSED = #{isLineCrossed,jdbcType=CHAR},
+      </if>
+      <if test="departureDepartment != null">
+        DEPARTURE_DEPARTMENT = #{departureDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalDepartment != null">
+        ARRIVAL_DEPARTMENT = #{arrivalDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="todayOrNextDay != null">
+        TODAY_OR_NEXT_DAY = #{todayOrNextDay,jdbcType=CHAR},
+      </if>
+      <if test="dispatchTime != null">
+        DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intransitMinutes != null">
+        INTRANSIT_MINUTES = #{intransitMinutes,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        ARRIVAL_TIME = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossedLine != null">
+        CROSSED_LINE = #{crossedLine,jdbcType=VARCHAR},
+      </if>
+      <if test="kilometers != null">
+        KILOMETERS = #{kilometers,jdbcType=DECIMAL},
+      </if>
+      <if test="classNum != null">
+        CLASS_NUM = #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=CHAR},
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    update REPORT_DOWN_TRANSFER_TIME_NODE
+    set THE_AREA = #{theArea,jdbcType=VARCHAR},
+      THE_ROAD_AREA = #{theRoadArea,jdbcType=VARCHAR},
+      UP_OR_DOWN_TRANSFER = #{upOrDownTransfer,jdbcType=CHAR},
+      IS_LINE_CROSSED = #{isLineCrossed,jdbcType=CHAR},
+      DEPARTURE_DEPARTMENT = #{departureDepartment,jdbcType=VARCHAR},
+      ARRIVAL_DEPARTMENT = #{arrivalDepartment,jdbcType=VARCHAR},
+      TODAY_OR_NEXT_DAY = #{todayOrNextDay,jdbcType=CHAR},
+      DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+      INTRANSIT_MINUTES = #{intransitMinutes,jdbcType=VARCHAR},
+      ARRIVAL_TIME = #{arrivalTime,jdbcType=TIMESTAMP},
+      CROSSED_LINE = #{crossedLine,jdbcType=VARCHAR},
+      KILOMETERS = #{kilometers,jdbcType=DECIMAL},
+      CLASS_NUM = #{classNum,jdbcType=VARCHAR},
+      ACTIVE = #{active,jdbcType=CHAR},
+      EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR}
+    where DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="queryDownTransferTimeNodeByCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_DOWN_TRANSFER_TIME_NODE
+    <where>
+    	<if test="uId != null and uId != ''">
+    	and DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theRoadArea != null and theRoadArea != ''">
+    	and THE_ROAD_AREA = #{theRoadArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="upOrDownTransfer != null and upOrDownTransfer != ''">
+    	and UP_OR_DOWN_TRANSFER = #{upOrDownTransfer,jdbcType=VARCHAR}
+    	</if>
+    	<if test="isLineCrossed != null and isLineCrossed != ''">
+    	and IS_LINE_CROSSED = #{isLineCrossed,jdbcType=VARCHAR}
+    	</if>
+    	<if test="departureDepartment != null and departureDepartment != ''">
+    	and DEPARTURE_DEPARTMENT = #{departureDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="todayOrNextDay != null and todayOrNextDay != ''">
+    	and TODAY_OR_NEXT_DAY = #{todayOrNextDay,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalDepartment != null and arrivalDepartment != ''">
+    	and ARRIVAL_DEPARTMENT = #{arrivalDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchTime != null and dispatchTime != ''">
+    	and DISPATCH_TIME = #{dispatchTime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="intransitMinutes != null and intransitMinutes != ''">
+    	and INTRANSIT_MINUTES = #{intransitMinutes,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalTime != null and arrivalTime != ''">
+    	and ARRIVAL_TIME = #{arrivalTime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="crossedLine != null and crossedLine != ''">
+    	and CROSSED_LINE = #{crossedLine,jdbcType=VARCHAR}
+    	</if>
+    	<if test="kilometers != null and kilometers != ''">
+    	and KILOMETERS = #{kilometers,jdbcType=VARCHAR}
+    	</if>
+    	<if test="classNum != null and classNum != ''">
+    	and CLASS_NUM = #{classNum,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+  
+  
+  <select id="queryDownTransferTimeNodeCountByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode">
+    select count(*)
+    from REPORT_DOWN_TRANSFER_TIME_NODE
+    <where>
+    <if test="uId != null and uId != ''">
+    	and DOWN_TRANSFER_TIME_NODE_ID = #{uId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="theArea != null and theArea != ''">
+    	and THE_AREA = #{theArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="theRoadArea != null and theRoadArea != ''">
+    	and THE_ROAD_AREA = #{theRoadArea,jdbcType=VARCHAR}
+    	</if>
+    	<if test="upOrDownTransfer != null and upOrDownTransfer != ''">
+    	and UP_OR_DOWN_TRANSFER = #{upOrDownTransfer,jdbcType=VARCHAR}
+    	</if>
+    	<if test="isLineCrossed != null and isLineCrossed != ''">
+    	and IS_LINE_CROSSED = #{isLineCrossed,jdbcType=VARCHAR}
+    	</if>
+    	<if test="departureDepartment != null and departureDepartment != ''">
+    	and DEPARTURE_DEPARTMENT = #{departureDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="todayOrNextDay != null and todayOrNextDay != ''">
+    	and TODAY_OR_NEXT_DAY = #{todayOrNextDay,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalDepartment != null and arrivalDepartment != ''">
+    	and ARRIVAL_DEPARTMENT = #{arrivalDepartment,jdbcType=VARCHAR}
+    	</if>
+    	<if test="dispatchTime != null and dispatchTime != ''">
+    	and DISPATCH_TIME = #{dispatchTime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="intransitMinutes != null and intransitMinutes != ''">
+    	and INTRANSIT_MINUTES = #{intransitMinutes,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arrivalTime != null and arrivalTime != ''">
+    	and ARRIVAL_TIME = #{arrivalTime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="crossedLine != null and crossedLine != ''">
+    	and CROSSED_LINE = #{crossedLine,jdbcType=VARCHAR}
+    	</if>
+    	<if test="kilometers != null and kilometers != ''">
+    	and KILOMETERS = #{kilometers,jdbcType=VARCHAR}
+    	</if>
+    	<if test="classNum != null and classNum != ''">
+    	and CLASS_NUM = #{classNum,jdbcType=VARCHAR}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </select>
+</mapper>

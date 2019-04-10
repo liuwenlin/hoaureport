@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<!-- http://mybatis.github.io 文档 -->
+<!--generator用于表明原生态生成，extension是扩展类-->
+<generatorConfiguration>
+    <!--请注意jar包的路径-->
+<!--     <classPathEntry location="C:/dev_env/m2/repository/mysql/mysql-connector-java/5.1.25/mysql-connector-java-5.1.25.jar"/> -->
+    <classPathEntry location="D:/StudyDocuments/Git_Repository/hoau_dev_studio/repository/com/oracle/ojdbc14/10.2.0.1.0/ojdbc14-10.2.0.1.0.jar"/>
+   
+    
+    <context id="sysGenerator" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--<plugin type="org.mybatis.generator.plugins.SpringRepositoryAnnotationPlugin"/>-->
+
+        <!-- generate entity时，生成hashcode和equals方法 -->
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />-->
+
+        <!-- genenat entity时,生成toString -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+        </commentGenerator>
+<!--         <jdbcConnection driverClass="com.mysql.jdbc.Driver" -->
+<!--                         connectionURL="jdbc:mysql://10.39.251.133:3306/dudutest?characterEncoding=utf8" userId="dudutest" -->
+<!--                         password="dudutest"/> -->
+
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@10.39.251.9:1521:hydatafb" userId="har"
+                        password="har"/>
+
+		<!--configreport模块 -->
+<!--         <javaModelGenerator targetPackage="com.hoau.hoaureport.module.configreport.shared.domain" -->
+<!--                             targetProject="../hoaureport-configreport/src/main/java"> -->
+<!--             <property name="trimStrings" value="false"/> -->
+<!--         </javaModelGenerator> -->
+<!--         <sqlMapGenerator targetPackage="com.hoau.hoaureport.module.configreport.server.dao" targetProject="../hoaureport-configreport/src/main/java"/> -->
+<!--         <javaClientGenerator targetPackage="com.hoau.hoaureport.module.configreport.server.dao" -->
+<!--                              targetProject="../hoaureport-configreport/src/main/java" type="XMLMAPPER"> -->
+<!--         </javaClientGenerator> -->
+        <!-- 运单报表 -->
+<!--         <table tableName="T_REPORT_WAYBILLZIP" domainObjectName="WayBillZipEntity" enableCountByExample="false" enableUpdateByExample="false" -->
+<!--                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > -->
+<!--         </table> -->
+        
+        
+        <!-- job模块 -->
+        
+        <javaModelGenerator targetPackage="com.hoau.hoaureport.module.configreport.shared.domain"
+                            targetProject="../hoaureport-configreport/src/main/java">
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="com.hoau.hoaureport.module.configreport.server.dao" 
+        				 targetProject="../hoaureport-configreport/src/main/java"/>
+        <javaClientGenerator targetPackage="com.hoau.hoaureport.module.configreport.server.dao"
+                             targetProject="../hoaureport-configreport/src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+        
+        
+        <table tableName="REPORT_OMS_TARGET" domainObjectName="ReportOmsTargetEntity" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" >
+        </table>
+        
+        
+        
+        
+        
+        
+    </context>
+</generatorConfiguration>

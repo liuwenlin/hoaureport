@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.FdhzlMapper">
+	<!-- 执行存储过程 -->
+	<select id="FdhzlCollected" parameterType="com.hoau.hoaureport.module.job.shared.domain.FdhzlEntity" statementType="CALLABLE">
+		<![CDATA[  
+    		call HYREPORT_FDHZL (#{beginDate,mode=IN,jdbcType=DATE},#{endDate,mode=IN,jdbcType=DATE})
+		]]>  
+	</select>
+	
+</mapper>

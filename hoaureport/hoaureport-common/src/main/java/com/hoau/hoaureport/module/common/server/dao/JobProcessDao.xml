@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hoau.hoaureport.module.common.server.dao.JobProcessDao">
+  
+	<resultMap type="com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity" id="jobProcessMap">
+        <result column="ID"   property="id"  jdbcType="VARCHAR" />
+        <result column="CODE" property="code"  jdbcType="VARCHAR" />
+        <result column="NAME" property="name"  jdbcType="VARCHAR" />
+        <result column="JOBSTART_TIME" property="jobStartTime" jdbcType="TIMESTAMP" />
+        <result column="JOBEND_TIME" property="jobEndTime" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status"  jdbcType="VARCHAR" />
+        <result column="ERRORINFO" property="errorInfo"  jdbcType="CLOB" />
+  		<result column="INTERVAL" property="interval" jdbcType="NUMERIC" />
+        <result column="CREATE_TIME" property="createDate"  jdbcType="TIMESTAMP" />
+        <result column="CREATE_USER_CODE" property="createUser"  jdbcType="VARCHAR" />
+        <result column="MODIFY_TIME" property="modifyDate"  jdbcType="TIMESTAMP" />
+        <result column="MODIFY_USER_CODE" property="modifyUser"  jdbcType="VARCHAR" />
+	</resultMap>
+  
+	<sql id = "select_before_param">
+		JB.ID AS ID,
+		JB.CODE AS CODE,
+		JB.NAME AS NAME,
+		JB.JOBSTART_TIME AS JOBSTART_TIME, 
+		JB.JOBEND_TIME AS JOBEND_TIME,
+		JB.STATUS AS STATUS,
+		JB.ERRORINFO AS ERRORINFO,
+		JB.INTERVAL AS INTERVAL,
+		JB.CREATE_TIME AS CREATE_TIME,
+		JB.CREATE_USER_CODE AS CREATE_USER_CODE,
+		JB.MODIFY_TIME AS MODIFY_TIME,
+		JB.MODIFY_USER_CODE AS MODIFY_USER_CODE
+	</sql>
+	
+	<sql id = "select_after_param_">
+	    <if test = "id != null and id != ''">
+			AND JB.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="code != null and code != ''">
+			AND JB.CODE = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			AND INSTR(JB.NAME,#{name,jdbcType=VARCHAR}) > 0
+		</if>
+		<if test="jobStartTime != null and jobStartTime != ''">
+			AND JB.JOBSTART_TIME = #{jobStartTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="jobEndTime != null and jobEndTime != ''">
+			AND JB.JOBEND_TIME = #{jobEndTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="status != null and status != ''">
+			AND JB.STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="interval != null and interval != ''">
+			AND JB.INTERVAL = #{interval,jdbcType=NUMERIC}
+		</if>
+		<if test="createDate != null and createDate != ''">
+			AND JB.CREATE_TIME = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			AND JB.CREATE_USER_CODE = #{createUser,jdbcType=VARCHAR}
+		</if>
+	    <if test="modifyDate != null and modifyDate != ''">
+			AND JB.MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifyUser != null and modifyUser != ''">
+			AND JB.MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
+	<insert id = "addJobRunningInfo"
+		parameterType = "com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity">
+		   INSERT INTO T_BSE_ALL_JOBS ( /** 新增job运行信息 **/
+		    ID,
+			CODE,
+			NAME,
+			JOBSTART_TIME,
+			JOBEND_TIME,
+			STATUS,
+			ERRORINFO,
+			INTERVAL,
+			CREATE_TIME,
+			CREATE_USER_CODE,
+			MODIFY_TIME,
+			MODIFY_USER_CODE
+			)VALUES (
+		    #{id,jdbcType=VARCHAR},
+		    #{code,jdbcType=VARCHAR},
+		    #{name,jdbcType=VARCHAR},	
+	   	    #{jobStartTime,jdbcType=TIMESTAMP},
+		    #{jobEndTime,jdbcType=TIMESTAMP},
+		    #{status,jdbcType=CHAR},
+		    #{errorInfo,jdbcType=CLOB},	
+		    #{interval,jdbcType=NUMERIC},
+	  	    #{createDate,jdbcType=TIMESTAMP},
+		    #{createUser,jdbcType=VARCHAR},
+		    #{modifyDate,jdbcType=TIMESTAMP},
+		    #{modifyUser,jdbcType=VARCHAR}
+		   )
+	</insert>
+	
+	<update id = "updateJobRunningInfo"
+		parameterType = "com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity">
+			UPDATE T_BSE_ALL_JOBS /** 更新job运行信息 **/
+			SET
+				ID = #{id,jdbcType=VARCHAR},
+			    JOBSTART_TIME = #{jobStartTime,jdbcType=TIMESTAMP},
+				JOBEND_TIME = #{jobEndTime,jdbcType=TIMESTAMP},
+				STATUS = #{status,jdbcType=CHAR},
+				INTERVAL = #{interval,jdbcType=NUMERIC},
+				<if test="errorInfo != null and errorInfo != ''">
+				   ERRORINFO = #{errorInfo,jdbcType=CLOB},
+			    </if>
+			    MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP},
+			    MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+			
+	    <where>
+	    	CODE = #{code,jdbcType=VARCHAR}
+	    </where>	    
+	</update>
+	
+	<select id = "selectCountByCode"
+		parameterType = "com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity"
+		resultType="Long">
+		SELECT /** 根据编码查询是否存在 **/
+		COUNT(ID) 
+		FROM T_BSE_ALL_JOBS
+		WHERE CODE =  #{code,jdbcType=VARCHAR}	
+	</select>
+	
+	<insert id = "addJobInfoEndLog"
+		parameterType = "com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity">
+		   INSERT INTO T_BSE_ALL_JOBS_LOG ( /** 新增job开始执行日志**/
+		   ID,
+		   CODE,
+		   NAME,
+		   ERRORTIME,
+		   ERRORINFO,
+		   ACTION
+		   )VALUES (
+		   #{id,jdbcType=VARCHAR},
+		   #{code,jdbcType=VARCHAR},
+		   #{name,jdbcType=VARCHAR},	
+		   #{jobEndTime,jdbcType=TIMESTAMP},
+		   #{errorInfo,jdbcType=CLOB},
+		   'END'
+		   )
+	</insert>
+	
+	<insert id = "addJobInfoBeginLog"
+		parameterType = "com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity">
+		   INSERT INTO T_BSE_ALL_JOBS_LOG ( /** 新增job执行结束日志**/
+		   ID,
+		   CODE,
+		   NAME,
+		   ERRORTIME,
+		   ACTION
+		   )VALUES (
+		   sys_guid(),
+		   #{code,jdbcType=VARCHAR},
+		   #{name,jdbcType=VARCHAR},	
+		   #{jobStartTime,jdbcType=TIMESTAMP},
+		   'BEGIN'
+		   )
+	</insert>
+	
+		
+	<select id="queryTotalCount"
+		parameterType="com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity"
+		resultType="Long">
+	    SELECT  /** 获取job信息分页条数 **/  COUNT(JB.ID) FROM T_BSE_ALL_JOBS JB 
+	    <where>
+	        <include refid="select_after_param_"></include>
+	    </where>
+	</select>
+
+	<select id="queryJobProcessList"
+		parameterType="com.hoau.hoaureport.module.common.shared.domain.JobProcessEntity"
+		resultMap="jobProcessMap">
+		SELECT  /** 按条件分页查询线路 **/ 
+	    <include refid="select_before_param"></include>
+	     FROM T_BSE_ALL_JOBS JB 
+	    <where>
+	        <include refid="select_after_param_"></include>
+	    </where>
+	    ORDER BY JB.NAME
+	</select>
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.SmsDataEntityMapper" >
+  <!--The file was generated on 2016-09-24 14:35:30 by 273503-->
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.SmsDataEntity" >
+    <result column="COMPNAME" property="compname" jdbcType="VARCHAR" />
+    <result column="DRMB" property="drmb" jdbcType="DECIMAL" />
+    <result column="DRWC" property="drwc" jdbcType="DECIMAL" />
+    <result column="DYMB" property="dymb" jdbcType="DECIMAL" />
+    <result column="DYWC" property="dywc" jdbcType="DECIMAL" />
+    <result column="DYWCB" property="dywcb" jdbcType="DECIMAL" />
+    <result column="DYYJWCB" property="dyyjwcb" jdbcType="DECIMAL" />
+    <result column="DYTB" property="dytb" jdbcType="DECIMAL" />
+    <result column="DYHB" property="dyhb" jdbcType="DECIMAL" />
+    <result column="BNMB" property="bnmb" jdbcType="DECIMAL" />
+    <result column="BNWC" property="bnwc" jdbcType="DECIMAL" />
+    <result column="BNWCB" property="bnwcb" jdbcType="DECIMAL" />
+    <result column="SSR" property="ssr" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
+    <result column="SDATE" property="sdate" jdbcType="DATE" />
+    <result column="BYSJJD" property="bysjjd" jdbcType="DECIMAL" />
+    <result column="BNSJJD" property="bnsjjd" jdbcType="DECIMAL" />
+    <result column="TJLX" property="tjlx" jdbcType="DECIMAL" />
+  </resultMap>
+
+  
+  <select id="queryList" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.SmsDataEntity"  >
+ 	
+ 	select 
+ 	  COMPNAME, DRMB, DRWC, 
+      DYMB, DYWC, DYWCB, 
+      DYYJWCB, DYTB, DYHB, 
+      BNMB, BNWC, BNWCB, 
+      SSR, CREATE_TIME, MODIFY_TIME, 
+      SDATE, BYSJJD, BNSJJD, 
+      TJLX
+ 	from REPORT_SMSDATA
+ 	where SSR = #{ssr,jdbcType=VARCHAR}
+ 	<if test="compname !=null and compname !='' ">
+ 		and COMPNAME =#{compname,jdbcType=VARCHAR}
+ 	</if>
+ 	
+ 
+ 	
+  </select>
+ 
+</mapper>

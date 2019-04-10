@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.isdc.ro/wro wro.xsd">
+  	<group name="login">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	</group>
+  	<group name="main">
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/ext-hoau.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/hoaureport-util.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/common/server/META-INF/scripts/common.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/login/server/META-INF/scripts/model/MainModel.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/login/server/META-INF/scripts/data/MainData.js</js>
+  	    <js>classpath:com/hoau/hoaureport/module/login/server/META-INF/scripts/main.js</js>
+  	</group>
+</groups>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.YthmdsjMapper">
+    <resultMap type="com.hoau.hoaureport.module.job.shared.domain.EczzsjEntity" id="ythmdResultMap">    
+	    <result column="qyd" property="qyd" jdbcType="VARCHAR" />
+	    <result column="mdd" property="mdd" jdbcType="VARCHAR" />
+	    <result column="ycjszgs" property="ycjszgs" jdbcType="VARCHAR" />
+	    <result column="ecjszgs" property="ecjszgs" jdbcType="VARCHAR" />
+	    <result column="scgsbh" property="scgsbh" jdbcType="VARCHAR" />
+	    <result column="fhgs" property="fhgs" jdbcType="VARCHAR" />
+	    <result column="mddssyjgs" property="mddssyjgs" jdbcType="VARCHAR" />
+	    <result column="qkmddgs" property="qkmddgs" jdbcType="VARCHAR" />
+	    <result column="ptdhgs" property="ptdhgs" jdbcType="VARCHAR" />
+	    <result column="yczzgs" property="yczzgs" jdbcType="VARCHAR" />
+	    <result column="eczzgs" property="eczzgs" jdbcType="VARCHAR" />
+	    <result column="eczzgs1" property="eczzgs1" jdbcType="VARCHAR" />
+	    <result column="ycjxzgs" property="ycjxzgs" jdbcType="VARCHAR" />
+	    <result column="ecjxzgs" property="ecjxzgs" jdbcType="VARCHAR" />
+	    <result column="zhjxzgs" property="zhjxzgs" jdbcType="VARCHAR" />
+	    <result column="sdgs" property="sdgs" jdbcType="VARCHAR" />
+	    <result column="fdqrgs" property="fdqrgs" jdbcType="VARCHAR" />
+	    <result column="kdsj" property="kdsj" jdbcType="TIMESTAMP" />
+	    <result column="ldsj" property="ldsj" jdbcType="TIMESTAMP" />
+	    <result column="ycjszsj" property="ycjszsj" jdbcType="VARCHAR" />
+	    <result column="zhszydcqrsj" property="zhszydcqrsj" jdbcType="VARCHAR" />
+	    <result column="ecjszsj" property="ecjszsj" jdbcType="VARCHAR" />
+	    <result column="fhjhsj" property="fhjhsj" jdbcType="VARCHAR" />
+	    <result column="fhsj" property="fhsj" jdbcType="VARCHAR" />
+	    <result column="yczzdcqrsj" property="yczzdcqrsj" jdbcType="VARCHAR" />
+	    <result column="yczzdhsj" property="yczzdhsj" jdbcType="VARCHAR" />
+	    <result column="yczzdhsj1" property="yczzdhsj1" jdbcType="VARCHAR" />
+	    <result column="yczzfhsj" property="yczzfhsj" jdbcType="VARCHAR" />
+	    <result column="yczzfhsj1" property="yczzfhsj1" jdbcType="VARCHAR" />
+	    <result column="eczzdcqrsj" property="eczzdcqrsj" jdbcType="VARCHAR" />
+	    <result column="eczzdcqrsj1" property="eczzdcqrsj1" jdbcType="VARCHAR" />
+	    <result column="eczzdhsj" property="eczzdhsj" jdbcType="VARCHAR" />
+	    <result column="eczzfhsj" property="eczzfhsj" jdbcType="VARCHAR" />
+	    <result column="dcqrsj" property="dcqrsj" jdbcType="VARCHAR" />
+	    <result column="dhqrsj" property="dhqrsj" jdbcType="VARCHAR" />
+	    <result column="dhsj" property="dhsj" jdbcType="VARCHAR" />
+	    <result column="ycxzsj" property="ycxzsj" jdbcType="VARCHAR" />
+	    <result column="ycjxzsj" property="ycjxzsj" jdbcType="VARCHAR" />
+	    <result column="ecxzsj" property="ecxzsj" jdbcType="VARCHAR" />
+	    <result column="ecjxzsj" property="ecjxzsj" jdbcType="VARCHAR" />
+	    <result column="zhjxzsj" property="zhjxzsj" jdbcType="VARCHAR" />
+	    <result column="sdsj" property="sdsj" jdbcType="VARCHAR" />
+	    <result column="ycszsj" property="ycszsj" jdbcType="VARCHAR" />
+	    <result column="ydbh" property="ydbh" jdbcType="VARCHAR" />
+	    <result column="tyrq" property="tyrq" jdbcType="VARCHAR" />
+	    <result column="lrsj" property="lrsj" jdbcType="VARCHAR" />
+	    <result column="ydzt" property="ydzt" jdbcType="VARCHAR" />
+	    <result column="cplb" property="cplb" jdbcType="VARCHAR" />
+	    <result column="shfs" property="shfs" jdbcType="VARCHAR" />
+	    <result column="qrshfs" property="qrshfs" jdbcType="VARCHAR" />
+	    <result column="khmc" property="khmc" jdbcType="VARCHAR" />
+	    <result column="tyrmc" property="tyrmc" jdbcType="VARCHAR" />
+	    <result column="qrshfs" property="qrshfs" jdbcType="VARCHAR" />
+	    <result column="tzkhsj" property="tzkhsj" jdbcType="VARCHAR" />
+	    <result column="beginDate" property="beginDate" jdbcType="VARCHAR" />
+	    <result column="endDate" property="endDate" jdbcType="VARCHAR" />
+	    <result column="zhddcxsj" property="zhddcxsj" jdbcType="VARCHAR" />
+	    <result column="fdbgsbh" property="fdbgsbh" jdbcType="VARCHAR" />
+	    <result column="fcbh" property="fcbh" jdbcType="VARCHAR" />
+	    <result column="hjje" property="hjje" jdbcType="DECIMAL" />
+	    <result column="sfyth" property="sfyth" jdbcType="VARCHAR" />
+	    <result column="booleanyth" property="booleanyth" jdbcType="VARCHAR" />
+	    <result column="fcsj1" property="fcsj1" jdbcType="VARCHAR" />
+	    <result column="rkwcsj1" property="rkwcsj1" jdbcType="VARCHAR" />
+	    <result column="szygs1" property="szygs1" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<select id="GetYthmdsjInfo" resultMap="ythmdResultMap">
+		select 
+		substr(gs.gsjc,2,length(gs.gsjc)) as qyd,
+		trim(yd.mddmc) as mdd,
+		yd.mddssyjgs as mddssyjgs,
+		substr(fdgs.gsjc,2,length(fdgs.gsjc)) as fdqrgs,
+		to_char(WLN.SDSJ,'yyyy-mm-dd hh24:mi:ss') as  SDSJ,
+		yd.ydbh ,
+		to_char(YD.TYRQ ,'yyyy-mm-dd hh24:mi:ss') as TYRQ,
+		to_char(YD.LRSJ ,'yyyy-mm-dd hh24:mi:ss') as LRSJ,
+		CPLB.LBMC as cplb,DECODE(YD.QRSHFS,0,'客户自提',1,'送货',-1,'未分单','未确认') as qrshfs,
+		to_char(yd.tzkhsj,'yyyy-mm-dd hh24:mi:ss') as tzkhsj,
+		to_char(XZMX.ZHDDSJ,'yyyy-mm-dd hh24:mi:ss') as zhddcxsj,
+		xx.khmc,
+		yd.tyrmc
+		from hydata.ld_yd yd 
+		join hydata.ld_ydwlsj_new WLN on yd.ydbh=WLN.ydbh
+		join hydata.ld_gs gs on gs.gsbh=yd.qydzbh
+		join hydata.ld_gs fdgs on fdgs.gsbh=yd.mddzbh
+		JOIN HYDATA.LD_CPLB CPLB ON CPLB.LBBH=YD.CYRQZ
+		left join hydata.ld_khxx xx on xx.khbh=yd.tyrbh
+		LEFT  JOIN (select
+		     M.ydbh,max(X.ZHDDSJ) ZHDDSJ
+		   FROM HYDATA.LD_XZYMX M
+		     LEFT JOIN HYDATA.LD_XZYFH X ON M.FCBH = X.FCBH 
+		     group by m.ydbh) XZMX ON XZMX.YDBH=WLN.YDBH 		
+		where 
+		to_char(XZMX.ZHDDSJ,'yyyy/mm/dd') <![CDATA[>= ]]> #{0} and 
+		to_char(XZMX.ZHDDSJ,'yyyy/mm/dd') <![CDATA[< ]]> #{1} and 
+		CPLB.LBMC  IN  ( '定日达','易-入户','易-包裹','易-安装','经济快运','经济拼车')
+		
+	</select>
+	
+	<select id="GetYthmdlist" parameterType="string" resultMap="ythmdResultMap">
+		select 1 as booleanyth from t_yth_md where  (gsjc=#{0} and sxzdy=#{1})
+	</select>
+	
+	<select id="GetSzyfhInfo"  parameterType="string" resultMap="ythmdResultMap">
+		select substr(gs.gsjc,2,length(gs.gsjc)) as qyd,
+		substr(gs1.gsjc,2,length(gs1.gsjc)) as szygs1,
+		to_char(fh.fcsj,'yyyy-mm-dd hh24:mi:ss') as fcsj1,
+		decode(MX.RKQR,2,to_char(mx.RKSJ,'yyyy-mm-dd hh24:mi:ss'),to_char(fh.RKWCSJ,'yyyy-mm-dd hh24:mi:ss')) as rkwcsj1,
+		to_char(fh.zhddsj,'yyyy-mm-dd hh24:mi:ss') as zhszydcqrsj
+		from hydata.ld_szymx mx join hydata.ld_szyfh fh 
+		join hydata.ld_gs gs on gs.gsbh=fh.gsbh
+		join hydata.ld_gs gs1 on gs1.gsbh=fh.mddgs
+		on fh.fcbh=mx.fcbh where mx.ydbh=#{0}
+		order by mx.record_date
+	</select>
+	
+	<select id="GetFhsjInfo" parameterType="string"  resultMap="ythmdResultMap">
+		select substr(gs.gsjc,2,length(gs.gsjc)) as qyd,fd.gsbh as fdbgsbh,fd.scgsbh as scgsbh,
+		fd.fcbh as fcbh,substr(gs1.gsjc,2,length(gs1.gsjc)) as Qkmddgs,qkgs.sjgsbh as ptdhgs,
+		decode(MX.RKQR,2,to_char(mx.RKSJ,'yyyy-mm-dd hh24:mi:ss'),to_char(fd.RKWCSJ,'yyyy-mm-dd hh24:mi:ss')) as Yczzdhsj1,
+		to_char(qk.FCSJ,'yyyy-mm-dd hh24:mi:ss')  as yczzfhsj1,
+		to_char(qk.zhddsj,'yyyy-mm-dd hh24:mi:ss') as eczzdcqrsj1
+		 from hydata.ld_fhdmx mx 
+		join hydata.ld_fhd fd on mx.fhdbh=fd.fhdbh 
+		left join hydata.ld_fhclqk qk on qk.fcbh = fd.fcbh 
+		join hydata.ld_gs gs on gs.gsbh=fd.scgsbh
+		join hydata.ld_gs gs1 on gs1.gsbh = fd.gsbh
+		left join hydata.ld_gs qkgs on qkgs.gsbh=qk.mddgs
+		where mx.ydbh=#{0}  and (  fd.gsbh != #{1} )
+		and  qk.zt  !=  4
+		order by mx.record_date
+	</select>
+	<select id="GetDhsjInfo" parameterType="string"  resultMap="ythmdResultMap">
+		select qyd,fdbgsbh,scgsbh,fcbh,Qkmddgs,ptdhgs,Yczzdhsj1,yczzfhsj1,eczzdcqrsj1 from(
+		select substr(gs.gsjc,2,length(gs.gsjc)) as qyd,fd.gsbh as fdbgsbh,fd.scgsbh as scgsbh,
+		fd.fcbh as fcbh,substr(gs1.gsjc,2,length(gs1.gsjc)) as Qkmddgs,qkgs.sjgsbh as ptdhgs,
+		decode(MX.RKQR,2,to_char(mx.RKSJ,'yyyy-mm-dd hh24:mi:ss'),to_char(fd.RKWCSJ,'yyyy-mm-dd hh24:mi:ss')) as Yczzdhsj1,
+		to_char(qk.FCSJ,'yyyy-mm-dd hh24:mi:ss')  as yczzfhsj1,
+		to_char(qk.zhddsj,'yyyy-mm-dd hh24:mi:ss') as eczzdcqrsj1
+		 from hydata.ld_fhdmx mx 
+		join hydata.ld_fhd fd on mx.fhdbh=fd.fhdbh 
+		left join hydata.ld_fhclqk qk on qk.fcbh = fd.fcbh 
+		join hydata.ld_gs gs on gs.gsbh=fd.scgsbh
+		join hydata.ld_gs gs1 on gs1.gsbh = fd.gsbh
+		left join hydata.ld_gs qkgs on qkgs.gsbh=qk.mddgs
+		where mx.ydbh=#{0}  and ( nvl(qkgs.sjgsbh,0) = #{1}  or fd.gsbh = #{1} )
+		and  qk.zt  !=  4 
+		order by mx.record_date	) where rownum=1
+	</select>
+
+	<select id="GetXzysjInfo"  parameterType="string" resultMap="ythmdResultMap">
+		select substr(gs.gsjc,2,length(gs.gsjc)) as qyd,
+		substr(gs1.gsjc,2,length(gs1.gsjc)) as szygs1,
+		to_char(fh.fcsj,'yyyy-mm-dd hh24:mi:ss') as fcsj1,
+		decode(MX.RKQR,2,to_char(mx.RKSJ,'yyyy-mm-dd hh24:mi:ss'),to_char(fh.RKWCSJ,'yyyy-mm-dd hh24:mi:ss')) as rkwcsj1,
+		to_char(fh.zhddsj,'yyyy-mm-dd hh24:mi:ss') as zhszydcqrsj
+		from hydata.ld_xzymx mx join hydata.ld_xzyfh fh 
+		join hydata.ld_gs gs on gs.gsbh=fh.gsbh
+		join hydata.ld_gs gs1 on gs1.gsbh=fh.mddgs
+		on fh.fcbh=mx.fcbh where mx.ydbh=#{0}
+		order by mx.record_date
+	</select>	
+
+	<sql id="query_eczzsj_param1">
+		qyd, mdd, ycjszgs, ecjszgs,
+		fhgs, yczzgs, eczzgs,dhgs,
+		ycjxzgs,ecjxzgs,zhjxzgs,
+		fdqrgs,ycjszsj ,
+		zhszydcqrsj ,ecjszsj ,fhjhsj ,fhsj ,
+		yczzdcqrsj , yczzdhsj, yczzfhsj, eczzdcqrsj,
+		eczzdhsj ,eczzfhsj ,dcqrsj ,dhqrsj ,
+		dhsj ,ycxzsj ,ycjxzsj ,ecxzsj ,ecjxzsj ,
+		zhjxzsj ,sdsj ,ydbh ,tyrq ,lrsj ,
+		cplb, qrshfs,khmc,tzkhsj,zhddsj,ycszsj,tyrmc
+	</sql>
+	
+	<insert id="insertYthInfo" parameterType="com.hoau.hoaureport.module.job.shared.domain.EczzsjEntity">
+		insert into REPORT_YTHMD (
+			<include refid="query_eczzsj_param1"></include>
+		    )
+		  values (
+		  #{qyd,jdbcType=VARCHAR}, #{mdd,jdbcType=VARCHAR},#{ycjszgs,jdbcType=VARCHAR},#{ecjszgs,jdbcType=VARCHAR},
+		  #{fhgs,jdbcType=VARCHAR}, #{yczzgs,jdbcType=VARCHAR},#{eczzgs,jdbcType=VARCHAR},#{dhgs,jdbcType=VARCHAR},
+		  #{ycjxzgs,jdbcType=VARCHAR}, #{ecjxzgs,jdbcType=VARCHAR},#{zhjxzgs,jdbcType=VARCHAR},
+		  #{fdqrgs,jdbcType=VARCHAR},#{ycjszsj,jdbcType=VARCHAR},
+		  #{zhszydcqrsj,jdbcType=VARCHAR}, #{ecjszsj,jdbcType=VARCHAR},#{fhjhsj,jdbcType=VARCHAR},#{fhsj,jdbcType=VARCHAR},
+		  #{yczzdcqrsj,jdbcType=VARCHAR}, #{yczzdhsj,jdbcType=VARCHAR},#{yczzfhsj,jdbcType=VARCHAR},#{eczzdcqrsj,jdbcType=VARCHAR},
+		  #{eczzdhsj,jdbcType=VARCHAR}, #{eczzfhsj,jdbcType=VARCHAR},#{dcqrsj,jdbcType=VARCHAR},#{dhqrsj,jdbcType=VARCHAR},
+		  #{dhsj,jdbcType=VARCHAR}, #{ycxzsj,jdbcType=VARCHAR},#{ycjxzsj,jdbcType=VARCHAR},#{ecxzsj,jdbcType=VARCHAR},
+		  #{ecjxzsj,jdbcType=VARCHAR}, #{zhjxzsj,jdbcType=VARCHAR},#{sdsj,jdbcType=VARCHAR},#{ydbh,jdbcType=VARCHAR},
+		  #{tyrq,jdbcType=VARCHAR}, #{lrsj,jdbcType=VARCHAR},#{cplb,jdbcType=VARCHAR},
+		   #{qrshfs,jdbcType=VARCHAR},#{khmc,jdbcType=VARCHAR},
+		  #{tzkhsj,jdbcType=VARCHAR},#{zhddcxsj,jdbcType=VARCHAR},#{ycszsj,jdbcType=VARCHAR},#{tyrmc,jdbcType=VARCHAR}
+		    )
+	</insert>	
+</mapper>

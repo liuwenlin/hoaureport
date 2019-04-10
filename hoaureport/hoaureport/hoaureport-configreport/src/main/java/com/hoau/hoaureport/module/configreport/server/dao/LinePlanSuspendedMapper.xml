@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.LinePlanSuspendedMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    <id column="LINEPLAN_ID" jdbcType="DECIMAL" property="linePlanId" />
+    <result column="STARTWORK" jdbcType="VARCHAR" property="startWork" />
+    <result column="ARRIVEWORK" jdbcType="VARCHAR" property="arriveWork" />
+    <result column="START_GRIDLINES" jdbcType="VARCHAR" property="startGridLines" />
+    <result column="GRIDLINES" jdbcType="VARCHAR" property="gridLines" />
+    <result column="BELONGS_LINES" jdbcType="VARCHAR" property="belongLines" />
+    <result column="DEPARTURE_TYPE" jdbcType="CHAR" property="departureType" />
+    <result column="LINE_QUANTITY" jdbcType="DECIMAL" property="lineQuantity" />
+    <result column="DEPARTURE_FREQUENCY" jdbcType="DECIMAL" property="departureFrequency" />
+    <result column="MON" jdbcType="CHAR" property="monday" />
+    <result column="TUE" jdbcType="CHAR" property="tuesday" />
+    <result column="WED" jdbcType="CHAR" property="wednesday" />
+    <result column="THU" jdbcType="CHAR" property="thursday" />
+    <result column="FRI" jdbcType="CHAR" property="friday" />
+    <result column="SAT" jdbcType="CHAR" property="saturday" />
+    <result column="SUN" jdbcType="CHAR" property="sunday" />
+    <result column="LINE_KIL" jdbcType="DECIMAL" property="lineKil" />
+    <result column="LINE_TYPE" jdbcType="CHAR" property="lineType" />
+    <result column="SHIFTS" jdbcType="DECIMAL" property="shifts" />
+    <result column="TOTAL_SHIFTS" jdbcType="DECIMAL" property="totalShifts" />
+    <result column="DEPARTURETIME" jdbcType="TIMESTAMP" property="departureTime" />
+    <result column="TRAVELINGTIME_1" jdbcType="DECIMAL" property="travelTimeOne" />
+    <result column="ARRIVALTIME_1" jdbcType="TIMESTAMP" property="arrivalTimeOne" />
+    <result column="DEPARTURETIME_2" jdbcType="TIMESTAMP" property="departureTimeTwo" />
+    <result column="TRAVELINGTIME_2" jdbcType="DECIMAL" property="travelTimeTwo" />
+    <result column="ARRIVALTIME_2" jdbcType="TIMESTAMP" property="arrivalTimeTwo" />
+    <result column="DEPARTURETIME_3" jdbcType="TIMESTAMP" property="departureTimeThr" />
+    <result column="TRAVELINGTIME_3" jdbcType="DECIMAL" property="travelTimeThr" />
+    <result column="ARRIVALTIME" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="CARTYPE" jdbcType="VARCHAR" property="carType" />
+    <result column="TRAINNUMBER" jdbcType="VARCHAR" property="trainNumber" />
+    <result column="ACTUALNUMCARS" jdbcType="VARCHAR" property="actualNumCars" />
+    <result column="DEMAND_FOR_CARS" jdbcType="VARCHAR" property="demandForCars" />
+    <result column="HANG_CARS_DEMAND" jdbcType="VARCHAR" property="hangCarsDemand" />
+    <result column="CONTRACT_DATE" jdbcType="TIMESTAMP" property="contractDate" />
+    <result column="STOP_GO_GOODS" jdbcType="VARCHAR" property="stopGoGoods" />
+    <result column="OPENINGTIME" jdbcType="TIMESTAMP" property="oppeningTime" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="EFFECTED_TIME" jdbcType="TIMESTAMP" property="effectedTime" />
+    <result column="INVALID_TIME" jdbcType="TIMESTAMP" property="invalidTime" />
+    <result column="ACTIVE" jdbcType="CHAR" property="active" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_CODE" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="MODIFY_USER_CODE" jdbcType="VARCHAR" property="modifyUserCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LINEPLAN_ID,STARTWORK, ARRIVEWORK, START_GRIDLINES, GRIDLINES, BELONGS_LINES, 
+    DEPARTURE_TYPE, LINE_QUANTITY, DEPARTURE_FREQUENCY, MON, TUE, WED, THU, FRI, SAT, 
+    SUN, LINE_KIL, LINE_TYPE, SHIFTS, TOTAL_SHIFTS, DEPARTURETIME, TRAVELINGTIME_1, ARRIVALTIME_1, 
+    DEPARTURETIME_2, TRAVELINGTIME_2, ARRIVALTIME_2, DEPARTURETIME_3, TRAVELINGTIME_3, 
+    ARRIVALTIME, CARTYPE, TRAINNUMBER, ACTUALNUMCARS, DEMAND_FOR_CARS, HANG_CARS_DEMAND, 
+    CONTRACT_DATE, STOP_GO_GOODS, OPENINGTIME, REMARKS, EFFECTED_TIME, INVALID_TIME, 
+    ACTIVE, CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, MODIFY_USER_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_LINEPLAN_STOP
+    where LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPORT_LINEPLAN_STOP
+    where LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    insert into REPORT_LINEPLAN_STOP (LINEPLAN_ID,STARTWORK, 
+      ARRIVEWORK, START_GRIDLINES, GRIDLINES, 
+      BELONGS_LINES, DEPARTURE_TYPE, LINE_QUANTITY, 
+      DEPARTURE_FREQUENCY, MON, TUE, 
+      WED, THU, FRI, 
+      SAT, SUN, LINE_KIL, 
+      LINE_TYPE, SHIFTS, TOTAL_SHIFTS, 
+      DEPARTURETIME, TRAVELINGTIME_1, ARRIVALTIME_1, 
+      DEPARTURETIME_2, TRAVELINGTIME_2, ARRIVALTIME_2, 
+      DEPARTURETIME_3, TRAVELINGTIME_3, ARRIVALTIME, 
+      CARTYPE, TRAINNUMBER, ACTUALNUMCARS, 
+      DEMAND_FOR_CARS, HANG_CARS_DEMAND, CONTRACT_DATE, 
+      STOP_GO_GOODS, OPENINGTIME, REMARKS, 
+      EFFECTED_TIME, INVALID_TIME, ACTIVE, 
+      CREATE_TIME, CREATE_USER_CODE, MODIFY_TIME, 
+      MODIFY_USER_CODE)
+    values (SEQ_LINEPLANSTOP_ID.Nextval,#{startWork,jdbcType=VARCHAR}, 
+      #{arriveWork,jdbcType=VARCHAR}, #{startGridLines,jdbcType=VARCHAR}, #{gridLines,jdbcType=VARCHAR}, 
+      #{belongLines,jdbcType=VARCHAR}, #{departureType,jdbcType=CHAR}, #{lineQuantity,jdbcType=DECIMAL}, 
+      #{departureFrequency,jdbcType=DECIMAL}, #{monday,jdbcType=CHAR}, #{tuesday,jdbcType=CHAR}, 
+      #{wednesday,jdbcType=CHAR}, #{thursday,jdbcType=CHAR}, #{friday,jdbcType=CHAR}, 
+      #{saturday,jdbcType=CHAR}, #{sunday,jdbcType=CHAR}, #{lineKil,jdbcType=DECIMAL}, 
+      #{lineType,jdbcType=CHAR}, #{shifts,jdbcType=DECIMAL}, #{totalShifts,jdbcType=DECIMAL}, 
+      #{departureTime,jdbcType=TIMESTAMP}, #{travelTimeOne,jdbcType=DECIMAL}, #{arrivalTimeOne,jdbcType=TIMESTAMP}, 
+      #{departureTimeTwo,jdbcType=TIMESTAMP}, #{travelTimeTwo,jdbcType=DECIMAL}, #{arrivalTimeTwo,jdbcType=TIMESTAMP}, 
+      #{departureTimeThr,jdbcType=TIMESTAMP}, #{travelTimeThr,jdbcType=DECIMAL}, #{arrivalTime,jdbcType=TIMESTAMP}, 
+      #{carType,jdbcType=VARCHAR}, #{trainNumber,jdbcType=VARCHAR}, #{actualNumCars,jdbcType=VARCHAR}, 
+      #{demandForCars,jdbcType=VARCHAR}, #{hangCarsDemand,jdbcType=VARCHAR}, #{contractDate,jdbcType=TIMESTAMP}, 
+      #{stopGoGoods,jdbcType=VARCHAR}, #{oppeningTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{effectedTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, #{active,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserCode,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUserCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    insert into REPORT_LINEPLAN_STOP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      LINEPLAN_ID,
+      <if test="startWork != null">
+        STARTWORK,
+      </if>
+      <if test="arriveWork != null">
+        ARRIVEWORK,
+      </if>
+      <if test="startGridLines != null">
+        START_GRIDLINES,
+      </if>
+      <if test="gridLines != null">
+        GRIDLINES,
+      </if>
+      <if test="belongLines != null">
+        BELONGS_LINES,
+      </if>
+      <if test="departureType != null">
+        DEPARTURE_TYPE,
+      </if>
+      <if test="lineQuantity != null">
+        LINE_QUANTITY,
+      </if>
+      <if test="departureFrequency != null">
+        DEPARTURE_FREQUENCY,
+      </if>
+      <if test="monday != null">
+        MON,
+      </if>
+      <if test="tuesday != null">
+        TUE,
+      </if>
+      <if test="wednesday != null">
+        WED,
+      </if>
+      <if test="thursday != null">
+        THU,
+      </if>
+      <if test="friday != null">
+        FRI,
+      </if>
+      <if test="saturday != null">
+        SAT,
+      </if>
+      <if test="sunday != null">
+        SUN,
+      </if>
+      <if test="lineKil != null">
+        LINE_KIL,
+      </if>
+      <if test="lineType != null">
+        LINE_TYPE,
+      </if>
+      <if test="shifts != null">
+        SHIFTS,
+      </if>
+      <if test="totalShifts != null">
+        TOTAL_SHIFTS,
+      </if>
+      <if test="departureTime != null">
+        DEPARTURETIME,
+      </if>
+      <if test="travelTimeOne != null">
+        TRAVELINGTIME_1,
+      </if>
+      <if test="arrivalTimeOne != null">
+        ARRIVALTIME_1,
+      </if>
+      <if test="departureTimeTwo != null">
+        DEPARTURETIME_2,
+      </if>
+      <if test="travelTimeTwo != null">
+        TRAVELINGTIME_2,
+      </if>
+      <if test="arrivalTimeTwo != null">
+        ARRIVALTIME_2,
+      </if>
+      <if test="departureTimeThr != null">
+        DEPARTURETIME_3,
+      </if>
+      <if test="travelTimeThr != null">
+        TRAVELINGTIME_3,
+      </if>
+      <if test="arrivalTime != null">
+        ARRIVALTIME,
+      </if>
+      <if test="carType != null">
+        CARTYPE,
+      </if>
+      <if test="trainNumber != null">
+        TRAINNUMBER,
+      </if>
+      <if test="actualNumCars != null">
+        ACTUALNUMCARS,
+      </if>
+      <if test="demandForCars != null">
+        DEMAND_FOR_CARS,
+      </if>
+      <if test="hangCarsDemand != null">
+        HANG_CARS_DEMAND,
+      </if>
+      <if test="contractDate != null">
+        CONTRACT_DATE,
+      </if>
+      <if test="stopGoGoods != null">
+        STOP_GO_GOODS,
+      </if>
+      <if test="oppeningTime != null">
+        OPENINGTIME,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME,
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME,
+      </if>
+      <if test="active != null">
+        ACTIVE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      SEQ_LINEPLANSTOP_ID.Nextval,
+      <if test="startWork != null">
+        #{startWork,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveWork != null">
+        #{arriveWork,jdbcType=VARCHAR},
+      </if>
+      <if test="startGridLines != null">
+        #{startGridLines,jdbcType=VARCHAR},
+      </if>
+      <if test="gridLines != null">
+        #{gridLines,jdbcType=VARCHAR},
+      </if>
+      <if test="belongLines != null">
+        #{belongLines,jdbcType=VARCHAR},
+      </if>
+      <if test="departureType != null">
+        #{departureType,jdbcType=CHAR},
+      </if>
+      <if test="lineQuantity != null">
+        #{lineQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="departureFrequency != null">
+        #{departureFrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="monday != null">
+        #{monday,jdbcType=CHAR},
+      </if>
+      <if test="tuesday != null">
+        #{tuesday,jdbcType=CHAR},
+      </if>
+      <if test="wednesday != null">
+        #{wednesday,jdbcType=CHAR},
+      </if>
+      <if test="thursday != null">
+        #{thursday,jdbcType=CHAR},
+      </if>
+      <if test="friday != null">
+        #{friday,jdbcType=CHAR},
+      </if>
+      <if test="saturday != null">
+        #{saturday,jdbcType=CHAR},
+      </if>
+      <if test="sunday != null">
+        #{sunday,jdbcType=CHAR},
+      </if>
+      <if test="lineKil != null">
+        #{lineKil,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null">
+        #{lineType,jdbcType=CHAR},
+      </if>
+      <if test="shifts != null">
+        #{shifts,jdbcType=DECIMAL},
+      </if>
+      <if test="totalShifts != null">
+        #{totalShifts,jdbcType=DECIMAL},
+      </if>
+      <if test="departureTime != null">
+        #{departureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeOne != null">
+        #{travelTimeOne,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTimeOne != null">
+        #{arrivalTimeOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureTimeTwo != null">
+        #{departureTimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeTwo != null">
+        #{travelTimeTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTimeTwo != null">
+        #{arrivalTimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureTimeThr != null">
+        #{departureTimeThr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeThr != null">
+        #{travelTimeThr,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="trainNumber != null">
+        #{trainNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actualNumCars != null">
+        #{actualNumCars,jdbcType=VARCHAR},
+      </if>
+      <if test="demandForCars != null">
+        #{demandForCars,jdbcType=VARCHAR},
+      </if>
+      <if test="hangCarsDemand != null">
+        #{hangCarsDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDate != null">
+        #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopGoGoods != null">
+        #{stopGoGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="oppeningTime != null">
+        #{oppeningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="effectedTime != null">
+        #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    update REPORT_LINEPLAN_STOP
+    <set>
+      <if test="startWork != null">
+        STARTWORK = #{startWork,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveWork != null">
+        ARRIVEWORK = #{arriveWork,jdbcType=VARCHAR},
+      </if>
+      <if test="startGridLines != null">
+        START_GRIDLINES = #{startGridLines,jdbcType=VARCHAR},
+      </if>
+      <if test="gridLines != null">
+        GRIDLINES = #{gridLines,jdbcType=VARCHAR},
+      </if>
+      <if test="belongLines != null">
+        BELONGS_LINES = #{belongLines,jdbcType=VARCHAR},
+      </if>
+      <if test="departureType != null">
+        DEPARTURE_TYPE = #{departureType,jdbcType=CHAR},
+      </if>
+      <if test="lineQuantity != null">
+        LINE_QUANTITY = #{lineQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="departureFrequency != null">
+        DEPARTURE_FREQUENCY = #{departureFrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="monday != null">
+        MON = #{monday,jdbcType=CHAR},
+      </if>
+      <if test="tuesday != null">
+        TUE = #{tuesday,jdbcType=CHAR},
+      </if>
+      <if test="wednesday != null">
+        WED = #{wednesday,jdbcType=CHAR},
+      </if>
+      <if test="thursday != null">
+        THU = #{thursday,jdbcType=CHAR},
+      </if>
+      <if test="friday != null">
+        FRI = #{friday,jdbcType=CHAR},
+      </if>
+      <if test="saturday != null">
+        SAT = #{saturday,jdbcType=CHAR},
+      </if>
+      <if test="sunday != null">
+        SUN = #{sunday,jdbcType=CHAR},
+      </if>
+      <if test="lineKil != null">
+        LINE_KIL = #{lineKil,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null">
+        LINE_TYPE = #{lineType,jdbcType=CHAR},
+      </if>
+      <if test="shifts != null">
+        SHIFTS = #{shifts,jdbcType=DECIMAL},
+      </if>
+      <if test="totalShifts != null">
+        TOTAL_SHIFTS = #{totalShifts,jdbcType=DECIMAL},
+      </if>
+      <if test="departureTime != null">
+        DEPARTURETIME = #{departureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeOne != null">
+        TRAVELINGTIME_1 = #{travelTimeOne,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTimeOne != null">
+        ARRIVALTIME_1 = #{arrivalTimeOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureTimeTwo != null">
+        DEPARTURETIME_2 = #{departureTimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeTwo != null">
+        TRAVELINGTIME_2 = #{travelTimeTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTimeTwo != null">
+        ARRIVALTIME_2 = #{arrivalTimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureTimeThr != null">
+        DEPARTURETIME_3 = #{departureTimeThr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelTimeThr != null">
+        TRAVELINGTIME_3 = #{travelTimeThr,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTime != null">
+        ARRIVALTIME = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carType != null">
+        CARTYPE = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="trainNumber != null">
+        TRAINNUMBER = #{trainNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actualNumCars != null">
+        ACTUALNUMCARS = #{actualNumCars,jdbcType=VARCHAR},
+      </if>
+      <if test="demandForCars != null">
+        DEMAND_FOR_CARS = #{demandForCars,jdbcType=VARCHAR},
+      </if>
+      <if test="hangCarsDemand != null">
+        HANG_CARS_DEMAND = #{hangCarsDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDate != null">
+        CONTRACT_DATE = #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopGoGoods != null">
+        STOP_GO_GOODS = #{stopGoGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="oppeningTime != null">
+        OPENINGTIME = #{oppeningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="effectedTime != null">
+        EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null">
+        INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        ACTIVE = #{active,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserCode != null">
+        MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    update REPORT_LINEPLAN_STOP
+    set STARTWORK = #{startWork,jdbcType=VARCHAR},
+      ARRIVEWORK = #{arriveWork,jdbcType=VARCHAR},
+      START_GRIDLINES = #{startGridLines,jdbcType=VARCHAR},
+      GRIDLINES = #{gridLines,jdbcType=VARCHAR},
+      BELONGS_LINES = #{belongLines,jdbcType=VARCHAR},
+      DEPARTURE_TYPE = #{departureType,jdbcType=CHAR},
+      LINE_QUANTITY = #{lineQuantity,jdbcType=DECIMAL},
+      DEPARTURE_FREQUENCY = #{departureFrequency,jdbcType=DECIMAL},
+      MON = #{monday,jdbcType=CHAR},
+      TUE = #{tuesday,jdbcType=CHAR},
+      WED = #{wednesday,jdbcType=CHAR},
+      THU = #{thursday,jdbcType=CHAR},
+      FRI = #{friday,jdbcType=CHAR},
+      SAT = #{saturday,jdbcType=CHAR},
+      SUN = #{sunday,jdbcType=CHAR},
+      LINE_KIL = #{lineKil,jdbcType=DECIMAL},
+      LINE_TYPE = #{lineType,jdbcType=CHAR},
+      SHIFTS = #{shifts,jdbcType=DECIMAL},
+      TOTAL_SHIFTS = #{totalShifts,jdbcType=DECIMAL},
+      DEPARTURETIME = #{departureTime,jdbcType=TIMESTAMP},
+      TRAVELINGTIME_1 = #{travelTimeOne,jdbcType=DECIMAL},
+      ARRIVALTIME_1 = #{arrivalTimeOne,jdbcType=TIMESTAMP},
+      DEPARTURETIME_2 = #{departureTimeTwo,jdbcType=TIMESTAMP},
+      TRAVELINGTIME_2 = #{travelTimeTwo,jdbcType=DECIMAL},
+      ARRIVALTIME_2 = #{arrivalTimeTwo,jdbcType=TIMESTAMP},
+      DEPARTURETIME_3 = #{departureTimeThr,jdbcType=TIMESTAMP},
+      TRAVELINGTIME_3 = #{travelTimeThr,jdbcType=DECIMAL},
+      ARRIVALTIME = #{arrivalTime,jdbcType=TIMESTAMP},
+      CARTYPE = #{carType,jdbcType=VARCHAR},
+      TRAINNUMBER = #{trainNumber,jdbcType=VARCHAR},
+      ACTUALNUMCARS = #{actualNumCars,jdbcType=VARCHAR},
+      DEMAND_FOR_CARS = #{demandForCars,jdbcType=VARCHAR},
+      HANG_CARS_DEMAND = #{hangCarsDemand,jdbcType=VARCHAR},
+      CONTRACT_DATE = #{contractDate,jdbcType=TIMESTAMP},
+      STOP_GO_GOODS = #{stopGoGoods,jdbcType=VARCHAR},
+      OPENINGTIME = #{oppeningTime,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      EFFECTED_TIME = #{effectedTime,jdbcType=TIMESTAMP},
+      INVALID_TIME = #{invalidTime,jdbcType=TIMESTAMP},
+      ACTIVE = #{active,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER_CODE = #{createUserCode,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      MODIFY_USER_CODE = #{modifyUserCode,jdbcType=VARCHAR}
+    where LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+  </update>
+  <select id="queryLinePlanByCondition" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_LINEPLAN_STOP
+    <where>
+    	<if test="linePlanId != null and linePlanId != ''">
+    	and LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+    	</if>
+    	<if test="startWork != null and startWork != ''">
+    	and STARTWORK = #{startWork,jdbcType=VARCHAR}
+    	</if>
+    	<if test="arriveWork != null and arriveWork != ''">
+    	and ARRIVEWORK = #{arriveWork,jdbcType=VARCHAR}
+    	</if>
+    	<if test="departureTime != null and departureTime != ''">
+    	and DEPARTURETIME = #{departureTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="shifts != null and shifts != ''">
+    	and SHIFTS = #{shifts,jdbcType=DECIMAL}
+    	</if>
+    	<if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+  <select id="queryLinePlanCountByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.LinePlanSuspended">
+    select count(*)
+    from REPORT_LINEPLAN_STOP
+    <where>
+      <if test="linePlanId != null and linePlanId != ''">
+        LINEPLAN_ID = #{linePlanId,jdbcType=DECIMAL}
+      </if>
+       <if test="startWork != null and startWork != ''">
+       and STARTWORK = #{startWork,jdbcType=VARCHAR}
+      </if>
+      <if test="arriveWork != null and arriveWork != ''">
+       and ARRIVEWORK = #{arriveWork,jdbcType=VARCHAR}
+      </if>
+      <if test="active != null and active != ''">
+    	and ACTIVE = #{active,jdbcType=VARCHAR}
+    	</if>
+   </where>
+   </select>
+   <!-- 作废所有数据 -->
+   <update id="repealAll">
+   	update REPORT_LINEPLAN_STOP
+   	<set>
+   	ACTIVE = 'N'  
+   	</set>
+   	<where>
+   	ACTIVE = 'Y'
+   	</where>
+   </update>
+   
+</mapper>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 操作日志实体的MyBatis映射文件 -->
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.QueryAssembleDaoMapper"><!-- 最好是实体的地址 -->
+	<!-- 定义实体与数据库的映射结果集 -->
+	<resultMap type="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql"
+		id="querySqlResultMap">
+		<id property="id" column="ID" />
+		<result property="number" column="NUM" />
+<!-- 		<result property="sql" column="SQL1" /> -->
+		<result column="SQL1" property="sqlBlob" jdbcType="BLOB" />
+		<result property="tableHead" column="TABLEHEAD" />
+		<result property="param" column="PARAM" />
+		<result property="remark" column="REMARK" />
+		<result property="createUser" column="CREATOR" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="modifyUser" column="MODIFIER" />
+		<result property="modifyDate" column="MODIFY_DATE" />
+		<result property="queryRule" column="QUERY_RULE" />
+		
+		<result property="exitType" column="EXIT_TYPE" />
+		<result property="originalHead" column="ORIGINAL_HEAD" />
+<!-- 		<result property="originalSql" column="ORIGINAL_SQL" /> -->
+		<result column="ORIGINAL_SQL" property="originalSqlBlob" jdbcType="BLOB" />
+		
+	</resultMap>
+	<!-- 查询所有的自定义查询SQL -->
+
+	<!-- <select id="showQuerySql" resultMap="querySqlResultMap"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+   <![CDATA[
+	     SELECT 
+		     TQ.ID,
+		     TQ.NUM,
+		     Blob_To_Varchar(TQ.SQL1) as SQL1,
+		     TQ.TABLEHEAD,
+		     TQ.PARAM,
+		     TQ.REMARK,
+		     TQ.CREATOR,
+		     TQ.CREATE_DATE,
+		     TQ.MODIFIER,
+		     TQ.MODIFY_DATE,
+		     TQ.EXIT_TYPE,
+			 TQ.ORIGINAL_HEAD,
+			 Blob_To_Varchar(TQ.ORIGINAL_SQL) as ORIGINAL_SQL
+			 
+          FROM t_report_querysql TQ
+		]]>
+		<where>
+			TQ.num IN
+			<foreach collection="orgResUris" item="code" open="("
+				close=")" separator=",">
+				#{code}
+			</foreach>
+			<if test="number!=null and number!=''">
+				and tq.num = #{number,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark != ''">
+				and instr(tq.remark,#{remark,jdbcType=VARCHAR}) > 0
+			</if>
+		</where>
+		  <![CDATA[		      
+		      order by  tq.create_date desc 
+		  ]]>
+	</select> -->
+
+	
+	<select id="showQuerySql" resultMap="querySqlResultMap"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+   <![CDATA[
+	     SELECT 
+		     TQ.ID,
+		     TQ.NUM,
+		     
+		     TQ.SQL1 as SQL1,
+		     TQ.TABLEHEAD,
+		     TQ.PARAM,
+		     TQ.REMARK,
+		     TQ.CREATOR,
+		     TQ.CREATE_DATE,
+		     TQ.MODIFIER,
+		     TQ.MODIFY_DATE,
+		     TQ.QUERY_RULE,
+		     TQ.EXIT_TYPE,
+			 TQ.ORIGINAL_HEAD,
+			 TQ.ORIGINAL_SQL as ORIGINAL_SQL
+			 
+          FROM t_report_querysql TQ left join T_REPORT_SQLROLE tr on tr.sqlid= tq.id
+		]]>
+		<where>
+			TQ.ACTIVE = 'Y' and tr.active = 'Y' 
+			<if test="roleids!=null">
+				and tr.roleid in
+				<foreach collection="roleids" item="code" open="("
+					close=")" separator=",">
+					#{code}
+				</foreach>
+			</if>
+			<if test="number!=null and number!=''">
+				and tq.num = #{number,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark != ''">
+				and instr(tq.remark,#{remark,jdbcType=VARCHAR}) > 0
+			</if>
+			<if test="id != null and id != ''">
+				and tq.id = #{id,jdbcType=VARCHAR}
+			</if>
+
+		</where>
+		  <![CDATA[		      
+		      order by  tq.create_date desc 
+		  ]]>
+	</select>
+	
+
+	<!--分页查询所有成功率总数 -->
+	<select id="totalshowQuerySql" resultType="long"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+	    <![CDATA[
+	     SELECT 
+		     count(TQ.ID)
+         FROM t_report_querysql TQ left join T_REPORT_SQLROLE tr on tr.sqlid= tq.id
+		]]>
+		<where>
+			TQ.ACTIVE = 'Y' and tr.active = 'Y' 
+			<if test="roleids!=null">
+				and tr.roleid in
+				<foreach collection="roleids" item="code" open="("
+					close=")" separator=",">
+					#{code}
+				</foreach>
+			</if>
+			<if test="number!=null and number!=''">
+				and tq.num = #{number,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark != ''">
+				and instr(tq.remark,#{remark,jdbcType=VARCHAR}) > 0
+			</if>
+
+		</where>
+		  <![CDATA[		      
+		      order by  tq.create_date desc 
+		  ]]>
+	</select>
+	<!-- <select id="totalshowQuerySql" resultType="long"
+		parameterType="com.hoau.hoaureport.module.configreport.shared.domain.QuerySql">
+	    <![CDATA[
+	     SELECT 
+		     count(TQ.ID)
+         FROM t_report_querysql TQ left join T_REPORT_SQLROLE tr on tr.sqlid= tq.id
+		]]>
+		<where>
+			tr.active = 'Y'
+			<if test="createUser!=null and createUser!=''">
+				and tr.roleid in (
+				select tu.role_code from
+				t_bse_user_org_role tu where
+				tu.user_name =
+				#{createUser,jdbcType=VARCHAR}
+				and 
+				tu.org_code =
+				#{currDeptCode,jdbcType=VARCHAR}
+				)
+			</if>
+
+			<if test="number!=null and number!=''">
+				and tq.num = #{number,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null and remark != ''">
+				and instr(tq.remark,#{remark,jdbcType=VARCHAR}) > 0
+			</if>
+
+		</where>
+		  <![CDATA[		      
+		      order by  tq.create_date desc 
+		  ]]>
+	</select>-->
+
+
+	<select id="querySqlById" resultMap="querySqlResultMap"
+	parameterType="string">
+   <![CDATA[
+	     SELECT 
+		     TQ.ID,
+		     TQ.NUM,
+		     TQ.SQL1 as SQL1,
+		     TQ.TABLEHEAD,
+		     TQ.PARAM,
+		     TQ.REMARK,
+		     TQ.CREATOR,
+		     TQ.CREATE_DATE,
+		     TQ.MODIFIER,
+		     TQ.MODIFY_DATE,
+		     TQ.QUERY_RULE,
+		     TQ.EXIT_TYPE,
+			 TQ.ORIGINAL_HEAD,
+			 TQ.ORIGINAL_SQL as ORIGINAL_SQL
+			 
+          FROM t_report_querysql TQ where TQ.ID = #{id,jdbcType=VARCHAR}
+		]]>
+</select>
+
+
+</mapper>

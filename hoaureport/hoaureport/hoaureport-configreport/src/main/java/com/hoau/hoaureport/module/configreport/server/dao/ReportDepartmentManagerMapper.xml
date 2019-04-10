@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.ReportDepartmentManagerMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    <id column="DEPARTMENT_NAME" jdbcType="VARCHAR" property="departmentName" />
+    <result column="MANAGER_NAME" jdbcType="VARCHAR" property="managerName" />
+    <result column="IMPORT_TIME" jdbcType="TIMESTAMP" property="importTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DEPARTMENT_NAME, MANAGER_NAME, IMPORT_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_DEPARTMENT_MANAGER
+     <where>
+    	 <if test="departmentName != null and departmentName !='' ">
+      and DEPARTMENT_NAME  LIKE CONCAT(CONCAT('%', #{departmentName,jdbcType=VARCHAR}), '%')   
+      </if> 
+      <if test="managerName != null and managerName !=''">
+      and MANAGER_NAME  LIKE CONCAT(CONCAT('%', #{managerName,jdbcType=VARCHAR}), '%')   
+      </if>
+      <if test="importTime != null">
+       and IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from REPORT_DEPARTMENT_MANAGER
+    where DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    insert into REPORT_DEPARTMENT_MANAGER (DEPARTMENT_NAME, MANAGER_NAME, IMPORT_TIME
+      )
+    values (#{departmentName,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, #{importTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    insert into REPORT_DEPARTMENT_MANAGER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departmentName != null and departmentName != ''">
+        DEPARTMENT_NAME,
+      </if>
+      <if test="managerName != null and managerName != ''">
+        MANAGER_NAME,
+      </if>
+      <if test="importTime != null">
+        IMPORT_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departmentName != null and departmentName != ''">
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null and managerName != ''">
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="importTime != null">
+        #{importTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    update REPORT_DEPARTMENT_MANAGER
+    <set>
+      <if test="managerName != null and managerName != ''">
+        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="importTime != null">
+        IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    update REPORT_DEPARTMENT_MANAGER
+    set MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP}
+    where DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="countByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.ReportDepartmentManager">
+    select count(*)
+    from REPORT_DEPARTMENT_MANAGER
+     <where>
+    	 <if test="departmentName != null and departmentName != ''">
+      and DEPARTMENT_NAME =   #{departmentName,jdbcType=VARCHAR}
+      </if>
+      <if test="managerName != null and managerName != ''">
+      and MANAGER_NAME =  #{managerName,jdbcType=VARCHAR}
+      </if>
+      <if test="importTime != null">
+       and IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+</mapper>

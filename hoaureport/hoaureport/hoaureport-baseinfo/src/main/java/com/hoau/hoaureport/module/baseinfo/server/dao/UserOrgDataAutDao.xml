@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.UserOrgDataAutDao">
+    <resultMap id="userOrgDataAutMap"
+		type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />		
+		<result column="INCLUDE_SUB_ORG" property="includeSubOrg" jdbcType="CHAR" />
+		<result column="ACTIVE" property="active" jdbcType="CHAR" />
+		
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
+		
+		<result column="VERSION_NO" property="versionNo" jdbcType="NUMERIC" />
+		<result column="CREATE_TIME" property="createDate" jdbcType="DATE" />
+		<result column="MODIFY_TIME" property="modifyDate" jdbcType="DATE" />
+		<result column="CREATE_USER_CODE" property="createUser" jdbcType="VARCHAR" />
+		<result column="MODIFY_USER_CODE" property="modifyUser" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="userOrgDataAut_ResultMap_Param">
+		UOD.ID              AS ID,
+        UOD.USER_NAME       AS USER_NAME,
+        U.EMP_NAME          AS EMP_NAME,
+        O.CODE              AS ORG_CODE,
+        O.NAME              AS ORG_NAME,
+        UOD.INCLUDE_SUB_ORG AS INCLUDE_SUB_ORG,
+        UOD.ACTIVE AS ACTIVE,
+        UOD.VERSION_NO AS VERSION_NO,
+        UOD.CREATE_TIME  AS CREATE_TIME,
+        UOD.CREATE_USER_CODE AS CREATE_USER_CODE,
+        UOD.MODIFY_TIME AS MODIFY_TIME,
+        UOD.MODIFY_USER_CODE AS MODIFY_USER_CODE
+		
+	</sql>
+	  <!-- 根据精确查询的查询条件 ，如果属性为空，则此属性不作为条件 -->
+	<sql id="userOrgDataAut_where_base_param">
+		<if test="id != null and id != ''">
+			AND UOD.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND UOD.USER_NAME = #{userName,jdbcType=VARCHAR}
+		</if>
+		<if test="orgCode != null and orgCode != ''">
+			AND UOD.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+		</if>
+		<if test="includeSubOrg != null and includeSubOrg != ''">
+			AND UOD.INCLUDE_SUB_ORG = #{includeSubOrg,jdbcType=VARCHAR}
+		</if>
+		<if test="active != null and active != ''">
+			AND UOD.ACTIVE = #{active,jdbcType=VARCHAR}
+		</if>
+		<if test="createDate != null and createDate != ''">
+			AND UOD.CREATE_TIME = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			AND UOD.CREATE_USER_CODE = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="modifyDate != null and modifyDate != ''">
+			AND UOD.MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifyUser != null and modifyUser != ''">
+			AND UOD.MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+		</if>
+		
+	</sql>
+	
+	<!-- 根据用户名查询部门用户信息 -->
+	<select id="queryUserOrgListByUserName" parameterType="map" resultMap="userOrgDataAutMap">
+	   SELECT
+	     <include refid="userOrgDataAut_ResultMap_Param"></include>
+	   FROM T_BSE_USER_ORG_DATA_AUTHORITY UOD
+		 INNER JOIN T_BSE_ORG O
+		    ON O.CODE = UOD.ORG_CODE AND O.ACTIVE = 'Y'
+		 INNER JOIN T_BSE_USER U 
+		    ON U.USER_NAME = UOD.USER_NAME AND U.ACTIVE = 'Y'
+	   WHERE UOD.USER_NAME = #{userName,jdbcType=VARCHAR} 
+		    AND UOD.ACTIVE = #{active,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据用户名和部门编码查询部门用户信息 -->
+	<select id="queryUserOrgCountByUserName" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity" resultMap="userOrgDataAutMap">
+	    SELECT
+	     UOD.USER_NAME,UOD.ORG_CODE,UOD.INCLUDE_SUB_ORG,UOD.ACTIVE
+	    FROM 
+	    T_BSE_USER_ORG_DATA_AUTHORITY UOD
+	    WHERE
+	     UOD.USER_NAME = #{userName,jdbcType=VARCHAR}  AND UOD.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+	     AND UOD.ACTIVE='Y'
+	</select>
+	
+	
+	<!-- 查询用户部门数据权限信息 -->
+	<select id="queryUserOrgDataAut" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity" resultMap="userOrgDataAutMap">
+	     SELECT
+	     <include refid="userOrgDataAut_ResultMap_Param"></include>
+	     FROM T_BSE_USER_ORG_DATA_AUTHORITY UOD
+		 INNER JOIN T_BSE_ORG O
+		    ON O.CODE = UOD.ORG_CODE AND O.ACTIVE = 'Y'
+		 INNER JOIN T_BSE_USER U 
+		    ON U.USER_NAME = UOD.USER_NAME AND U.ACTIVE = 'Y'
+	     <where>
+            <include refid="userOrgDataAut_where_base_param"></include>
+        </where>
+	</select>
+	
+	<!-- 查询用户部门数据权限信息 记录数-->
+	<select id="queryUserOrgDataAutCount" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity"
+		resultType="Long">
+	    SELECT COUNT(1)  
+	     FROM T_BSE_USER_ORG_DATA_AUTHORITY UOD
+		 INNER JOIN T_BSE_ORG O
+		    ON O.CODE = UOD.ORG_CODE AND O.ACTIVE = 'Y'
+		 INNER JOIN T_BSE_USER U 
+		    ON U.USER_NAME = UOD.USER_NAME AND U.ACTIVE = 'Y'
+	     <where>
+            <include refid="userOrgDataAut_where_base_param"></include>
+        </where>
+	</select>
+	
+	<!-- 删除用户部门数据权限信息 -->
+	<update id="deleteUserOrgDataAut" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity">
+	  UPDATE  T_BSE_USER_ORG_DATA_AUTHORITY UOD
+	  SET 
+	    UOD.ACTIVE = #{active,jdbcType=VARCHAR},
+		UOD.MODIFY_TIME=#{modifyDate,jdbcType=VARCHAR},
+		UOD.MODIFY_USER_CODE=#{modifyUser,jdbcType=TIMESTAMP},
+		UOD.VERSION_NO = #{versionNo,jdbcType=NUMERIC}
+	 WHERE UOD.ID = #{id,jdbcType=VARCHAR} AND UOD.ACTIVE='Y'
+	</update>
+	
+	<!--添加用户部门数据权限信息 -->
+	<insert id="addUserOrgDataAut" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.UserOrgDataAutEntity">
+	    INSERT 
+	    INTO T_BSE_USER_ORG_DATA_AUTHORITY 
+	    (	
+	    ID,
+		USER_NAME, 		
+		ORG_CODE, 
+		INCLUDE_SUB_ORG, 		
+		ACTIVE,
+		
+		VERSION_NO,		
+		CREATE_TIME, 
+		MODIFY_TIME,		
+		CREATE_USER_CODE, 
+		MODIFY_USER_CODE
+	    )
+	    VALUES(
+	    	#{id,jdbcType=VARCHAR},
+	    	#{userName,jdbcType=VARCHAR},
+	    	#{orgCode,jdbcType=VARCHAR},
+	    	#{includeSubOrg,jdbcType=VARCHAR},
+	    	#{active,jdbcType=VARCHAR},
+	    	
+	    	#{versionNo,jdbcType=NUMERIC},
+	    	#{createDate,jdbcType=TIMESTAMP},
+	    	#{modifyDate,jdbcType=TIMESTAMP},
+	    	#{createUser,jdbcType=VARCHAR},
+	    	#{modifyUser,jdbcType=VARCHAR}
+	    )
+	</insert>
+   
+	<delete id="deleteUserOrgDataAutByUserName">
+		 UPDATE T_BSE_USER_ORG_DATA_AUTHORITY
+		    SET ACTIVE           = 'N',
+		        MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR},
+		        MODIFY_TIME      = #{modifyDate,jdbcType=TIMESTAMP}
+		  WHERE USER_NAME = #{userName,jdbcType=VARCHAR}
+		    AND ACTIVE = 'Y'
+	</delete>
+</mapper>

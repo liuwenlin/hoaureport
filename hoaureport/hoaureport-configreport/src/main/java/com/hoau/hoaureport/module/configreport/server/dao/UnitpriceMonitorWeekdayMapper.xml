@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.UnitpriceMonitorWeekdayMapper">
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    <id column="WEEKDAY_DATE" jdbcType="VARCHAR" property="weekdayDate" />
+    <result column="WEEKDAY_DAYS" jdbcType="VARCHAR" property="weekdayDays" />
+    <result column="MODIFY_USER" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WEEKDAY_DATE, WEEKDAY_DAYS, MODIFY_USER, MODIFY_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from UNITPRICE_MONITOR_WEEKDAY
+    where WEEKDAY_DATE = #{weekdayDate,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from UNITPRICE_MONITOR_WEEKDAY
+    where WEEKDAY_DATE = #{weekdayDate,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    insert into UNITPRICE_MONITOR_WEEKDAY (WEEKDAY_DATE, WEEKDAY_DAYS, MODIFY_USER, 
+      MODIFY_TIME)
+    values (#{weekdayDate,jdbcType=VARCHAR}, #{weekdayDays,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    insert into UNITPRICE_MONITOR_WEEKDAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="weekdayDate != null">
+        WEEKDAY_DATE,
+      </if>
+      <if test="weekdayDays != null">
+        WEEKDAY_DAYS,
+      </if>
+      <if test="modifyUser != null">
+        MODIFY_USER,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="weekdayDate != null">
+        #{weekdayDate,jdbcType=VARCHAR},
+      </if>
+      <if test="weekdayDays != null">
+        #{weekdayDays,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    update UNITPRICE_MONITOR_WEEKDAY
+    <set>
+      <if test="weekdayDays != null">
+        WEEKDAY_DAYS = #{weekdayDays,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        MODIFY_USER = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where WEEKDAY_DATE = #{weekdayDate,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    update UNITPRICE_MONITOR_WEEKDAY
+    set WEEKDAY_DAYS = #{weekdayDays,jdbcType=VARCHAR},
+      MODIFY_USER = #{modifyUser,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+    where WEEKDAY_DATE = #{weekdayDate,jdbcType=VARCHAR}
+  </update>
+   <select id="countByCondition" resultType="long" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+    select count(*) 
+    from UNITPRICE_MONITOR_WEEKDAY
+     <where>
+    	 <if test="weekdayDate != null and weekdayDate != ''">
+      and WEEKDAY_DATE =   #{weekdayDate,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="queryUnitpriceMonitorWeekday" resultMap="BaseResultMap" parameterType="com.hoau.hoaureport.module.configreport.shared.domain.UnitpriceMonitorWeekday">
+	 select 
+	 <include refid="Base_Column_List" />
+    from UNITPRICE_MONITOR_WEEKDAY
+      <where>
+    	<if test="weekdayDate != null and weekdayDate != ''">
+      and WEEKDAY_DATE  LIKE CONCAT(CONCAT('%', #{weekdayDate,jdbcType=VARCHAR} ), '%')      
+      </if>
+    	</where>
+  </select>
+</mapper>

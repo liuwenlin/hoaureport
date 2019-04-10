@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.OrderAddressEnityMapper" >
+  <!--The file was generated on 2018-03-09 10:46:52 by lx-->
+  <resultMap id="BaseResultMap" type="com.hoau.hoaureport.module.job.shared.domain.OrderAddressEnity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="VARCHAR" />
+    <result column="SHIPPER_CITY" property="shipperCity" jdbcType="VARCHAR" />
+    <result column="SHIPPER_ADDRES" property="shipperAddres" jdbcType="VARCHAR" />
+    <result column="SHIPPER_LNG" property="shipperLng" jdbcType="VARCHAR" />
+    <result column="SHIPPER_LAT" property="shipperLat" jdbcType="VARCHAR" />
+    <result column="PICKUP_ADDRES" property="pickupAddres" jdbcType="VARCHAR" />
+    <result column="PICKUP_LNG" property="pickupLng" jdbcType="VARCHAR" />
+    <result column="PICKUP_LAT" property="pickupLat" jdbcType="VARCHAR" />
+    <result column="ORDER_DISTANCE" property="orderDistance" jdbcType="DECIMAL" />
+    <result column="APISTATUS" property="apistatus" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="MODIFY_USER" property="modifyUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, 
+    ORDERNO, 
+    SHIPPER_CITY, 
+    SHIPPER_ADDRES, 
+    SHIPPER_LNG, 
+    SHIPPER_LAT, 
+    PICKUP_ADDRES, 
+    PICKUP_LNG, 
+    PICKUP_LAT, 
+    ORDER_DISTANCE, 
+    APISTATUS, 
+    CREATE_DATE, 
+    MODIFY_DATE, 
+    CREATE_USER, 
+    MODIFY_USER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from REPORT_OMSORDER_ADDRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insert" parameterType="com.hoau.hoaureport.module.job.shared.domain.OrderAddressEnity" >
+    insert into REPORT_OMSORDER_ADDRESS (ID, ORDERNO, SHIPPER_CITY, 
+      SHIPPER_ADDRES, SHIPPER_LNG, SHIPPER_LAT, 
+      PICKUP_ADDRES, PICKUP_LNG, PICKUP_LAT, 
+      ORDER_DISTANCE, APISTATUS, CREATE_DATE, 
+      MODIFY_DATE, CREATE_USER, MODIFY_USER
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{shipperCity,jdbcType=VARCHAR}, 
+      #{shipperAddres,jdbcType=VARCHAR}, #{shipperLng,jdbcType=VARCHAR}, #{shipperLat,jdbcType=VARCHAR}, 
+      #{pickupAddres,jdbcType=VARCHAR}, #{pickupLng,jdbcType=VARCHAR}, #{pickupLat,jdbcType=VARCHAR}, 
+      #{orderDistance,jdbcType=DECIMAL}, #{apistatus,jdbcType=DECIMAL}, #{createDate,jdbcType=DATE}, 
+      #{modifyDate,jdbcType=DATE}, #{createUser,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+  <resultMap id="OmsOrderResultMap" type="com.hoau.hoaureport.module.job.shared.domain.OmsOrderVo" >
+
+    <result column="eoor_order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="eoor_shipper_ebpl_name_cn" property="shipperCity" jdbcType="VARCHAR" />
+    <result column="eoor_shipper_ebsa_address" property="shipperAddress" jdbcType="VARCHAR" />
+    <result column="pickup_address" property="pickupAddress" jdbcType="VARCHAR" />
+    <result column="position_status" property="positionStatus" jdbcType="DECIMAL" />
+    <result column="ssr" property="bizDay" jdbcType="DATE" />
+
+  </resultMap>
+
+
+ <select id="queryOmsOrderList" parameterType="string" resultMap="OmsOrderResultMap">
+
+   <![CDATA[
+      select
+        t.eoor_order_no,
+        t.eoor_shipper_ebpl_name_cn,
+        t.eoor_shipper_ebsa_address,
+        t.pickup_address,
+        t.ssr,
+        t.position_status
+      from report_oms_tsh_mx t
+      where to_char(t.ssr,'yyyy-mm-dd')= #{bizdate,jdbcType=VARCHAR}
+      and length(trim(t.pickup_address)) >1
+      and trim(t.pickup_address) !='未解析地址'
+      and t.position_status=0
+      and length(trim(t.eoor_shipper_ebsa_address)) >1
+      order by t.eoor_order_no
+   ]]>
+
+ </select>
+
+  <select id="queryOmsOrderCount" parameterType="string" resultType="long">
+     <![CDATA[
+      select
+      count(*)
+      from report_oms_tsh_mx t
+      where to_char(t.ssr,'yyyy-mm-dd')= #{bizdate,jdbcType=VARCHAR}
+      and length(trim(t.pickup_address)) >1
+      and trim(t.pickup_address) !='未解析地址'
+      and t.position_status=0
+      and length(trim(t.eoor_shipper_ebsa_address)) >1
+
+   ]]>
+
+  </select>
+
+
+  <insert id="insertOrderAddres" parameterType="com.hoau.hoaureport.module.job.shared.domain.OrderAddressEnity">
+       <![CDATA[
+               merge into
+                   report_omsorder_address M USING (
+                      select
+                       #{id,jdbcType=VARCHAR} AS                   ID,
+                       #{orderno,jdbcType=VARCHAR} AS              ORDERNO,
+                       #{shipperCity,jdbcType=VARCHAR} AS          SHIPPER_CITY,
+                       #{shipperAddres,jdbcType=VARCHAR} AS        SHIPPER_ADDRES,
+                       #{shipperLng,jdbcType=VARCHAR} AS           SHIPPER_LNG,
+                       #{shipperLat,jdbcType=VARCHAR} AS           SHIPPER_LAT,
+                       #{pickupAddres,jdbcType=VARCHAR} AS         PICKUP_ADDRES,
+                       #{pickupLng,jdbcType=VARCHAR} AS            PICKUP_LNG,
+                       #{pickupLat,jdbcType=VARCHAR} AS            PICKUP_LAT,
+                       #{orderDistance,jdbcType=DECIMAL} AS        ORDER_DISTANCE,
+                       #{apistatus,jdbcType=DECIMAL} AS            APISTATUS,
+                       #{createDate,jdbcType=TIMESTAMP} AS         CREATE_DATE,
+                       #{modifyDate,jdbcType=TIMESTAMP} AS         MODIFY_DATE,
+                       #{createUser,jdbcType=VARCHAR} AS           CREATE_USER,
+                       #{modifyUser,jdbcType=VARCHAR} AS           MODIFY_USER
+
+                      from dual
+
+                  ) T
+                  ON (M.ORDERNO = T.ORDERNO  )
+                  WHEN MATCHED THEN
+                  UPDATE set
+                       M.SHIPPER_CITY =      T.SHIPPER_CITY,
+                       M.SHIPPER_ADDRES =    T.SHIPPER_ADDRES,
+                       M.SHIPPER_LNG =       T.SHIPPER_LNG,
+                       M.SHIPPER_LAT =       T.SHIPPER_LAT,
+                       M.PICKUP_ADDRES =     T.PICKUP_ADDRES,
+                       M.PICKUP_LNG =        T.PICKUP_LNG,
+                       M.PICKUP_LAT =        T.PICKUP_LAT,
+                       M.ORDER_DISTANCE =    T.ORDER_DISTANCE,
+                       M.APISTATUS =         T.APISTATUS,
+                       M.MODIFY_DATE =       T.MODIFY_DATE,
+                       M.MODIFY_USER =       T.MODIFY_USER
+
+                  when not matched then
+                       insert (
+                         ID,
+                         ORDERNO,
+                         SHIPPER_CITY,
+                         SHIPPER_ADDRES,
+                         SHIPPER_LNG,
+                         SHIPPER_LAT,
+                         PICKUP_ADDRES,
+                         PICKUP_LNG,
+                         PICKUP_LAT,
+                         ORDER_DISTANCE,
+                         APISTATUS,
+                         CREATE_DATE,
+                         CREATE_USER
+
+                      ) values(
+
+                         T.ID,
+                         T.ORDERNO,
+                         T.SHIPPER_CITY,
+                         T.SHIPPER_ADDRES,
+                         T.SHIPPER_LNG,
+                         T.SHIPPER_LAT,
+                         T.PICKUP_ADDRES,
+                         T.PICKUP_LNG,
+                         T.PICKUP_LAT,
+                         T.ORDER_DISTANCE,
+                         T.APISTATUS,
+                         T.CREATE_DATE,
+                         T.CREATE_USER
+                      )
+             ]]>
+
+  </insert>
+
+
+  <update id="updateOmsOrderStatus" parameterType="string">
+      update report_oms_tsh_mx t set t.position_status='1'
+      where t.eoor_order_no in (
+        select m.eoor_order_no from report_oms_tsh_mx m
+        inner join report_omsorder_address a on a.orderno=m.eoor_order_no
+        where to_char(m.ssr,'yyyy-mm-dd')= #{bizdate,jdbcType=VARCHAR}
+        and a.apistatus=1
+      )
+  </update>
+
+
+</mapper>

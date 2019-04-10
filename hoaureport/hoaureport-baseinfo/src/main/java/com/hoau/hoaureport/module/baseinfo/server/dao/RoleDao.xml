@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.baseinfo.server.dao.RoleDao">
+    <resultMap type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity" id="queryRoleMap">
+        <result column="ID"   property="id"  jdbcType="VARCHAR" />
+        <result column="CODE" property="code"  jdbcType="VARCHAR" />
+        <result column="NAME" property="name"  jdbcType="VARCHAR" />
+         <result column="TYPE" property="type"  jdbcType="VARCHAR" />
+        <result column="NOTES" property="notes"  jdbcType="VARCHAR" />
+        <result column="ACTIVE" property="active"  jdbcType="VARCHAR" />
+        <result column="VERSION_NO" property="versionNo"  jdbcType="NUMERIC" />    
+            
+      	<result column="CREATE_TIME" property="createDate"  jdbcType="TIMESTAMP" />
+        <result column="CREATE_USER_CODE" property="createUser"  jdbcType="VARCHAR" />
+        <result column="MODIFY_TIME" property="modifyDate"  jdbcType="TIMESTAMP" />
+        <result column="MODIFY_USER_CODE" property="modifyUser"  jdbcType="VARCHAR" />
+
+    </resultMap>
+    
+    <sql id="query_role_param">
+        D.ID AS ID,
+        D.CODE AS CODE,/** 角色编号**/
+        D.NAME AS NAME,/** 角色名称**/
+        D.TYPE AS TYPE,/** 角色类型 **/
+        D.NOTES AS NOTES,/** 角色描述**/
+        D.ACTIVE AS ACTIVE,/** 是否可用**/
+        D.VERSION_NO AS VERSION_NO,/** 版本号**/
+        D.CREATE_TIME AS CREATE_TIME,/**创建时间**/
+        D.CREATE_USER_CODE AS CREATE_USER_CODE,/**创建人**/
+        D.MODIFY_TIME AS MODIFY_TIME/**更新时间**/,
+        D.MODIFY_USER_CODE AS MODIFY_USER_CODE/**更新人**/
+       
+    </sql>
+    
+    <!-- 根据精确查询的查询条件 ，如果属性为空，则此属性不作为条件 -->
+	<sql id="role_where_base_param">
+		<if test="id != null and id != ''">
+			AND ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="code != null and code != ''">
+			AND CODE = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			AND NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+			
+		</if>
+		<if test="notes != null and notes != ''">
+			AND NOTES = #{notes,jdbcType=VARCHAR}
+		</if>
+		<if test="active != null and active != ''">
+			AND ACTIVE = #{active,jdbcType=VARCHAR}
+		</if>
+		<if test="createDate != null and createDate != ''">
+			AND CREATE_TIME = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			AND CREATE_USER_CODE = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="modifyDate != null and modifyDate != ''">
+			AND MODIFY_TIME = #{modifyDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifyUser != null and modifyUser != ''">
+			AND MODIFY_USER_CODE = #{modifyUser,jdbcType=VARCHAR}
+		</if>
+		
+	</sql>
+	
+	   <select id="queryAllRoleInfo" resultMap="queryRoleMap">
+        SELECT 
+        <include refid="query_role_param"></include>
+        FROM T_BSE_ROLE  D 
+        WHERE ACTIVE = 'Y'
+        </select>
+        
+	   <select id="queryFranchiseAllRoleInfo" resultMap="queryRoleMap">
+        SELECT 
+        <include refid="query_role_param"></include>
+        FROM T_BSE_ROLE  D 
+        WHERE  D.ACTIVE = 'Y' AND D.TYPE='FANCHISE_USER_ROLE'
+        </select>
+	
+	 <select id="queryRoleCount"	resultType="Long">
+	    SELECT COUNT(ID) FROM T_BSE_ROLE 	WHERE  ACTIVE = 'Y'  
+	</select>
+	 
+	 <select id="queryNameByName" resultType="String">
+        SELECT   D.NAME   FROM T_BSE_ROLE  D 
+        WHERE D.NAME=#{name,jdbcType=VARCHAR} 
+        	AND  ACTIVE = 'Y'
+        </select>       
+	
+    	
+	 <select id="queryRoleByCode" resultMap="queryRoleMap">
+        SELECT 
+        <include refid="query_role_param"></include>
+        FROM T_BSE_ROLE  D 
+        WHERE D.CODE=#{code,jdbcType=VARCHAR}
+         AND  ACTIVE = 'Y' 
+        </select>
+        
+	 <select id="queryRoleByCodeAndName" resultMap="queryRoleMap">
+        SELECT 
+        <include refid="query_role_param"></include>
+        FROM T_BSE_ROLE  D
+         WHERE 
+            D.ACTIVE = 'Y' AND 
+         	D.CODE=#{code,jdbcType=VARCHAR}  
+        	     
+    </select>
+    
+    <select id="queryRoleEntity" resultMap="queryRoleMap">
+        SELECT 
+        <include refid="query_role_param"></include>
+        FROM T_BSE_ROLE   D
+        <where>
+            <include refid="role_where_base_param"></include>
+        </where>
+    </select>
+    
+    <select id="queryRoleValueByEntityCount" resultType="Long">
+        SELECT 
+        	COUNT(1)
+        FROM T_BSE_ROLE   D 
+        <where>
+            <include refid="role_where_base_param"></include>
+        </where>
+    </select>
+    
+    <insert id="addRole" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity">    						
+	    INSERT 
+	    INTO T_BSE_ROLE
+	    (	
+	    	ID,
+	    	CODE,
+	    	NAME,
+	    	TYPE,
+	    	NOTES,
+	    	ACTIVE,
+	    	VERSION_NO,
+	    	CREATE_TIME,
+	    	CREATE_USER_CODE,
+	    	MODIFY_TIME,
+	    	MODIFY_USER_CODE
+	    )
+	    VALUES(
+	    	#{id,jdbcType=VARCHAR},
+	    	#{code,jdbcType=VARCHAR},
+	    	#{name,jdbcType=VARCHAR},
+	    	#{type,jdbcType=VARCHAR},
+	    	#{notes,jdbcType=VARCHAR},
+	    	#{active,jdbcType=VARCHAR},
+	    	#{versionNo,jdbcType=NUMERIC},
+	    	#{createDate,jdbcType=TIMESTAMP},
+	    	#{createUser,jdbcType=VARCHAR},
+	    	#{modifyDate,jdbcType=VARCHAR},
+	    	#{modifyUser,jdbcType=TIMESTAMP}
+	    )
+	</insert>
+	
+    
+    <update id="updateRole" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity">
+	    UPDATE T_BSE_ROLE  
+	    SET
+	    	ACTIVE='N',
+	    	MODIFY_TIME=#{modifyDate,jdbcType=VARCHAR},
+	    	MODIFY_USER_CODE=#{modifyUser,jdbcType=TIMESTAMP},
+	    	VERSION_NO = #{versionNo,jdbcType=NUMERIC}
+	    WHERE CODE=#{code,jdbcType=VARCHAR} 
+	</update>
+	
+    <update id="deleteRole" parameterType="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity">
+       UPDATE T_BSE_ROLE 
+       SET
+	    	ACTIVE = #{active,jdbcType=VARCHAR},
+	    	MODIFY_TIME=#{modifyDate,jdbcType=VARCHAR},
+	    	MODIFY_USER_CODE=#{modifyUser,jdbcType=TIMESTAMP},
+	    	VERSION_NO = #{versionNo,jdbcType=NUMERIC}
+	    WHERE 
+         	CODE=#{code,jdbcType=VARCHAR}  AND ACTIVE='Y'       
+    </update>
+    
+    
+    <resultMap type="com.hoau.hoaureport.module.baseinfo.api.shared.domain.RoleEntity" id="roleResourceResultMap">
+        <result column="ID"   property="id"  jdbcType="VARCHAR" />
+        <result column="CODE" property="code"  jdbcType="VARCHAR" />
+        <result column="NAME" property="name"  jdbcType="VARCHAR" />
+        <result column="NOTES" property="notes"  jdbcType="VARCHAR" />
+        <result column="ACTIVE" property="active"  jdbcType="VARCHAR" />
+        <result column="VERSION_NO" property="versionNo"  jdbcType="NUMERIC" />    
+		<result column="CREATE_TIME" property="createDate" jdbcType="DATE" />
+		<result column="MODIFY_TIME" property="modifyDate" jdbcType="DATE" />
+		<result column="CREATE_USER_CODE" property="createUser" jdbcType="VARCHAR" />
+		<result column="MODIFY_USER_CODE" property="modifyUser" jdbcType="VARCHAR" />
+		<collection property="resIds" column="RES_CODE" ofType="String">
+		    <result column="RES_CODE"/>
+		</collection>
+    </resultMap>
+    <sql id="query_role_resource_param">
+        R.ID AS ID,
+        R.CODE AS CODE,/** 角色编号**/
+        R.NAME AS NAME,/** 角色名称**/
+        R.TYPE AS TYPE,/** 角色类型**/
+        R.NOTES AS NOTES,/** 角色描述**/
+        R.ACTIVE AS ACTIVE,/** 是否可用**/
+        R.VERSION_NO AS VERSION_NO,/** 版本号**/
+        R.CREATE_TIME AS CREATE_TIME,/**创建时间**/
+	   	R.CREATE_USER_CODE AS CREATE_USER_CODE,/**创建人**/
+	    R.MODIFY_TIME AS MODIFY_TIME, /**更新时间**/
+	    R.MODIFY_USER_CODE AS MODIFY_USER_CODE,/**更新人**/
+	    RE.CODE AS RES_CODE
+    </sql>
+    <select id="queryRoleResourceByCode" parameterType="map" resultMap="roleResourceResultMap">
+        SELECT 
+        <include refid="query_role_resource_param"></include>
+        FROM T_BSE_ROLE  R
+        LEFT JOIN T_BSE_ROLE_RESOURCES RR ON R.CODE = RR.ROLE_CODE AND RR.ACTIVE = #{rrActive,jdbcType=VARCHAR}
+        LEFT JOIN T_BSE_RESOURCES RE ON RE.CODE = RR.RESOURCES_CODE AND RE.ACTIVE = #{resActive,jdbcType=VARCHAR}
+        WHERE R.ACTIVE = #{roleActive,jdbcType=VARCHAR} AND R.CODE = #{code,jdbcType=VARCHAR}
+    </select>
+</mapper>

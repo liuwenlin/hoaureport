@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 操作日志实体的MyBatis映射文件 -->
+<mapper namespace="com.hoau.hoaureport.module.configreport.server.dao.ShowburDaoMapper"><!-- 最好是实体的地址 -->
+	<!-- 定义实体与数据库的映射结果集 -->
+	<resultMap type="com.hoau.hoaureport.module.configreport.shared.domain.ShowburEntity"
+		id="showburResultMap">
+		<id property="ssid" column="SSID" />
+		<result property="xaxis" column="XAXIS" />
+		<result property="belongtable" column="BELONGTABLE" />
+		<result property="chartype" column="CHARTYPE" />
+	</resultMap>
+
+	
+	<select id="getShowburInfo" resultMap="showburResultMap" parameterType="string">
+	     SELECT 
+	     xaxis,belongtable,chartype
+         FROM HYREPORT_ECHARTS where ssid=#{id}
+	</select>
+	<select id="getSumByMonth" resultType="string" parameterType="string">
+		select sum(fhzl+dhzl+zzzl+zzdh+szdhzl+xzdhzl+dyljzl)
+		from  hyreport_fdhzl_hz where  yjgs = #{0} 
+		and to_char(ssr,'yyyy/mm/dd')=#{1} 
+		group by ssr,yjgs 
+	</select>
+</mapper>
