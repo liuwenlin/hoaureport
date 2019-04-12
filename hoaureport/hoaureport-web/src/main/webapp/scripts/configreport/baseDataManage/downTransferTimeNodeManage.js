@@ -1,5 +1,5 @@
 
-/**主界面->下转移时间节点模型*/
+/**主界面->上转移时间节点模型*/
 Ext.define('Ty.Report.DownTransferTimeNode.DownTransferTimeNodeModel', {
 	extend : 'Ext.data.Model',
 	fields : [ {
@@ -82,7 +82,7 @@ Ext.define('Ty.Report.DownTransferTimeNode.DownTransferTimeNodeModel', {
 	}]
 });
 
-/***主界面->下转移时间节点store*/
+/***主界面->上转移时间节点store*/
 Ext.define('Ty.Report.DownTransferTimeNode.DownTransferTimeNodeStore', {
 	extend : 'Ext.data.Store',
 	model : 'Ty.Report.DownTransferTimeNode.DownTransferTimeNodeModel',
@@ -209,7 +209,7 @@ Ext.onReady(function(){
 	             {'name':'次日','value':'1'}
 	            ]
 	 });
-	 /**主界面->下转移时间节点表单*/
+	 /**主界面->上转移时间节点表单*/
 	 var queryForm = Ext.create('Ext.form.Panel',{
 			layout : {
 				type : 'table',	//table布局

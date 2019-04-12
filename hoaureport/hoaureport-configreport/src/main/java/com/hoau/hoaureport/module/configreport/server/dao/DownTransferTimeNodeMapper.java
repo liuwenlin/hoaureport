@@ -6,7 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode;
 /**
- * 下转移时间
+ * 上转移时间
  * ClassName: DownTransferTimeNodeMapper 
  * @author 刘镇松
  * @date 2016年10月31日
@@ -27,7 +27,7 @@ public interface DownTransferTimeNodeMapper {
     
     
     /**
-     * 根据条件查询下转移时间节点信息
+     * 根据条件查询上转移时间节点信息
      * @param DownTransferTimeNodeVo
      * @return
      */

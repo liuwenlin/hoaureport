@@ -40,7 +40,7 @@ Ext.onReady(function() {
 		},{
 			xtype : 'dynamicTransfercombselector',
 			id : 'dynamicTransfercombselector',
-			fieldLabel : '上下转移目的地(dynamicTransfercombselector)',
+			fieldLabel : '上上转移目的地(dynamicTransfercombselector)',
 			orgCode : 'DP141814',
 			labelWidth : 160 
 		},{

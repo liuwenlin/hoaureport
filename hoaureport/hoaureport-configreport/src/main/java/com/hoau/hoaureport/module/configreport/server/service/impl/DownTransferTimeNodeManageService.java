@@ -27,7 +27,7 @@ import com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNod
 import com.hoau.hoaureport.module.util.DateUtils;
 
 /**
- * 下转移时间节点管理服务实现类
+ * 上转移时间节点管理服务实现类
  * ClassName: DownTransferTimeNodeManageService 
  * @author 文洁
  * @date 2016年10月31
@@ -41,7 +41,7 @@ public class DownTransferTimeNodeManageService implements IDownTransferTimeNodeM
 	DownTransferTimeNodeMapper downTransferTimeNodeMapper;
 	
 	/**
-	 * 查询下转移时间节点信息
+	 * 查询上转移时间节点信息
 	 */
 	@Override
 	public List<DownTransferTimeNode> queryDownTransferTimeNode(DownTransferTimeNode param,
@@ -59,7 +59,7 @@ public class DownTransferTimeNodeManageService implements IDownTransferTimeNodeM
 	}
 
 	/**
-	 * 增加下转移时间节点
+	 * 增加上转移时间节点
 	 */
 	@Transactional
 	@Override
@@ -79,7 +79,7 @@ public class DownTransferTimeNodeManageService implements IDownTransferTimeNodeM
 	}
 
 	/**
-	 * 在原纪录下更新下转移时间节点信息
+	 * 在原纪录下更新上转移时间节点信息
 	 */
 	@Transactional
 	@Override
@@ -287,7 +287,7 @@ public class DownTransferTimeNodeManageService implements IDownTransferTimeNodeM
   
 	/**
 	 * 
-	 * @Description: 新增或覆盖下转移时间节点信息数据
+	 * @Description: 新增或覆盖上转移时间节点信息数据
 	 * @param pcbean
 	 * @param countMap
 	 * @author 文洁

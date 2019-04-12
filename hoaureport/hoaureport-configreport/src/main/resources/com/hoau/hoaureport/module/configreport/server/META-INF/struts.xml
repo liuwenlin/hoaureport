@@ -121,7 +121,7 @@
 			<result name="success" type="json"></result>
 			<result name="error" type="json"></result>
 		</action>
-	  <!-- 下转移时间节点管理 -->
+	  <!-- 上转移时间节点管理 -->
 		<action name="downTransferTimeNodeManageAction" class="downTransferTimeNodeManageAction">
 			<result name="index">downTransferTimeNodeManage.jsp</result>
 			<result name="success" type="json"></result>

@@ -3,7 +3,7 @@ package com.hoau.hoaureport.module.configreport.shared.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 /**
- * 下转移时间
+ * 上转移时间
  * ClassName: DownTransferTimeNode 
  * @author 刘镇松
  * @date 2016年10月31日

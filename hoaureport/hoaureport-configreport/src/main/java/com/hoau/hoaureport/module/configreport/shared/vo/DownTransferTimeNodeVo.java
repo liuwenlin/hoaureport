@@ -5,16 +5,16 @@ import java.util.List;
 import com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode;
 
 /**
- * 下转移时间节点VO
+ * 上转移时间节点VO
  * ClassName: DownTransferTimeNodeVo 
  * @author 文洁
  * @date 2016年10月31日
  * @version V1.0
  */
 public class DownTransferTimeNodeVo {
-	/**下转移时间节点*/
+	/**上转移时间节点*/
 	private DownTransferTimeNode downTransferTimeNode;
-	/**下转移时间节点集合*/
+	/**上转移时间节点集合*/
 	private List<DownTransferTimeNode> downTransferTimeNodeList;
 	
 	private String filePath;//文件路径

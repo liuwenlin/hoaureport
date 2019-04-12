@@ -18,7 +18,7 @@ import com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNod
 import com.hoau.hoaureport.module.configreport.shared.vo.DownTransferTimeNodeVo;
 
 /**
- * 下转移时间节点管理Action
+ * 上转移时间节点管理Action
  * ClassName: DownTransferTimeNodeManageAction 
  * @author 文洁
  * @date 2016年10月31日
@@ -43,7 +43,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	
 	/**
 	 * 
-	 * @Description:返回 下转移时间节点管理 首界面
+	 * @Description:返回 上转移时间节点管理 首界面
 	 * @return index字符串 
 	 * @author 文洁
 	 * @date 2016年10月31日
@@ -54,7 +54,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	
 	/**
 	 * 
-	 * @Description:根据条件查询 下转移时间节点信息
+	 * @Description:根据条件查询 上转移时间节点信息
 	 * @return String
 	 * @author 文洁
 	 * @date 2016年10月31日
@@ -72,7 +72,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	
 	/**
 	 * 
-	 * @Description:增加下转移时间节点信息
+	 * @Description:增加上转移时间节点信息
 	 * @return String 
 	 * @author 文洁
 	 * @date 2016年10月31日
@@ -82,7 +82,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 		DownTransferTimeNode param = downTransferTimeNodeVo.getDownTransferTimeNode();
 		try {
 			if(downTransferTimeNodeManageService.isExist(param)){//数据已存在不能添加
-				return returnError("已存在相同的下转移时间节点数据,请重新添加！");
+				return returnError("已存在相同的上转移时间节点数据,请重新添加！");
 			}else{
 				DownTransferTimeNode newInfo = new DownTransferTimeNode();
 				newInfo.setTheArea(param.getTheArea());;
@@ -110,7 +110,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	
 	/**
 	 * 
-	 * @Description:修改下转移时间节点信息
+	 * @Description:修改上转移时间节点信息
 	 * @return String 
 	 * @author 文洁
 	 * @date 2016年10月31日
@@ -119,7 +119,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	public String modifyDownTransferTimeNode(){
 		try {
 			DownTransferTimeNode param = downTransferTimeNodeVo.getDownTransferTimeNode();
-			//根据ID查询数据库下转移时间节点信息
+			//根据ID查询数据库上转移时间节点信息
 			DownTransferTimeNode filterParam = new DownTransferTimeNode();
 			filterParam.setuId(param.getuId());
 			filterParam.setActive("Y");
@@ -136,7 +136,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 				filters.setActive("Y");
 				List<DownTransferTimeNode> infoList = downTransferTimeNodeManageService.queryDownTransferTimeNode(filters, 0, 10);
 				if(infoList.size() > 0){
-					return returnError("已存在相同下转移时间节点数据,请重新修改!");
+					return returnError("已存在相同上转移时间节点数据,请重新修改!");
 				}else{
 					downTransferTimeNodeManageService.repealAndAddDownTransferTimeNode(param);
 					return returnSuccess("修改成功!");
@@ -149,7 +149,7 @@ public class DownTransferTimeNodeManageAction extends AbstractAction{
 	
 	/**
 	 * 
-	 * @Description:下转移时间节点作废
+	 * @Description:上转移时间节点作废
 	 * @return String 
 	 * @author 文洁
 	 * @date 2016年10月31日

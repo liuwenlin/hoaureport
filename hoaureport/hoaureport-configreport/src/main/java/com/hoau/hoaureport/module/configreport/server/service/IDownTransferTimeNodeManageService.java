@@ -6,7 +6,7 @@ import java.util.Map;
 import com.hoau.hoaureport.module.configreport.shared.domain.DownTransferTimeNode;
 
 /**
- * 下转移时间节点管理服务接口
+ * 上转移时间节点管理服务接口
  * ClassName: IDownTransferTimeNodeManageService 
  * @author 文洁
  * @date 2016年10月31
@@ -16,8 +16,8 @@ public interface IDownTransferTimeNodeManageService {
 	
 	/**
 	 * 
-	 * @Description:查询下转移时间节点信息
-	 * @param 下转移时间节点实例
+	 * @Description:查询上转移时间节点信息
+	 * @param 上转移时间节点实例
 	 * @param 查询开始索引
 	 * @param 查询条数
 	 * @return List<DownTransferTimeNode> 
@@ -30,7 +30,7 @@ public interface IDownTransferTimeNodeManageService {
 	/**
 	 * 
 	 * @Description:查询记录总数
-	 * @param 下转移时间节点实例
+	 * @param 上转移时间节点实例
 	 * @return Long 
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -39,8 +39,8 @@ public interface IDownTransferTimeNodeManageService {
 	
 	/**
 	 * 
-	 * @Description:增加下转移时间节点
-	 * @param 下转移时间节点实例   
+	 * @Description:增加上转移时间节点
+	 * @param 上转移时间节点实例
 	 * @return void 
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -49,8 +49,8 @@ public interface IDownTransferTimeNodeManageService {
 	
 	/**
 	 * 
-	 * @Description:在原纪录下更新下转移时间节点信息
-	 * @param 下转移时间节点实例   
+	 * @Description:在原纪录下更新上转移时间节点信息
+	 * @param 上转移时间节点实例
 	 * @return void 
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -60,7 +60,7 @@ public interface IDownTransferTimeNodeManageService {
 	/**
 	 * 
 	 * @Description:原纪录作废，更新后的记录作为新数据插入
-	 * @param 下转移时间节点实例
+	 * @param 上转移时间节点实例
 	 * @return void 
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -70,7 +70,7 @@ public interface IDownTransferTimeNodeManageService {
 	/**
 	 * 
 	 * @Description:纪录作废
-	 * @param 下转移时间节点实例   
+	 * @param 上转移时间节点实例
 	 * @return 记录作废操作者编号 
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -80,7 +80,7 @@ public interface IDownTransferTimeNodeManageService {
 	/**
 	 * 
 	 * @Description:判断记录是否已存在
-	 * @param 下转移时间节点实例
+	 * @param 上转移时间节点实例
 	 * @return boolean 已存在为true
 	 * @author 文洁
 	 * @date 2016年10月31
@@ -98,7 +98,7 @@ public interface IDownTransferTimeNodeManageService {
 	public  Map<String,Object>  bathImplDownTransferTimeNode(String path) throws Exception;
 	/**
 	 * 
-	 * @Description: 添加或者更新下转移时间节点信息
+	 * @Description: 添加或者更新上转移时间节点信息
 	 * @param info
 	 * @param countMap
 	 * @author 文洁
