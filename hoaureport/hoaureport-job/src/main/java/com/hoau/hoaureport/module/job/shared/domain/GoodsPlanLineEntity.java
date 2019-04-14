@@ -1,5 +1,6 @@
 package com.hoau.hoaureport.module.job.shared.domain;
 
+import com.hoau.hoaureport.module.job.shared.constant.BillType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -7,14 +8,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 送货单车辆实体
+ * 提送货单编号及车辆实体
  * @author liuwenlin
  * @version v1.0
- * @date 2019/4/10 23:38
+ * @date 2019/4/11 9:19
  */
-public class DeliverGoodsPlanLineEntity implements Serializable {
+public class GoodsPlanLineEntity implements Serializable {
     /**
-     * 送货规划线路表id
+     * 提送货单规划线路明细id
      */
     private String id;
 
@@ -24,35 +25,40 @@ public class DeliverGoodsPlanLineEntity implements Serializable {
     private String cph;
 
     /**
-     * 送货单号
+     * 提送货单编号
      */
-    private String deliverGoodsBill;
+    private String goodsBill;
 
     /**
-     * 送货公司地理编码
+     * 提送货单编号类型
+     */
+    private BillType billType;
+
+    /**
+     * 提货公司地理编码
      */
     private String storeGeoCode;
 
     /**
-     * 送货单运单
+     * 提货单运单
      */
-    private List<DeliverGoodsOrders> orderGeoCodeList;
+    private List<GoodsOrdersEntity> orderGeoCodeList;
 
     /**
-     * 当前送货单地图返回的规划距离
+     * 当前提送货单地图返回的规划距离
      */
-    private Integer deliverGoodsDistance;
+    private Integer goodsDistance;
 
-    public DeliverGoodsPlanLineEntity(){}
+    public GoodsPlanLineEntity(){}
 
-
-    public DeliverGoodsPlanLineEntity(String id, String cph, String deliverGoodsBill, String storeGeoCode, List<DeliverGoodsOrders> orderGeoCodeList, Integer deliverGoodsDistance) {
+    public GoodsPlanLineEntity(String id, String cph, String goodsBill, BillType billType, String storeGeoCode, List<GoodsOrdersEntity> orderGeoCodeList, Integer goodsDistance) {
         this.id = id;
         this.cph = cph;
-        this.deliverGoodsBill = deliverGoodsBill;
+        this.goodsBill = goodsBill;
+        this.billType = billType;
         this.storeGeoCode = storeGeoCode;
         this.orderGeoCodeList = orderGeoCodeList;
-        this.deliverGoodsDistance = deliverGoodsDistance;
+        this.goodsDistance = goodsDistance;
     }
 
     public String getId() {
@@ -71,12 +77,20 @@ public class DeliverGoodsPlanLineEntity implements Serializable {
         this.cph = cph;
     }
 
-    public String getDeliverGoodsBill() {
-        return deliverGoodsBill;
+    public String getGoodsBill() {
+        return goodsBill;
     }
 
-    public void setDeliverGoodsBill(String deliverGoodsBill) {
-        this.deliverGoodsBill = deliverGoodsBill;
+    public void setGoodsBill(String goodsBill) {
+        this.goodsBill = goodsBill;
+    }
+
+    public BillType getBillType() {
+        return billType;
+    }
+
+    public void setBillType(BillType billType) {
+        this.billType = billType;
     }
 
     public String getStoreGeoCode() {
@@ -87,20 +101,20 @@ public class DeliverGoodsPlanLineEntity implements Serializable {
         this.storeGeoCode = storeGeoCode;
     }
 
-    public List<DeliverGoodsOrders> getOrderGeoCodeList() {
+    public List<GoodsOrdersEntity> getOrderGeoCodeList() {
         return orderGeoCodeList;
     }
 
-    public void setOrderGeoCodeList(List<DeliverGoodsOrders> orderGeoCodeList) {
+    public void setOrderGeoCodeList(List<GoodsOrdersEntity> orderGeoCodeList) {
         this.orderGeoCodeList = orderGeoCodeList;
     }
 
-    public Integer getDeliverGoodsDistance() {
-        return deliverGoodsDistance;
+    public Integer getGoodsDistance() {
+        return goodsDistance;
     }
 
-    public void setDeliverGoodsDistance(Integer deliverGoodsDistance) {
-        this.deliverGoodsDistance = deliverGoodsDistance;
+    public void setGoodsDistance(Integer goodsDistance) {
+        this.goodsDistance = goodsDistance;
     }
 
     @Override
@@ -109,15 +123,16 @@ public class DeliverGoodsPlanLineEntity implements Serializable {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        DeliverGoodsPlanLineEntity that = (DeliverGoodsPlanLineEntity) o;
+        GoodsPlanLineEntity that = (GoodsPlanLineEntity) o;
 
         return new EqualsBuilder()
                 .append(getId(), that.getId())
                 .append(getCph(), that.getCph())
-                .append(getDeliverGoodsBill(), that.getDeliverGoodsBill())
+                .append(getGoodsBill(), that.getGoodsBill())
+                .append(getBillType(), that.getBillType())
                 .append(getStoreGeoCode(), that.getStoreGeoCode())
                 .append(getOrderGeoCodeList(), that.getOrderGeoCodeList())
-                .append(getDeliverGoodsDistance(), that.getDeliverGoodsDistance())
+                .append(getGoodsDistance(), that.getGoodsDistance())
                 .isEquals();
     }
 
@@ -126,22 +141,24 @@ public class DeliverGoodsPlanLineEntity implements Serializable {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
                 .append(getCph())
-                .append(getDeliverGoodsBill())
+                .append(getGoodsBill())
+                .append(getBillType())
                 .append(getStoreGeoCode())
                 .append(getOrderGeoCodeList())
-                .append(getDeliverGoodsDistance())
+                .append(getGoodsDistance())
                 .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "DeliverGoodsPlanLineEntity{" +
+        return "GoodsPlanLineEntity{" +
                 "id='" + id + '\'' +
                 ", cph='" + cph + '\'' +
-                ", deliverGoodsBill='" + deliverGoodsBill + '\'' +
+                ", goodsBill='" + goodsBill + '\'' +
+                ", billType=" + billType +
                 ", storeGeoCode='" + storeGeoCode + '\'' +
                 ", orderGeoCodeList=" + orderGeoCodeList +
-                ", deliverGoodsDistance=" + deliverGoodsDistance +
+                ", goodsDistance=" + goodsDistance +
                 '}';
     }
 }

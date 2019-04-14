@@ -3,11 +3,10 @@ package com.hoau.hoaureport.module.job.server.service.impl;
 import com.hoau.hoaureport.module.job.server.service.IRoutePlanningService;
 import com.hoau.hoaureport.module.job.server.util.mapUtil.MapApiTool;
 import com.hoau.hoaureport.module.job.shared.constant.AmapApiConstants;
-import com.hoau.hoaureport.module.job.shared.domain.AmapApiRoutePlanningMultiEntity;
-import com.hoau.hoaureport.module.job.shared.domain.DeliverGoodsOrders;
-import com.hoau.hoaureport.module.job.shared.domain.DeliverGoodsPlanLineEntity;
+import com.hoau.hoaureport.module.job.shared.domain.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -18,24 +17,58 @@ import java.util.concurrent.ExecutionException;
 public class RoutePlanningService implements IRoutePlanningService {
 
     /**
+     * 获取体送货单中每个运单明细的地理编码
+     * @param goodsPlanLine
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    @Override
+    public GoodsPlanLineEntity captureGeocoding(GoodsPlanLineEntity goodsPlanLine) throws InterruptedException, ExecutionException {
+        GoodsPlanLineEntity goodsPlanLineEntity = goodsPlanLine;
+        Map<GoodsOrdersEntity,AmapApiGeocodeMultiEntity> multiMap = new HashMap<GoodsOrdersEntity,AmapApiGeocodeMultiEntity>();
+        for(GoodsOrdersEntity order:goodsPlanLineEntity.getOrderGeoCodeList()){
+            multiMap.put(order,MapApiTool.getGeocode(getGeocodeUrl(order)));
+            Thread.sleep(25);
+        }
+
+        for(GoodsOrdersEntity order:goodsPlanLineEntity.getOrderGeoCodeList()){
+            AmapApiGeocodeMultiEntity geocodeMultiResult = multiMap.get(order);
+            if(geocodeMultiResult.getGeocode() == null){
+                System.out.println("当前地理编码通过geocodeFuture返回");
+                order.setGeocode(geocodeMultiResult.getFutureGeocode().get());
+            } else {
+                System.out.println("当前地理编码通过geocode返回");
+                order.setGeocode(geocodeMultiResult.getGeocode());
+            }
+        }
+
+        return goodsPlanLineEntity;
+    }
+
+    private String getGeocodeUrl(GoodsOrdersEntity order) {
+        return AmapApiConstants.GEOCODE_URL + order.getAddress();
+    }
+
+    /**
      * 获取路径规划服务
      * @throws InterruptedException
      * @throws ExecutionException
      */
     @Override
-    public DeliverGoodsPlanLineEntity captureRoutePlanning(DeliverGoodsPlanLineEntity deliverGoodsPlanLine)
+    public GoodsPlanLineEntity captureRoutePlanning(GoodsPlanLineEntity goodsPlanLine)
             throws InterruptedException, ExecutionException {
 //        Map<String, AmapApiRoutePlanningMultiEntity> multiResultMap = new HashMap<String, AmapApiRoutePlanningMultiEntity>();
-        DeliverGoodsPlanLineEntity deliverGoodsPlanLineEntity = deliverGoodsPlanLine;
-        int deliverGoodsListSize = deliverGoodsPlanLineEntity.getOrderGeoCodeList().size();
+        GoodsPlanLineEntity goodsPlanLineEntity = goodsPlanLine;
+        int deliverGoodsListSize = goodsPlanLineEntity.getOrderGeoCodeList().size();
         if(deliverGoodsListSize <= AmapApiConstants.WAYPOINTS_MAX_NUM){
 //            multiResultMap.put(deliverGoodsPlanLineEntity.getDeliverGoodsBill(),MapApiTool.getDistance(getRoutePlanningUrl(deliverGoodsPlanLineEntity)));
-            AmapApiRoutePlanningMultiEntity apme = MapApiTool.getDistance(getRoutePlanningUrl(deliverGoodsPlanLineEntity));
+            AmapApiRoutePlanningMultiEntity apme = MapApiTool.getDistance(getRoutePlanningUrl(goodsPlanLineEntity));
             if(apme.getAmapResultDistance() == null){
-                deliverGoodsPlanLineEntity.setDeliverGoodsDistance(apme.getFutureDistance().get());
+                goodsPlanLineEntity.setGoodsDistance(apme.getFutureDistance().get());
                 System.out.println("当前请求路径规划接口通过future返回的距离为: " + apme.getFutureDistance().get());
             } else {
-                deliverGoodsPlanLineEntity.setDeliverGoodsDistance(apme.getAmapResultDistance());
+                goodsPlanLineEntity.setGoodsDistance(apme.getAmapResultDistance());
                 System.out.println("当前请求路径规划接口通过缓存返回的距离为: " + apme.getAmapResultDistance());
             }
 
@@ -43,37 +76,26 @@ public class RoutePlanningService implements IRoutePlanningService {
             System.out.println("送货单列表大小16时的情况,待完成..."); //TODO
         }
 
-        return deliverGoodsPlanLineEntity;
+        return goodsPlanLineEntity;
     }
 
     /**
      * 根据送货单明细实体生成路径规划请求url
-     * @param deliverGoodsPlanLineEntity
+     * @param goodsPlanLineEntity
      * @return
      */
-    private String getRoutePlanningUrl(DeliverGoodsPlanLineEntity deliverGoodsPlanLineEntity){
+    private String getRoutePlanningUrl(GoodsPlanLineEntity goodsPlanLineEntity){
         StringBuffer strBuff = new StringBuffer();
         strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL);
-        strBuff.append("&origin=").append(deliverGoodsPlanLineEntity.getStoreGeoCode());
-        strBuff.append("&destination=").append(deliverGoodsPlanLineEntity.getStoreGeoCode());
+        strBuff.append("&origin=").append(goodsPlanLineEntity.getStoreGeoCode());
+        strBuff.append("&destination=").append(goodsPlanLineEntity.getStoreGeoCode());
         strBuff.append("&waypoints=");
-        for(DeliverGoodsOrders orders:deliverGoodsPlanLineEntity.getOrderGeoCodeList()){
+        for(GoodsOrdersEntity orders:goodsPlanLineEntity.getOrderGeoCodeList()){
             strBuff.append(orders.getGeocode()).append(";");
         }
         strBuff.substring(0,strBuff.length()-1);
-        System.out.println("请求路径为:"+strBuff.toString());
+        System.out.println("路径规划请求url为:"+strBuff.toString());
         return strBuff.toString();
     }
-
-//    public static void main(String[] args){
-//        RoutePlanningService rpService = new RoutePlanningService();
-//        try {
-//            rpService.captureRoutePlanning();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 }

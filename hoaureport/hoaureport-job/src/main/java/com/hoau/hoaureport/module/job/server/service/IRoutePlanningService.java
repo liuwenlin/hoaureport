@@ -1,6 +1,6 @@
 package com.hoau.hoaureport.module.job.server.service;
 
-import com.hoau.hoaureport.module.job.shared.domain.DeliverGoodsPlanLineEntity;
+import com.hoau.hoaureport.module.job.shared.domain.GoodsPlanLineEntity;
 
 import java.util.concurrent.ExecutionException;
 
@@ -11,6 +11,8 @@ import java.util.concurrent.ExecutionException;
  */
 public interface IRoutePlanningService {
 
-    DeliverGoodsPlanLineEntity captureRoutePlanning(DeliverGoodsPlanLineEntity deliverGoodsPlanLine) throws InterruptedException, ExecutionException;
+    GoodsPlanLineEntity captureGeocoding(GoodsPlanLineEntity goodsPlanLine) throws InterruptedException, ExecutionException;
+
+    GoodsPlanLineEntity captureRoutePlanning(GoodsPlanLineEntity goodsPlanLine) throws InterruptedException, ExecutionException;
 
 }

@@ -9,6 +9,11 @@ import java.util.concurrent.ExecutionException;
  */
 public interface ISingleVehicleWorkDurationService {
 
+    /**
+     * 计算单车工作时长
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
     void computeSingleVehicleWorkDuration() throws InterruptedException, ExecutionException;
 
 }

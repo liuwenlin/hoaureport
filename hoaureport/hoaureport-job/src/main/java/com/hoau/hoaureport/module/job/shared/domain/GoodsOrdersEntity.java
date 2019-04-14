@@ -1,20 +1,20 @@
 package com.hoau.hoaureport.module.job.shared.domain;
 
+import com.hoau.hoaureport.module.job.shared.constant.BillType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.io.Serializable;
 
 /**
- * 送货单明细表实体
+ * 提送货单明细实体
  * @author liuwenlin
  * @version v1.0
- * @date 2019/4/11 14:10
+ * @date 2019/4/11 14:24
  */
-public class DeliverGoodsOrders implements Serializable {
-
+public class GoodsOrdersEntity implements Serializable {
     /**
-     * 送货单明细表id
+     * 提送货物单明细id
      */
     private String id;
 
@@ -24,9 +24,14 @@ public class DeliverGoodsOrders implements Serializable {
     private String cph;
 
     /**
-     * 送货单编号
+     * 提送货物单编号
      */
-    private String deliverGoodsBill;
+    private String goodsBill;
+
+    /**
+     * 提送货单编号类型
+     */
+    private String billType;
 
     /**
      * 运单编号
@@ -34,7 +39,12 @@ public class DeliverGoodsOrders implements Serializable {
     private String ydbh;
 
     /**
-     * 运单送货地址
+     * 城市
+     */
+    private String city;
+
+    /**
+     * 运单地址
      */
     private String address;
 
@@ -44,20 +54,22 @@ public class DeliverGoodsOrders implements Serializable {
     private String geocode;
 
     /**
-     * 运单送货顺序
+     * 运单提货顺序
      */
-    private Integer deliverGoodsSequence;
+    private Integer goodsSequence;
 
-    public DeliverGoodsOrders(){}
+    public GoodsOrdersEntity(){}
 
-    public DeliverGoodsOrders(String id, String cph, String deliverGoodsBill, String ydbh, String address, String geocode, Integer deliverGoodsSequence) {
+    public GoodsOrdersEntity(String id, String cph, String goodsBill, String billType, String ydbh, String city, String address, String geocode, Integer goodsSequence) {
         this.id = id;
         this.cph = cph;
-        this.deliverGoodsBill = deliverGoodsBill;
+        this.goodsBill = goodsBill;
+        this.billType = billType;
         this.ydbh = ydbh;
+        this.city = city;
         this.address = address;
         this.geocode = geocode;
-        this.deliverGoodsSequence = deliverGoodsSequence;
+        this.goodsSequence = goodsSequence;
     }
 
     public String getId() {
@@ -76,12 +88,20 @@ public class DeliverGoodsOrders implements Serializable {
         this.cph = cph;
     }
 
-    public String getDeliverGoodsBill() {
-        return deliverGoodsBill;
+    public String getGoodsBill() {
+        return goodsBill;
     }
 
-    public void setDeliverGoodsBill(String deliverGoodsBill) {
-        this.deliverGoodsBill = deliverGoodsBill;
+    public void setGoodsBill(String goodsBill) {
+        this.goodsBill = goodsBill;
+    }
+
+    public String getBillType() {
+        return billType;
+    }
+
+    public void setBillType(String billType) {
+        this.billType = billType;
     }
 
     public String getYdbh() {
@@ -90,6 +110,14 @@ public class DeliverGoodsOrders implements Serializable {
 
     public void setYdbh(String ydbh) {
         this.ydbh = ydbh;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getAddress() {
@@ -108,12 +136,12 @@ public class DeliverGoodsOrders implements Serializable {
         this.geocode = geocode;
     }
 
-    public Integer getDeliverGoodsSequence() {
-        return deliverGoodsSequence;
+    public Integer getGoodsSequence() {
+        return goodsSequence;
     }
 
-    public void setDeliverGoodsSequence(Integer deliverGoodsSequence) {
-        this.deliverGoodsSequence = deliverGoodsSequence;
+    public void setGoodsSequence(Integer goodsSequence) {
+        this.goodsSequence = goodsSequence;
     }
 
     @Override
@@ -122,42 +150,50 @@ public class DeliverGoodsOrders implements Serializable {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        DeliverGoodsOrders that = (DeliverGoodsOrders) o;
+        GoodsOrdersEntity that = (GoodsOrdersEntity) o;
 
         return new EqualsBuilder()
+                .appendSuper(super.equals(o))
                 .append(getId(), that.getId())
                 .append(getCph(), that.getCph())
-                .append(getDeliverGoodsBill(), that.getDeliverGoodsBill())
+                .append(getGoodsBill(), that.getGoodsBill())
+                .append(getBillType(), that.getBillType())
                 .append(getYdbh(), that.getYdbh())
+                .append(getCity(), that.getCity())
                 .append(getAddress(), that.getAddress())
                 .append(getGeocode(), that.getGeocode())
-                .append(getDeliverGoodsSequence(), that.getDeliverGoodsSequence())
+                .append(getGoodsSequence(), that.getGoodsSequence())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
                 .append(getId())
                 .append(getCph())
-                .append(getDeliverGoodsBill())
+                .append(getGoodsBill())
+                .append(getBillType())
                 .append(getYdbh())
+                .append(getCity())
                 .append(getAddress())
                 .append(getGeocode())
-                .append(getDeliverGoodsSequence())
+                .append(getGoodsSequence())
                 .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "DeliverGoodsOrders{" +
+        return "GoodsOrdersEntity{" +
                 "id='" + id + '\'' +
                 ", cph='" + cph + '\'' +
-                ", deliverGoodsBill='" + deliverGoodsBill + '\'' +
+                ", goodsBill='" + goodsBill + '\'' +
+                ", billType='" + billType + '\'' +
                 ", ydbh='" + ydbh + '\'' +
+                ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
                 ", geocode='" + geocode + '\'' +
-                ", deliverGoodsSequence='" + deliverGoodsSequence + '\'' +
+                ", goodsSequence=" + goodsSequence +
                 '}';
     }
 }

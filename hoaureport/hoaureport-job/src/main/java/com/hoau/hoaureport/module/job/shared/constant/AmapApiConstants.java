@@ -8,6 +8,8 @@ package com.hoau.hoaureport.module.job.shared.constant;
  */
 public class AmapApiConstants {
 
+    public static final String GEOCODE_URL = "https://restapi.amap.com/v3/geocode/geo?key=2b1b8768a5d61cfa19b2454f847cbf1f&address=";
+
     /**
      * 路径规划基础参数url
      */
@@ -37,6 +39,16 @@ public class AmapApiConstants {
      * 规划距离
      */
     public static final String DISTANCE = "distance";
+
+    /**
+     * 地理编码
+     */
+    public static final String GEOCODES = "geocodes";
+
+    /**
+     * 经纬度
+     */
+    public static final String LOCATION = "location";
 
     /**
      * 路径规划可选途径地最大值
