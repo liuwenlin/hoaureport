@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoau.hoaureport.module.job.server.dao.SingleVehicleWorkDurationMapper">
+
+	<select id="getSingleVehicleWorkDurationMap" resultMap="singleVehicleWorkMap">
+		SELECT OZ.CPH, OZ.SYB, OZ.DQ, OZ.CX, OZ.SFDRDC
+		  FROM REPORT_OPR_ZBCXX OZ
+		 WHERE OZ.ACTIVE = 'Y'
+	</select>
+
+	<resultMap id="singleVehicleWorkMap" type="com.hoau.hoaureport.module.job.shared.domain.SingleVehicleWorkDurationEntity">
+		<result property="cph" column="cph" jdbcType="VARCHAR"/>
+		<result property="syb" column="syb" jdbcType="VARCHAR"/>
+		<result property="dq" column="dq" jdbcType="VARCHAR"/>
+		<result property="cx" column="cx" jdbcType="VARCHAR"/>
+		<result property="sfdrdc" column="sfdrdc" jdbcType="VARCHAR"/>
+	</resultMap>
+
+</mapper>

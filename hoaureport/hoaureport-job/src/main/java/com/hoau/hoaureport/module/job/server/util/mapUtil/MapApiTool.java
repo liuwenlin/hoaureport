@@ -54,6 +54,9 @@ public class MapApiTool {
             if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())&&jsonNode.findValue(AmapApiConstants.ROUTE).size()>0){
                 System.out.println("找到规划路径!");
                 objNode = jsonNode.findPath(AmapApiConstants.PATHS).findPath(AmapApiConstants.DISTANCE);
+                if(objNode == null){
+                    return 0;
+                }
                 int distance = Integer.parseInt(objNode.textValue());
                 System.out.println("规划路径返回值: "+distance+ "米");
                 return distance;
@@ -135,6 +138,9 @@ public class MapApiTool {
             if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())&&jsonNode.findValue(AmapApiConstants.GEOCODES).size()>0){
                 System.out.println("找到地理编码!");
                 objNode = jsonNode.findPath(AmapApiConstants.GEOCODES).findPath(AmapApiConstants.LOCATION);
+                if(objNode == null){
+                    return "";
+                }
                 String geocode = objNode.textValue();
                 System.out.println("接口返回的地理编码为: "+geocode+ "");
                 return geocode;

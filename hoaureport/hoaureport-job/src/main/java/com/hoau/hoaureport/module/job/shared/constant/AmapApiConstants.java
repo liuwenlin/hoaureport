@@ -8,7 +8,7 @@ package com.hoau.hoaureport.module.job.shared.constant;
  */
 public class AmapApiConstants {
 
-    public static final String GEOCODE_URL = "https://restapi.amap.com/v3/geocode/geo?key=2b1b8768a5d61cfa19b2454f847cbf1f&address=";
+    public static final String GEOCODE_URL = "https://restapi.amap.com/v3/geocode/geo?key=2b1b8768a5d61cfa19b2454f847cbf1f&output=json&address=";
 
     /**
      * 路径规划基础参数url

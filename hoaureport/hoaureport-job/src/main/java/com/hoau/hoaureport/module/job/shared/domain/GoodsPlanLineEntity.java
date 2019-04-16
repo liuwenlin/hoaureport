@@ -32,7 +32,7 @@ public class GoodsPlanLineEntity implements Serializable {
     /**
      * 提送货单编号类型
      */
-    private BillType billType;
+    private String billType;
 
     /**
      * 提货公司地理编码
@@ -51,7 +51,7 @@ public class GoodsPlanLineEntity implements Serializable {
 
     public GoodsPlanLineEntity(){}
 
-    public GoodsPlanLineEntity(String id, String cph, String goodsBill, BillType billType, String storeGeoCode, List<GoodsOrdersEntity> orderGeoCodeList, Integer goodsDistance) {
+    public GoodsPlanLineEntity(String id, String cph, String goodsBill, String billType, String storeGeoCode, List<GoodsOrdersEntity> orderGeoCodeList, Integer goodsDistance) {
         this.id = id;
         this.cph = cph;
         this.goodsBill = goodsBill;
@@ -85,11 +85,11 @@ public class GoodsPlanLineEntity implements Serializable {
         this.goodsBill = goodsBill;
     }
 
-    public BillType getBillType() {
+    public String getBillType() {
         return billType;
     }
 
-    public void setBillType(BillType billType) {
+    public void setBillType(String billType) {
         this.billType = billType;
     }
 
@@ -155,7 +155,7 @@ public class GoodsPlanLineEntity implements Serializable {
                 "id='" + id + '\'' +
                 ", cph='" + cph + '\'' +
                 ", goodsBill='" + goodsBill + '\'' +
-                ", billType=" + billType +
+                ", billType='" + billType + '\'' +
                 ", storeGeoCode='" + storeGeoCode + '\'' +
                 ", orderGeoCodeList=" + orderGeoCodeList +
                 ", goodsDistance=" + goodsDistance +
