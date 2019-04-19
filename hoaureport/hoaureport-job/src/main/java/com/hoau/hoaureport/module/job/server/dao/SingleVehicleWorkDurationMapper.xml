@@ -4,18 +4,425 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoau.hoaureport.module.job.server.dao.SingleVehicleWorkDurationMapper">
 
-	<select id="getSingleVehicleWorkDurationMap" resultMap="singleVehicleWorkMap">
-		SELECT OZ.CPH, OZ.SYB, OZ.DQ, OZ.CX, OZ.SFDRDC
+    <select id="getSingleVehicleWorkDurationList" resultMap="singleVehicleWorkList">
+		SELECT OZ.CPH cph, OZ.SYB syb, OZ.DQ dq, OZ.CX cx, OZ.SFDRDC sfdrdc
 		  FROM REPORT_OPR_ZBCXX OZ
 		 WHERE OZ.ACTIVE = 'Y'
 	</select>
 
-	<resultMap id="singleVehicleWorkMap" type="com.hoau.hoaureport.module.job.shared.domain.SingleVehicleWorkDurationEntity">
-		<result property="cph" column="cph" jdbcType="VARCHAR"/>
-		<result property="syb" column="syb" jdbcType="VARCHAR"/>
-		<result property="dq" column="dq" jdbcType="VARCHAR"/>
-		<result property="cx" column="cx" jdbcType="VARCHAR"/>
-		<result property="sfdrdc" column="sfdrdc" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="singleVehicleWorkList" type="com.hoau.hoaureport.module.job.shared.domain.SingleVehicleWorkDurationEntity">
+        <id property="cph" column="cph" jdbcType="VARCHAR"/>
+        <result property="syb" column="syb" jdbcType="VARCHAR"/>
+        <result property="dq" column="dq" jdbcType="VARCHAR"/>
+        <result property="cx" column="cx" jdbcType="VARCHAR"/>
+        <result property="sfdrdc" column="sfdrdc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="batchInsertSingleVehicleWorkDurationInfo" parameterType="java.util.List">
+        INSERT INTO REPORT_SGL_CAR_WK_LENTH SW (
+            SW.SYB,
+            SW.DQ,
+            SW.CPH,
+            SW.CX,
+            SW.SFDRDC,
+            SW.SZYLC,
+            SW.XZYLC,
+            SW.QJGHLC,
+            SW.PJGHLC,
+            SW.XZYDW,
+            SW.SZYDW,
+            SW.QJDW,
+            SW.PJDW,
+            SW.QJJS,
+            SW.PJJS,
+            SW.TJRQ,
+            SW.RECORD_DATE
+        )
+        SELECT A.*, TRUNC(SYSDATE) TJRQ, SYSDATE RECORD_DATE
+        FROM(
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            (SELECT
+            #{item.syb,jdbcType=VARCHAR} SYB,
+            #{item.dq,jdbcType=VARCHAR} DQ,
+            #{item.cph,jdbcType=VARCHAR} CPH,
+            #{item.cx,jdbcType=VARCHAR} CX,
+            #{item.sfdrdc,jdbcType=VARCHAR} SFDRDC,
+            #{item.szylc,jdbcType=INTEGER} SZYLC,
+            #{item.xzylc,jdbcType=INTEGER} XZYLC,
+            #{item.qjghlc,jdbcType=INTEGER} QJGHLC,
+            #{item.pjghlc,jdbcType=INTEGER} PJGHLC,
+            #{item.xzydw,jdbcType=DOUBLE} XZYDW,
+            #{item.szydw,jdbcType=DOUBLE} SZYDW,
+            #{item.qjdw,jdbcType=DOUBLE} QJDW,
+            #{item.pjdw,jdbcType=DOUBLE} PJDW,
+            #{item.qjjs,jdbcType=INTEGER} QJJS,
+            #{item.pjjs,jdbcType=INTEGER} PJJS
+            FROM dual)
+        </foreach>
+        ) A
+	</insert>
+
+	<select id="getTransferPlanLineList" resultType="com.hoau.hoaureport.module.job.shared.domain.TransferPlanLineEntity">
+        WITH ORG AS
+        (SELECT CP.LOGIST_CODE, CP.CITY, CP.ADDRESS_DETAIL, CP.LNG, CP.LAT
+            FROM BUTTERFLY.T_BSE_ORG CP
+            WHERE CP.ACTIVE = 'Y'
+            AND CP.ADDRESS_DETAIL IS NOT NULL
+            AND NOT REGEXP_LIKE(CP.LOGIST_CODE, '[K|J|C]')
+            GROUP BY CP.LOGIST_CODE, CP.CITY, CP.ADDRESS_DETAIL, CP.LNG, CP.LAT),
+
+        T AS (SELECT GS.GSJC QYGS,
+                        GS.ZS QYDZ,
+                        MDGS.GSJC MDGS,
+                        MDGS.ZS MDDZ,
+                        CF.CX_FCBH,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH,
+                        NVL(SUM(YD.HSBL) / 1000, 0) ZYDW
+                        FROM HYDATA.LD_SZYFH SZ
+                        JOIN HYDATA.LD_CXFCQK CF
+                        ON CF.CX_FCBH = SZ.CX_FCBH
+                        JOIN HYDATA.LD_SZYMX MX
+                        ON MX.FCBH = SZ.FCBH
+                        JOIN HYDATA.LD_YD YD
+                        ON YD.YDBH = MX.YDBH
+                        JOIN REPORT_OPR_ZBCXX OZ
+                        ON OZ.CPH = CF.CPH
+                        JOIN HYDATA.LD_GS GS
+                        ON GS.GSBH = CF.QYD
+                        JOIN HYDATA.LD_GS MDGS
+                        ON MDGS.GSBH = CF.MDD
+                        LEFT JOIN HYDATA.LD_CX CX
+                        ON CX.CXBH = SZ.CX
+                        WHERE SZ.FCSJ &gt;= TRUNC(SYSDATE) - 1
+                        AND SZ.FCSJ &lt; TRUNC(SYSDATE)
+                        GROUP BY CF.CX_FCBH,
+                        GS.GSJC,
+                        GS.ZS,
+                        MDGS.GSJC,
+                        MDGS.ZS,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH),
+
+        XZ AS (SELECT GS.GSJC QYGS,
+                        GS.ZS QYDZ,
+                        MDGS.GSJC MDGS,
+                        MDGS.ZS MDDZ,
+                        CF.CX_FCBH,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH,
+                        NVL(SUM(YD.HSBL) / 1000, 0) ZYDW
+                        FROM HYDATA.LD_XZYFH SZ
+                        JOIN HYDATA.LD_CXFCQK CF
+                        ON CF.CX_FCBH = SZ.CX_FCBH
+                        JOIN HYDATA.LD_XZYMX MX
+                        ON MX.FCBH = SZ.FCBH
+                        JOIN HYDATA.LD_YD YD
+                        ON YD.YDBH = MX.YDBH
+                        JOIN REPORT_OPR_ZBCXX OZ
+                        ON OZ.CPH = CF.CPH
+                        JOIN HYDATA.LD_GS GS
+                        ON GS.GSBH = CF.QYD
+                        JOIN HYDATA.LD_GS MDGS
+                        ON MDGS.GSBH = CF.MDD
+                        LEFT JOIN HYDATA.LD_CX CX
+                        ON CX.CXBH = SZ.CX
+                        WHERE SZ.FCSJ &gt;= TRUNC(SYSDATE) - 1
+                        AND SZ.FCSJ &lt; TRUNC(SYSDATE)
+                        GROUP BY CF.CX_FCBH,
+                        GS.GSJC,
+                        GS.ZS,
+                        MDGS.GSJC,
+                        MDGS.ZS,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH)
+
+        SELECT T.CPH cph,
+            T.CX_FCBH line,
+            CASE
+            WHEN FH.CITY IS NULL THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            FH.CITY
+            END AS startCity,
+            REGEXP_REPLACE(T.QYDZ,'[ ]+') startAddress,
+            CASE
+            WHEN DH.CITY IS NULL THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            DH.CITY
+            END AS endCity,
+            REGEXP_REPLACE(T.MDDZ,'[ ]+') endAddress,
+            CASE
+            WHEN FH.LNG IS NULL THEN
+            ''
+            ELSE
+            FH.LNG || ',' || FH.LAT
+            END AS startGeoCode,
+            CASE
+            WHEN DH.LNG IS NULL THEN
+            ''
+            ELSE
+            DH.LNG || ',' || DH.LAT
+            END AS endGeoCode,
+            T.ZYDW zydw,
+            0 plannedDistance,
+            '上转移' type
+            FROM T
+            LEFT JOIN ORG FH
+            ON FH.LOGIST_CODE = T.QYGS
+            LEFT JOIN ORG DH
+            ON DH.LOGIST_CODE = T.MDGS
+
+        UNION ALL
+
+        SELECT XZ.CPH cph,
+            XZ.CX_FCBH line,
+            CASE
+            WHEN FH.CITY IS NULL THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            FH.CITY
+            END AS startCity,
+            REGEXP_REPLACE(XZ.QYDZ,'[ ]+') startAddress,
+            CASE
+            WHEN DH.CITY IS NULL THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            DH.CITY
+            END AS endCity,
+            REGEXP_REPLACE(XZ.MDDZ,'[ ]+') endAddress,
+            CASE
+            WHEN FH.LNG IS NULL THEN
+            ''
+            ELSE
+            FH.LNG || ',' || FH.LAT
+            END AS startGeoCode,
+            CASE
+            WHEN DH.LNG IS NULL THEN
+            ''
+            ELSE
+            DH.LNG || ',' || DH.LAT
+            END AS endGeoCode,
+            XZ.ZYDW zydw,
+            0 plannedDistance,
+            '下转移' type
+            FROM XZ
+            LEFT JOIN ORG FH
+            ON FH.LOGIST_CODE = XZ.QYGS
+            LEFT JOIN ORG DH
+            ON DH.LOGIST_CODE = XZ.MDGS
+	</select>
+
+    <select id="getGoodsPlanLineList" resultMap="goodsPlanLineMap">
+        WITH ORG AS
+        (SELECT CP.LOGIST_CODE, CP.CITY, CP.ADDRESS_DETAIL, CP.LNG, CP.LAT
+            FROM BUTTERFLY.T_BSE_ORG CP
+            WHERE CP.ACTIVE = 'Y'
+            AND CP.ADDRESS_DETAIL IS NOT NULL
+            AND NOT REGEXP_LIKE(CP.LOGIST_CODE, '[K|J|C]')
+            GROUP BY CP.LOGIST_CODE, CP.CITY, CP.ADDRESS_DETAIL, CP.LNG, CP.LAT),
+
+        T AS (SELECT GS.GSJC QYGS,
+                        GS.ZS QYDZ,
+                        MDGS.GSJC MDGS,
+                        MDGS.ZS MDDZ,
+                        CF.CX_FCBH,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH,
+                        NVL(SUM(YD.HSBL) / 1000, 0) ZYDW
+                        FROM HYDATA.LD_SZYFH SZ
+                        JOIN HYDATA.LD_CXFCQK CF
+                        ON CF.CX_FCBH = SZ.CX_FCBH
+                        JOIN HYDATA.LD_SZYMX MX
+                        ON MX.FCBH = SZ.FCBH
+                        JOIN HYDATA.LD_YD YD
+                        ON YD.YDBH = MX.YDBH
+                        JOIN REPORT_OPR_ZBCXX OZ
+                        ON OZ.CPH = CF.CPH
+                        JOIN HYDATA.LD_GS GS
+                        ON GS.GSBH = CF.QYD
+                        JOIN HYDATA.LD_GS MDGS
+                        ON MDGS.GSBH = CF.MDD
+                        LEFT JOIN HYDATA.LD_CX CX
+                        ON CX.CXBH = SZ.CX
+                        WHERE SZ.FCSJ &gt;= TRUNC(SYSDATE) - 1
+                        AND SZ.FCSJ &lt; TRUNC(SYSDATE)
+                        GROUP BY CF.CX_FCBH,
+                        GS.GSJC,
+                        GS.ZS,
+                        MDGS.GSJC,
+                        MDGS.ZS,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH),
+
+        XZ AS (SELECT GS.GSJC QYGS,
+                        GS.ZS QYDZ,
+                        MDGS.GSJC MDGS,
+                        MDGS.ZS MDDZ,
+                        CF.CX_FCBH,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH,
+                        NVL(SUM(YD.HSBL) / 1000, 0) ZYDW
+                        FROM HYDATA.LD_XZYFH SZ
+                        JOIN HYDATA.LD_CXFCQK CF
+                        ON CF.CX_FCBH = SZ.CX_FCBH
+                        JOIN HYDATA.LD_XZYMX MX
+                        ON MX.FCBH = SZ.FCBH
+                        JOIN HYDATA.LD_YD YD
+                        ON YD.YDBH = MX.YDBH
+                        JOIN REPORT_OPR_ZBCXX OZ
+                        ON OZ.CPH = CF.CPH
+                        JOIN HYDATA.LD_GS GS
+                        ON GS.GSBH = CF.QYD
+                        JOIN HYDATA.LD_GS MDGS
+                        ON MDGS.GSBH = CF.MDD
+                        LEFT JOIN HYDATA.LD_CX CX
+                        ON CX.CXBH = SZ.CX
+                        WHERE SZ.FCSJ &gt;= TRUNC(SYSDATE) - 1
+                        AND SZ.FCSJ &lt; TRUNC(SYSDATE)
+                        GROUP BY CF.CX_FCBH,
+                        GS.GSJC,
+                        GS.ZS,
+                        MDGS.GSJC,
+                        MDGS.ZS,
+                        CF.QYD,
+                        CF.MDD,
+                        CF.CPH)
+
+        SELECT T.CPH cph,
+            T.CX_FCBH line,
+            CASE
+            WHEN FH.CITY IS NULL THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(T.QYGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            FH.CITY
+            END AS startCity,
+            REGEXP_REPLACE(T.QYDZ,'[ ]+') startAddress,
+            CASE
+            WHEN DH.CITY IS NULL THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(T.MDGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            DH.CITY
+            END AS endCity,
+            REGEXP_REPLACE(T.MDDZ,'[ ]+') endAddress,
+            CASE
+            WHEN FH.LNG IS NULL THEN
+            ''
+            ELSE
+            FH.LNG || ',' || FH.LAT
+            END AS startGeoCode,
+            CASE
+            WHEN DH.LNG IS NULL THEN
+            ''
+            ELSE
+            DH.LNG || ',' || DH.LAT
+            END AS endGeoCode,
+            T.ZYDW zydw,
+            0 plannedDistance,
+            '上转移' type
+            FROM T
+            LEFT JOIN ORG FH
+            ON FH.LOGIST_CODE = T.QYGS
+            LEFT JOIN ORG DH
+            ON DH.LOGIST_CODE = T.MDGS
+
+        UNION ALL
+
+        SELECT XZ.CPH cph,
+            XZ.CX_FCBH line,
+            CASE
+            WHEN FH.CITY IS NULL THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            WHEN FH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(XZ.QYGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            FH.CITY
+            END AS startCity,
+            REGEXP_REPLACE(XZ.QYDZ,'[ ]+') startAddress,
+            CASE
+            WHEN DH.CITY IS NULL THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '市辖区' THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            WHEN DH.CITY = '省直辖县级行政区划' THEN
+            REGEXP_REPLACE(XZ.MDGS, '[0-9a-zA-Z]+', '')
+            ELSE
+            DH.CITY
+            END AS endCity,
+            REGEXP_REPLACE(XZ.MDDZ,'[ ]+') endAddress,
+            CASE
+            WHEN FH.LNG IS NULL THEN
+            ''
+            ELSE
+            FH.LNG || ',' || FH.LAT
+            END AS startGeoCode,
+            CASE
+            WHEN DH.LNG IS NULL THEN
+            ''
+            ELSE
+            DH.LNG || ',' || DH.LAT
+            END AS endGeoCode,
+            XZ.ZYDW zydw,
+            0 plannedDistance,
+            '下转移' type
+            FROM XZ
+            LEFT JOIN ORG FH
+            ON FH.LOGIST_CODE = XZ.QYGS
+            LEFT JOIN ORG DH
+            ON DH.LOGIST_CODE = XZ.MDGS
+    </select>
+
+    <resultMap id="goodsPlanLineMap" type="com.hoau.hoaureport.module.job.shared.domain.GoodsPlanLineEntity">
+        <id column="goodsBill" property="goodsBill"></id>
+        <result column="cph" property="cph"></result>
+        <result column="billType" property="billType"></result>
+        <result column="city" property="city"></result>
+        <result column="storeAddress" property="storeAddress"></result>
+        <result column="storeGeoCode" property="storeGeoCode"></result>
+        <result column="goodsDistance" property="goodsDistance"></result>
+        <collection property="orderGeoCodeList" ofType="com.hoau.hoaureport.module.job.shared.domain.GoodsOrdersEntity">
+            <id column="ydbh" property="ydbh"></id>
+            <result column="goodsBill" property="goodsBill"></result>
+            <result column="address" property="address"></result>
+            <result column="geocode" property="geocode"></result>
+            <result column="countOfOrder" property="countOfOrder"></result>
+            <result column="ton" property="ton"></result>
+            <result column="goodsSequence" property="goodsSequence"></result>
+        </collection>
+    </resultMap>
 
 </mapper>

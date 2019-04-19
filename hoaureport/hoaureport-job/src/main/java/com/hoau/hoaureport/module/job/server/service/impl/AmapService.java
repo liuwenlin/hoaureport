@@ -3,6 +3,7 @@ package com.hoau.hoaureport.module.job.server.service.impl;
 import com.hoau.hoaureport.module.job.server.service.IAmapService;
 import com.hoau.hoaureport.module.job.server.util.mapUtil.MapApiTool;
 import com.hoau.hoaureport.module.job.shared.constant.AmapApiConstants;
+import com.hoau.hoaureport.module.job.shared.constant.TransferType;
 import com.hoau.hoaureport.module.job.shared.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,6 @@ import java.util.concurrent.ExecutionException;
  */
 @Service
 public class AmapService implements IAmapService {
-
 
     /**
      * 获取上下转移线路实体地理编码
@@ -67,7 +67,8 @@ public class AmapService implements IAmapService {
      * @throws ExecutionException
      */
     @Override
-    public TransferPlanLineEntity captureTransferRoutePlanning(TransferPlanLineEntity transferPlanLineEntity) throws InterruptedException, ExecutionException {
+    public TransferPlanLineEntity captureTransferRoutePlanning(TransferPlanLineEntity transferPlanLineEntity)
+            throws InterruptedException, ExecutionException {
         AmapApiRoutePlanningMultiEntity apme = MapApiTool.getDistance(getRoutePlanUrl(transferPlanLineEntity));
         if(apme.getAmapResultDistance() == null){
             transferPlanLineEntity.setPlannedDistance(apme.getFutureDistance().get());
@@ -84,9 +85,15 @@ public class AmapService implements IAmapService {
      */
     private String getRoutePlanUrl(TransferPlanLineEntity transferPlanLineEntity){
         StringBuffer strBuff = new StringBuffer();
-        strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL)
-                .append("&origin=").append(transferPlanLineEntity.getStartGeoCode())
-                .append("&destination=").append(transferPlanLineEntity.getEndGeoCode());
+        if(transferPlanLineEntity.getType() == TransferType.UP_TRANFER.getTypeMsg()){
+            strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL)
+                    .append("&origin=").append(transferPlanLineEntity.getStartGeoCode())
+                    .append("&destination=").append(transferPlanLineEntity.getEndGeoCode());
+        } else {
+            strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL)
+                    .append("&origin=").append(transferPlanLineEntity.getEndGeoCode())
+                    .append("&destination=").append(transferPlanLineEntity.getStartGeoCode());
+        }
         return strBuff.toString();
     }
     /**
@@ -103,16 +110,14 @@ public class AmapService implements IAmapService {
 
         for(GoodsOrdersEntity order:goodsPlanLineEntity.getOrderGeoCodeList()){
             multiEntityMap.put(order.getYdbh(),MapApiTool.getGeocode(getGeocodeUrl(order)));
-            Thread.sleep(25);
+            Thread.sleep(10);
         }
 
         for(GoodsOrdersEntity order:goodsPlanLineEntity.getOrderGeoCodeList()){
             AmapApiGeocodeMultiEntity geocodeMultiResult = multiEntityMap.get(order.getYdbh());
             if(geocodeMultiResult.getGeocode() == null){
-                System.out.println("当前地理编码通过geocodeFuture返回");
                 order.setGeocode(geocodeMultiResult.getFutureGeocode().get());
             } else {
-                System.out.println("当前地理编码通过geocode返回");
                 order.setGeocode(geocodeMultiResult.getGeocode());
             }
         }
@@ -139,28 +144,70 @@ public class AmapService implements IAmapService {
     @Override
     public GoodsPlanLineEntity captureRoutePlanning(GoodsPlanLineEntity goodsPlanLineEntity)
             throws InterruptedException, ExecutionException {
-//        Map<String, AmapApiRoutePlanningMultiEntity> multiResultMap = new HashMap<String, AmapApiRoutePlanningMultiEntity>();
         int deliverGoodsListSize = goodsPlanLineEntity.getOrderGeoCodeList().size();
         if(deliverGoodsListSize <= AmapApiConstants.WAYPOINTS_MAX_NUM){
-//            multiResultMap.put(deliverGoodsPlanLineEntity.getDeliverGoodsBill(),MapApiTool.getDistance(getRoutePlanningUrl(deliverGoodsPlanLineEntity)));
             AmapApiRoutePlanningMultiEntity apme = MapApiTool.getDistance(getRoutePlanningUrl(goodsPlanLineEntity));
             if(apme.getAmapResultDistance() == null){
                 goodsPlanLineEntity.setGoodsDistance(apme.getFutureDistance().get());
-                System.out.println("当前请求路径规划接口通过future返回的距离为: " + apme.getFutureDistance().get());
             } else {
                 goodsPlanLineEntity.setGoodsDistance(apme.getAmapResultDistance());
-                System.out.println("当前请求路径规划接口通过缓存返回的距离为: " + apme.getAmapResultDistance());
             }
-
-        } else {
-            System.out.println("送货单列表大小16时的情况,待完成..."); //TODO
+        } else { //提送货单列表大于16单的情况
+            //将运单明细按照地图api路径规划途径地最大数量分成若干段
+            int count = deliverGoodsListSize / AmapApiConstants.WAYPOINTS_MAX_NUM + 1;
+            for(int i = 0; i < count; i++){ //第一个分段
+                StringBuffer strBuff = new StringBuffer();
+                if(i == 0){
+                    strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL);
+                    strBuff.append("&origin=").append(goodsPlanLineEntity.getStoreGeoCode());
+                    strBuff.append("&destination=").append(goodsPlanLineEntity.getOrderGeoCodeList().get(AmapApiConstants.WAYPOINTS_MAX_NUM).getGeocode());
+                    strBuff.append("&waypoints=");
+                    for(int j = 0; j < AmapApiConstants.WAYPOINTS_MAX_NUM; j++){
+                        strBuff.append(goodsPlanLineEntity.getOrderGeoCodeList().get(j).getGeocode()).append(";");
+                    }
+                    AmapApiRoutePlanningMultiEntity arp = MapApiTool.getDistance(strBuff.substring(0,strBuff.length()-1));
+                    if(arp.getAmapResultDistance() == null){
+                        goodsPlanLineEntity.setGoodsDistance(arp.getFutureDistance().get());
+                    } else {
+                        goodsPlanLineEntity.setGoodsDistance(arp.getAmapResultDistance());
+                    }
+                } else if (i == count - 1){ //最后一个分段
+                    strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL);
+                    strBuff.append("&origin=").append(goodsPlanLineEntity.getOrderGeoCodeList().get(i*AmapApiConstants.WAYPOINTS_MAX_NUM).getGeocode());
+                    strBuff.append("&destination=").append(goodsPlanLineEntity.getStoreGeoCode());
+                    strBuff.append("&waypoints=");
+                    for(int j = 0; j < (deliverGoodsListSize - i * AmapApiConstants.WAYPOINTS_MAX_NUM); j++){
+                        strBuff.append(goodsPlanLineEntity.getOrderGeoCodeList().get(i * AmapApiConstants.WAYPOINTS_MAX_NUM + j).getGeocode()).append(";");
+                    }
+                    AmapApiRoutePlanningMultiEntity arp = MapApiTool.getDistance(strBuff.substring(0,strBuff.length()-1));
+                    if(arp.getAmapResultDistance() == null){
+                        goodsPlanLineEntity.setGoodsDistance(arp.getFutureDistance().get() + goodsPlanLineEntity.getGoodsDistance());
+                    } else {
+                        goodsPlanLineEntity.setGoodsDistance(arp.getAmapResultDistance() + goodsPlanLineEntity.getGoodsDistance());
+                    }
+                } else { //中间分段
+                    strBuff.append(AmapApiConstants.ROUTE_PLANNING_URL);
+                    strBuff.append("&origin=").append(goodsPlanLineEntity.getOrderGeoCodeList().get(i*AmapApiConstants.WAYPOINTS_MAX_NUM).getGeocode());
+                    strBuff.append("&destination=").append(goodsPlanLineEntity.getOrderGeoCodeList().get((i+1)*AmapApiConstants.WAYPOINTS_MAX_NUM).getGeocode());
+                    strBuff.append("&waypoints=");
+                    for(int j = 1; j < AmapApiConstants.WAYPOINTS_MAX_NUM; j++){
+                        strBuff.append(goodsPlanLineEntity.getOrderGeoCodeList().get(i*AmapApiConstants.WAYPOINTS_MAX_NUM + j).getGeocode()).append(";");
+                    }
+                    AmapApiRoutePlanningMultiEntity arp = MapApiTool.getDistance(strBuff.substring(0,strBuff.length()-1));
+                    if(arp.getAmapResultDistance() == null){
+                        goodsPlanLineEntity.setGoodsDistance(arp.getFutureDistance().get() + goodsPlanLineEntity.getGoodsDistance());
+                    } else {
+                        goodsPlanLineEntity.setGoodsDistance(arp.getAmapResultDistance() + goodsPlanLineEntity.getGoodsDistance());
+                    }
+                }
+            }
         }
 
         return goodsPlanLineEntity;
     }
 
     /**
-     * 根据送货单明细实体生成路径规划请求url
+     * 根据提送货单明细实体生成路径规划请求url
      * @param goodsPlanLineEntity
      * @return
      */
@@ -174,7 +221,6 @@ public class AmapService implements IAmapService {
             strBuff.append(orders.getGeocode()).append(";");
         }
         strBuff.substring(0,strBuff.length()-1);
-        System.out.println("路径规划请求url为:"+strBuff.toString());
         return strBuff.toString();
     }
 

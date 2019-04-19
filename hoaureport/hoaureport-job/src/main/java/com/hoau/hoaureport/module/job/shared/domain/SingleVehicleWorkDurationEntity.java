@@ -1,7 +1,7 @@
 package com.hoau.hoaureport.module.job.shared.domain;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -66,22 +66,22 @@ public class SingleVehicleWorkDurationEntity implements Serializable {
     /**
      * 下转移吨位
      */
-    private Integer xzydw;
+    private Double xzydw;
 
     /**
      * 上转移吨位
      */
-    private Integer szydw;
+    private Double szydw;
 
     /**
      * 取件吨位
      */
-    private Integer qjdw;
+    private Double qjdw;
 
     /**
      * 派件吨位
      */
-    private Integer pjdw;
+    private Double pjdw;
 
     /**
      * 取件件数
@@ -105,22 +105,7 @@ public class SingleVehicleWorkDurationEntity implements Serializable {
 
     public SingleVehicleWorkDurationEntity(){}
 
-    public SingleVehicleWorkDurationEntity(String syb, String dq, String sfdrdc, String cph, String cx, Integer xzydw, Integer szydw, Integer qjdw, Integer pjdw, Integer qjjs, Integer pjjs, Date tjrq) {
-        this.syb = syb;
-        this.dq = dq;
-        this.sfdrdc = sfdrdc;
-        this.cph = cph;
-        this.cx = cx;
-        this.xzydw = xzydw;
-        this.szydw = szydw;
-        this.qjdw = qjdw;
-        this.pjdw = pjdw;
-        this.qjjs = qjjs;
-        this.pjjs = pjjs;
-        this.tjrq = tjrq;
-    }
-
-    public SingleVehicleWorkDurationEntity(String id, String syb, String dq, String sfdrdc, String cph, String cx, Integer szylc, Integer xzylc, Integer qjghlc, Integer pjghlc, Integer xzydw, Integer szydw, Integer qjdw, Integer pjdw, Integer qjjs, Integer pjjs, Date tjrq, Date record_date) {
+    public SingleVehicleWorkDurationEntity(String id, String syb, String dq, String sfdrdc, String cph, String cx, Integer szylc, Integer xzylc, Integer qjghlc, Integer pjghlc, Double xzydw, Double szydw, Double qjdw, Double pjdw, Integer qjjs, Integer pjjs, Date tjrq, Date record_date) {
         this.id = id;
         this.syb = syb;
         this.dq = dq;
@@ -221,35 +206,35 @@ public class SingleVehicleWorkDurationEntity implements Serializable {
         this.pjghlc = pjghlc;
     }
 
-    public Integer getXzydw() {
+    public Double getXzydw() {
         return xzydw;
     }
 
-    public void setXzydw(Integer xzydw) {
+    public void setXzydw(Double xzydw) {
         this.xzydw = xzydw;
     }
 
-    public Integer getSzydw() {
+    public Double getSzydw() {
         return szydw;
     }
 
-    public void setSzydw(Integer szydw) {
+    public void setSzydw(Double szydw) {
         this.szydw = szydw;
     }
 
-    public Integer getQjdw() {
+    public Double getQjdw() {
         return qjdw;
     }
 
-    public void setQjdw(Integer qjdw) {
+    public void setQjdw(Double qjdw) {
         this.qjdw = qjdw;
     }
 
-    public Integer getPjdw() {
+    public Double getPjdw() {
         return pjdw;
     }
 
-    public void setPjdw(Integer pjdw) {
+    public void setPjdw(Double pjdw) {
         this.pjdw = pjdw;
     }
 

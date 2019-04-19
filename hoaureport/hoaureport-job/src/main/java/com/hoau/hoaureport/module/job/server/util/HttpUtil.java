@@ -1,9 +1,5 @@
 package com.hoau.hoaureport.module.job.server.util;
 
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hoau.hoaureport.module.util.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,6 +9,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * @author liuwenlin
@@ -25,18 +25,22 @@ public class HttpUtil {
 
     /**
      * Using http client to do get url request
-     * @param url
+     * @param urlstr
      * @return
      */
-    public static String doGetRequest(String url){
-        HttpGet get = new HttpGet(url);
+    public static String doGetRequest(String urlstr) throws MalformedURLException, URISyntaxException {
+        URL url = new URL(urlstr); //避免有Java内部无法识别的字符,先将其转化为url,然后再请求.
+        HttpGet get = new HttpGet(new URI(url.getProtocol(), url.getHost(), url.getPath(), url.getQuery(), null));
         HttpResponse response;
         try {
             response = client.execute(get);
             HttpEntity entity = response.getEntity();
-            System.out.println("Status code: "+response.getStatusLine().getStatusCode());
-            String result = EntityUtils.toString(entity, "UTF-8");
-            return result;
+            if(response.getStatusLine().getStatusCode() == 200){
+                String result = EntityUtils.toString(entity, "UTF-8");
+                return result;
+            } else {
+                return "";
+            }
         } catch (ClientProtocolException e){
             e.printStackTrace();
         } catch (IOException e) {

@@ -7,6 +7,8 @@ import com.hoau.hoaureport.module.job.shared.constant.AmapApiConstants;
 import com.hoau.hoaureport.module.job.shared.constant.SystemConsts;
 import com.hoau.hoaureport.module.job.shared.domain.AmapApiGeocodeMultiEntity;
 import com.hoau.hoaureport.module.job.shared.domain.AmapApiRoutePlanningMultiEntity;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.util.concurrent.*;
@@ -18,7 +20,7 @@ import java.util.concurrent.*;
  */
 public class MapApiTool {
 
-    //private static String routePlanningUrl_2 = "&origin=121.303183,31.20409&destination=121.303183,31.20409&waypoints=121.437694,31.195071";
+    private static Log LOG = LogFactory.getLog(MapApiTool.class);
 
     private static ExecutorService es = Executors.newFixedThreadPool(SystemConsts.CPU_CORES*2);
 
@@ -51,14 +53,14 @@ public class MapApiTool {
         JsonNode objNode;
         try {
             jsonNode = new ObjectMapper().readTree(jsonStr);
-            if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())&&jsonNode.findValue(AmapApiConstants.ROUTE).size()>0){
-                System.out.println("找到规划路径!");
+            if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())
+                    &&jsonNode.findValue(AmapApiConstants.ROUTE).size()>0){
                 objNode = jsonNode.findPath(AmapApiConstants.PATHS).findPath(AmapApiConstants.DISTANCE);
                 if(objNode == null){
                     return 0;
                 }
                 int distance = Integer.parseInt(objNode.textValue());
-                System.out.println("规划路径返回值: "+distance+ "米");
+                LOG.info("规划路径返回值: "+distance+ "米");
                 return distance;
             }
         } catch (IOException e) {
@@ -99,12 +101,12 @@ public class MapApiTool {
             if(distanceFuture==null){ //表示当前没有正在执行的任务
                 distanceFuture = ft;
                 es.execute(ft);
-                System.out.println("地图路径规划请求行车距离任务已启动,请等待完成>>>");
+                LOG.info("地图路径规划请求行车距离任务已启动,请等待完成>>>");
             } else {
-                System.out.println("已有地图路径规划请求行车距离任务已启动,不必重新启动");
+                LOG.info("已有地图路径规划请求行车距离任务已启动,不必重新启动");
             }
         } else {
-            System.out.println("当前已有地图路径规划请求行车距离任务已启动,不必重新启动");
+            LOG.info("当前已有地图路径规划请求行车距离任务已启动,不必重新启动");
         }
         return distanceFuture;
     }
@@ -117,10 +119,10 @@ public class MapApiTool {
     public static AmapApiRoutePlanningMultiEntity getDistance(String url){
         Integer distance = routePlanningCache.get(url);
         if(distance == null){
-            System.out.println("没有当前请求规划路径的缓存数据,请开始请求任务");
+            LOG.info("没有当前请求规划路径的缓存数据,请开始请求任务");
             return new AmapApiRoutePlanningMultiEntity(getDistanceFuture(url));
         } else {
-            System.out.println("当前请求已有缓存数据,直接返回");
+            LOG.info("当前请求已有缓存数据,直接返回");
             return new AmapApiRoutePlanningMultiEntity(distance);
         }
     }
@@ -135,14 +137,14 @@ public class MapApiTool {
         JsonNode objNode;
         try {
             jsonNode = new ObjectMapper().readTree(jsonStr);
-            if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())&&jsonNode.findValue(AmapApiConstants.GEOCODES).size()>0){
-                System.out.println("找到地理编码!");
+            if(AmapApiConstants.STATUS_VAL.equals(jsonNode.findValue(AmapApiConstants.STATUS).textValue())
+                    &&jsonNode.findValue(AmapApiConstants.GEOCODES).size()>0){
                 objNode = jsonNode.findPath(AmapApiConstants.GEOCODES).findPath(AmapApiConstants.LOCATION);
                 if(objNode == null){
                     return "";
                 }
                 String geocode = objNode.textValue();
-                System.out.println("接口返回的地理编码为: "+geocode+ "");
+                LOG.info("接口返回的地理编码为: " + geocode);
                 return geocode;
             }
         } catch (IOException e) {
@@ -188,12 +190,12 @@ public class MapApiTool {
             if(geocodeFuture==null){ //表示当前没有正在执行的任务
                 geocodeFuture = ft;
                 es.execute(ft);
-                System.out.println("地图地理编码请求任务已启动,请等待完成>>>");
+                LOG.info("地图地理编码请求任务已启动,请等待完成>>>");
             } else {
-                System.out.println("已有地图地理编码请求任务已启动,不必重新启动");
+                LOG.info("已有地图地理编码请求任务已启动,不必重新启动");
             }
         } else {
-            System.out.println("当前已有地图地理编码请求任务已启动,不必重新启动");
+            LOG.info("当前已有地图地理编码请求任务已启动,不必重新启动");
         }
         return geocodeFuture;
     }
@@ -201,10 +203,10 @@ public class MapApiTool {
     public static AmapApiGeocodeMultiEntity getGeocode(String url){
         String geocode = geocodeCache.get(url);
         if(geocode == null){
-            System.out.println("没有当前请求地理编码的缓存数据,请开始请求任务");
+            LOG.info("没有当前请求地理编码的缓存数据,请开始请求任务");
             return new AmapApiGeocodeMultiEntity(getGeocodeFuture(url));
         } else {
-            System.out.println("当前地理编码请求已有缓存数据,直接返回");
+            LOG.info("当前地理编码请求已有缓存数据,直接返回");
             return new AmapApiGeocodeMultiEntity(geocode);
         }
     }
@@ -213,6 +215,8 @@ public class MapApiTool {
         if(es!=null){
             es.shutdown();
         }
+        //关闭请求HttpClient客户端
+        HttpUtil.closeClient();
     }
 
 

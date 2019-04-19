@@ -15,11 +15,6 @@ import java.util.List;
  */
 public class GoodsPlanLineEntity implements Serializable {
     /**
-     * 提送货单规划线路明细id
-     */
-    private String id;
-
-    /**
      * 车牌号
      */
     private String cph;
@@ -33,6 +28,16 @@ public class GoodsPlanLineEntity implements Serializable {
      * 提送货单编号类型
      */
     private String billType;
+
+    /**
+     * 城市
+     */
+    private String city;
+
+    /**
+     * 提送货公司地址
+     */
+    private String storeAddress;
 
     /**
      * 提货公司地理编码
@@ -51,22 +56,15 @@ public class GoodsPlanLineEntity implements Serializable {
 
     public GoodsPlanLineEntity(){}
 
-    public GoodsPlanLineEntity(String id, String cph, String goodsBill, String billType, String storeGeoCode, List<GoodsOrdersEntity> orderGeoCodeList, Integer goodsDistance) {
-        this.id = id;
+    public GoodsPlanLineEntity(String cph, String goodsBill, String billType, String city, String storeAddress, String storeGeoCode, List<GoodsOrdersEntity> orderGeoCodeList, Integer goodsDistance) {
         this.cph = cph;
         this.goodsBill = goodsBill;
         this.billType = billType;
+        this.city = city;
+        this.storeAddress = storeAddress;
         this.storeGeoCode = storeGeoCode;
         this.orderGeoCodeList = orderGeoCodeList;
         this.goodsDistance = goodsDistance;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCph() {
@@ -91,6 +89,22 @@ public class GoodsPlanLineEntity implements Serializable {
 
     public void setBillType(String billType) {
         this.billType = billType;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress;
     }
 
     public String getStoreGeoCode() {
@@ -126,10 +140,11 @@ public class GoodsPlanLineEntity implements Serializable {
         GoodsPlanLineEntity that = (GoodsPlanLineEntity) o;
 
         return new EqualsBuilder()
-                .append(getId(), that.getId())
                 .append(getCph(), that.getCph())
                 .append(getGoodsBill(), that.getGoodsBill())
                 .append(getBillType(), that.getBillType())
+                .append(getCity(), that.getCity())
+                .append(getStoreAddress(), that.getStoreAddress())
                 .append(getStoreGeoCode(), that.getStoreGeoCode())
                 .append(getOrderGeoCodeList(), that.getOrderGeoCodeList())
                 .append(getGoodsDistance(), that.getGoodsDistance())
@@ -139,10 +154,11 @@ public class GoodsPlanLineEntity implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getId())
                 .append(getCph())
                 .append(getGoodsBill())
                 .append(getBillType())
+                .append(getCity())
+                .append(getStoreAddress())
                 .append(getStoreGeoCode())
                 .append(getOrderGeoCodeList())
                 .append(getGoodsDistance())
@@ -152,10 +168,11 @@ public class GoodsPlanLineEntity implements Serializable {
     @Override
     public String toString() {
         return "GoodsPlanLineEntity{" +
-                "id='" + id + '\'' +
-                ", cph='" + cph + '\'' +
+                "cph='" + cph + '\'' +
                 ", goodsBill='" + goodsBill + '\'' +
                 ", billType='" + billType + '\'' +
+                ", city='" + city + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
                 ", storeGeoCode='" + storeGeoCode + '\'' +
                 ", orderGeoCodeList=" + orderGeoCodeList +
                 ", goodsDistance=" + goodsDistance +

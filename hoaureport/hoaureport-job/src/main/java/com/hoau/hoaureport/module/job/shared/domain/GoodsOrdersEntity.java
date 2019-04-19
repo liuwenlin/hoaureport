@@ -13,15 +13,6 @@ import java.io.Serializable;
  * @date 2019/4/11 14:24
  */
 public class GoodsOrdersEntity implements Serializable {
-    /**
-     * 提送货物单明细id
-     */
-    private String id;
-
-    /**
-     * 车牌号
-     */
-    private String cph;
 
     /**
      * 提送货物单编号
@@ -29,19 +20,9 @@ public class GoodsOrdersEntity implements Serializable {
     private String goodsBill;
 
     /**
-     * 提送货单编号类型
-     */
-    private String billType;
-
-    /**
      * 运单编号
      */
     private String ydbh;
-
-    /**
-     * 城市
-     */
-    private String city;
 
     /**
      * 运单地址
@@ -54,38 +35,30 @@ public class GoodsOrdersEntity implements Serializable {
     private String geocode;
 
     /**
+     * 运单件数
+     */
+    private Integer countOfOrder;
+
+    /**
+     * 运单吨位
+     */
+    private Double ton;
+
+    /**
      * 运单提货顺序
      */
     private Integer goodsSequence;
 
     public GoodsOrdersEntity(){}
 
-    public GoodsOrdersEntity(String id, String cph, String goodsBill, String billType, String ydbh, String city, String address, String geocode, Integer goodsSequence) {
-        this.id = id;
-        this.cph = cph;
+    public GoodsOrdersEntity(String goodsBill, String ydbh, String address, String geocode, Integer countOfOrder, Double ton, Integer goodsSequence) {
         this.goodsBill = goodsBill;
-        this.billType = billType;
         this.ydbh = ydbh;
-        this.city = city;
         this.address = address;
         this.geocode = geocode;
+        this.countOfOrder = countOfOrder;
+        this.ton = ton;
         this.goodsSequence = goodsSequence;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getCph() {
-        return cph;
-    }
-
-    public void setCph(String cph) {
-        this.cph = cph;
     }
 
     public String getGoodsBill() {
@@ -96,28 +69,12 @@ public class GoodsOrdersEntity implements Serializable {
         this.goodsBill = goodsBill;
     }
 
-    public String getBillType() {
-        return billType;
-    }
-
-    public void setBillType(String billType) {
-        this.billType = billType;
-    }
-
     public String getYdbh() {
         return ydbh;
     }
 
     public void setYdbh(String ydbh) {
         this.ydbh = ydbh;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getAddress() {
@@ -134,6 +91,22 @@ public class GoodsOrdersEntity implements Serializable {
 
     public void setGeocode(String geocode) {
         this.geocode = geocode;
+    }
+
+    public Integer getCountOfOrder() {
+        return countOfOrder;
+    }
+
+    public void setCountOfOrder(Integer countOfOrder) {
+        this.countOfOrder = countOfOrder;
+    }
+
+    public Double getTon() {
+        return ton;
+    }
+
+    public void setTon(Double ton) {
+        this.ton = ton;
     }
 
     public Integer getGoodsSequence() {
@@ -153,15 +126,12 @@ public class GoodsOrdersEntity implements Serializable {
         GoodsOrdersEntity that = (GoodsOrdersEntity) o;
 
         return new EqualsBuilder()
-                .appendSuper(super.equals(o))
-                .append(getId(), that.getId())
-                .append(getCph(), that.getCph())
                 .append(getGoodsBill(), that.getGoodsBill())
-                .append(getBillType(), that.getBillType())
                 .append(getYdbh(), that.getYdbh())
-                .append(getCity(), that.getCity())
                 .append(getAddress(), that.getAddress())
                 .append(getGeocode(), that.getGeocode())
+                .append(getCountOfOrder(), that.getCountOfOrder())
+                .append(getTon(), that.getTon())
                 .append(getGoodsSequence(), that.getGoodsSequence())
                 .isEquals();
     }
@@ -169,15 +139,12 @@ public class GoodsOrdersEntity implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .appendSuper(super.hashCode())
-                .append(getId())
-                .append(getCph())
                 .append(getGoodsBill())
-                .append(getBillType())
                 .append(getYdbh())
-                .append(getCity())
                 .append(getAddress())
                 .append(getGeocode())
+                .append(getCountOfOrder())
+                .append(getTon())
                 .append(getGoodsSequence())
                 .toHashCode();
     }
@@ -185,14 +152,12 @@ public class GoodsOrdersEntity implements Serializable {
     @Override
     public String toString() {
         return "GoodsOrdersEntity{" +
-                "id='" + id + '\'' +
-                ", cph='" + cph + '\'' +
-                ", goodsBill='" + goodsBill + '\'' +
-                ", billType='" + billType + '\'' +
+                "goodsBill='" + goodsBill + '\'' +
                 ", ydbh='" + ydbh + '\'' +
-                ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
                 ", geocode='" + geocode + '\'' +
+                ", countOfOrder=" + countOfOrder +
+                ", ton=" + ton +
                 ", goodsSequence=" + goodsSequence +
                 '}';
     }
